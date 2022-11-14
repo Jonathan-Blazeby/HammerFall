@@ -9,12 +9,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private PlayerCharacterAnimator animator;
 
     [SerializeField] private float movementSpeed = 5;
+    [SerializeField] private float jumpForce = 5;
     [SerializeField] private float rotationSpeed = 10;
 
     public MovementManager GetMovement() { return moveManager; }
 
     private void Update()
     {
+
         CaptureInput();
         animator.UpdateAnimatorValues();
     }
@@ -27,7 +29,7 @@ public class PlayerController : MonoBehaviour
 
         movementDirection = inputHandler.GetMoveInput();
         willJump = inputHandler.GetJumpInput();
-        moveManager.Move(movementDirection, willJump, movementSpeed);
+        moveManager.Move(movementDirection, willJump, movementSpeed, jumpForce);
     }
     
 }

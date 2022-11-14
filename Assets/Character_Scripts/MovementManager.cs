@@ -5,8 +5,41 @@ using UnityEngine;
 public class MovementManager : MonoBehaviour, IMovement
 {
     [SerializeField] private Rigidbody moveRigidbody;
-    [SerializeField] private Vector3 moveDirection;
-    private bool jumpState;
+    [SerializeField] private Collider moveCollider;
+    private Vector3 moveDirection;
+    private Vector3 movementVel;
+    private float speed;
+    private float jumpAmount;
+    [SerializeField] private bool isGrounded = true;
+    [SerializeField] private bool jumpState;
+
+    private void FixedUpdate()
+    {
+        movementVel = moveDirection * speed * Time.fixedDeltaTime;
+
+        if (moveRigidbody.velocity.y < 0 && isGrounded)
+        {
+            movementVel.y = Physics.gravity.y * Time.fixedDeltaTime;
+        }
+        else
+        {
+            movementVel.y += Physics.gravity.y * Time.fixedDeltaTime;
+        }
+
+        if (moveRigidbody.velocity.y < 0 && jumpState)
+        {
+            jumpState = false;
+        }
+
+        if (jumpState && isGrounded)
+        {
+            isGrounded = false;
+            movementVel.y += Mathf.Sqrt(jumpAmount * -Physics.gravity.y);
+        }
+
+        moveRigidbody.AddForce(movementVel, ForceMode.Impulse);
+
+    }
 
     public Vector3 GetDirection()
     {
@@ -18,21 +51,43 @@ public class MovementManager : MonoBehaviour, IMovement
         return jumpState;
     }
 
-    public void Move(Vector2 direction, bool willJump, float characterSpeed)
+    public void Move(Vector2 direction, bool willJump, float characterSpeed, float jumpForce)
     {
-        float delta = Time.deltaTime;
-
         moveDirection = transform.forward * direction.y;
         moveDirection += transform.right * direction.x;
         moveDirection.Normalize();
-        moveDirection.y = 0;
 
-        float speed = characterSpeed;
-        Vector3 movementVel = moveDirection * speed;
+        GroundCheck();
+        if (isGrounded && willJump)
+        {
+            jumpState = true;
+        }
+        else if (isGrounded)
+        {
+            jumpState = false;
+        }
+        
+        speed = characterSpeed;
+        jumpAmount = jumpForce;
+    }
 
-        Vector3 projectedVel = Vector3.ProjectOnPlane(movementVel, Vector3.zero);
-        moveRigidbody.velocity = projectedVel;
-
+    private void GroundCheck()
+    {
+        RaycastHit hit;
+        Vector3 checkPoint = moveCollider.bounds.center;
+        checkPoint.y -= (moveCollider.bounds.extents.y * 0.95f);
+        if (Physics.Raycast(checkPoint, Vector3.down, out hit, (moveCollider.bounds.extents.y * 0.1f)))
+        {
+            if (hit.transform.gameObject.layer == 8)
+            {
+                isGrounded = true;
+                jumpState = false;
+            }
+        }
+        else
+        {
+            isGrounded = false;
+        }
     }
 
     //#region Movement
@@ -64,10 +119,5 @@ public class MovementManager : MonoBehaviour, IMovement
 
     //#endregion
 
-
-private void FixedUpdate()
-    {
-        
-    }
 
 }

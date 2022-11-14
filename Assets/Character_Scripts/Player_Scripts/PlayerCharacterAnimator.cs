@@ -7,10 +7,8 @@ public class PlayerCharacterAnimator : MonoBehaviour
     private IMovement movement;
     [SerializeField] private PlayerController playerController;
     [SerializeField] private Animator animator;
-    [SerializeField] private int horizontal;
-    [SerializeField] private int vertical;
-
-    [SerializeField] private Vector3 testVec;
+    private int horizontal;
+    private int vertical;
 
     private void Start()
     {
@@ -21,7 +19,6 @@ public class PlayerCharacterAnimator : MonoBehaviour
 
     public void UpdateAnimatorValues()
     {
-        testVec = movement.GetDirection();
         float horiMove = movement.GetDirection().x;
         float vertMove = movement.GetDirection().z;
 
