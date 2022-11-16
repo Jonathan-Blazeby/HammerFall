@@ -7,49 +7,36 @@ public class MovementManager : MonoBehaviour, IMovement
     [SerializeField] private Rigidbody moveRigidbody;
     [SerializeField] private Collider moveCollider;
     private Vector3 moveDirection;
-    private Vector3 movementVel;
+    private Vector3 movementVelocity;
+    private float verticalVelocity;
     private float speed;
     private float jumpAmount;
     [SerializeField] private bool isGrounded = true;
     [SerializeField] private bool jumpState;
 
+    #region IMovement Get/Set Methods
+    public Vector3 GetDirection() { return moveDirection; }
+    public float GetVerticalVelocity() { return moveRigidbody.velocity.y; }
+    public void SetVerticalVelocity(float velocity) { verticalVelocity = velocity; }
+    public float GetJumpAmount() { return jumpAmount; }
+    public bool GetJumpState() { return jumpState; }
+    public void SetJumpState(bool jump) { jumpState = jump; }
+    public bool GetIsGrounded() { return isGrounded; }
+    public void SetIsGrounded(bool grounded) { isGrounded = grounded; }
+    #endregion
+
     private void FixedUpdate()
     {
-        movementVel = moveDirection * speed * Time.fixedDeltaTime;
+        movementVelocity = moveDirection * speed * Time.fixedDeltaTime;
 
-        if (moveRigidbody.velocity.y < 0 && isGrounded)
-        {
-            movementVel.y = Physics.gravity.y * Time.fixedDeltaTime;
-        }
-        else
-        {
-            movementVel.y += Physics.gravity.y * Time.fixedDeltaTime;
-        }
+        movementVelocity.y = verticalVelocity;
+        verticalVelocity = 0;
 
-        if (moveRigidbody.velocity.y < 0 && jumpState)
-        {
-            jumpState = false;
-        }
-
-        if (jumpState && isGrounded)
-        {
-            isGrounded = false;
-            movementVel.y += Mathf.Sqrt(jumpAmount * -Physics.gravity.y);
-        }
-
-        moveRigidbody.AddForce(movementVel, ForceMode.Impulse);
+        moveRigidbody.AddForce(movementVelocity, ForceMode.Impulse);
 
     }
 
-    public Vector3 GetDirection()
-    {
-        return moveDirection;
-    }
 
-    public bool GetJumpState()
-    {
-        return jumpState;
-    }
 
     public void Move(Vector2 direction, bool willJump, float characterSpeed, float jumpForce)
     {

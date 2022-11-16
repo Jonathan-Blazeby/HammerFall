@@ -19,25 +19,25 @@ public class PlayerCharacterAnimator : MonoBehaviour
 
     public void UpdateAnimatorValues()
     {
-        float horiMove = movement.GetDirection().x;
-        float vertMove = movement.GetDirection().z;
+        float horizontalMove = movement.GetDirection().x;
+        float verticalMove = movement.GetDirection().z;
 
         #region Horizontal Clamping
         float h = 0;
 
-        if (horiMove > 0 && horiMove < 0.55f)
+        if (horizontalMove > 0 && horizontalMove < 0.55f)
         {
             h = 0.5f;
         }
-        else if (horiMove > 0.55f)
+        else if (horizontalMove > 0.55f)
         {
             h = 1;
         }
-        else if (horiMove < 0 && horiMove > -0.55f)
+        else if (horizontalMove < 0 && horizontalMove > -0.55f)
         {
             h = 0.5f;
         }
-        else if (horiMove < -0.55f)
+        else if (horizontalMove < -0.55f)
         {
             h = 1;
         }
@@ -50,19 +50,19 @@ public class PlayerCharacterAnimator : MonoBehaviour
         #region Vertical Clamping
         float v = 0;
 
-        if (vertMove > 0 && vertMove < 0.55f)
+        if (verticalMove > 0 && verticalMove < 0.55f)
         {
             v = 0.5f;
         }
-        else if (vertMove > 0.55f)
+        else if (verticalMove > 0.55f)
         {
             v = 1;
         }
-        else if (vertMove < 0 && vertMove > -0.55f)
+        else if (verticalMove < 0 && verticalMove > -0.55f)
         {
             v = 0.5f;
         }
-        else if (vertMove < -0.55f)
+        else if (verticalMove < -0.55f)
         {
             v = 1;
         }
