@@ -218,7 +218,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &365643149
 GameObject:
@@ -315,7 +315,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
 --- !u!1 &383721161
 GameObject:
@@ -412,7 +412,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &483369819
 GameObject:
@@ -606,7 +606,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: -15, y: 0, z: 0}
 --- !u!1 &719352043
 GameObject:
@@ -619,6 +619,7 @@ GameObject:
   - component: {fileID: 719352046}
   - component: {fileID: 719352045}
   - component: {fileID: 719352044}
+  - component: {fileID: 719352047}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -684,14 +685,31 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 719352043}
-  m_LocalRotation: {x: 0.3158838, y: -0, z: -0, w: 0.94879794}
-  m_LocalPosition: {x: 0, y: 7.62, z: -4.36}
+  m_LocalRotation: {x: 0.13052616, y: 0, z: 0, w: 0.9914449}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1960943752}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 36.828, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 15, y: 0, z: 0}
+--- !u!114 &719352047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 719352043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0aeec779a6d03724fa9d7258abcf1250, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerTransform: {fileID: 1960943752}
+  yOffset: 3
+  zOffset: -4
+  positionLerp: 0.02
+  rotationLerp: 0.01
 --- !u!1 &889925237
 GameObject:
   m_ObjectHideFlags: 0
@@ -890,7 +908,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1 &1179409539
 GameObject:
@@ -987,7 +1005,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: -25, y: 0, z: 0}
 --- !u!1 &1478813974
 GameObject:
@@ -1129,7 +1147,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1718747370
 GameObject:
@@ -1323,7 +1341,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: -35, y: 0, z: 0}
 --- !u!1 &1811003277
 GameObject:
@@ -1420,7 +1438,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: -45, y: 0, z: 0}
 --- !u!1 &1811706793
 GameObject:
@@ -1517,7 +1535,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1960943750
 GameObject:
@@ -1568,8 +1586,9 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 889925238}
+  - {fileID: 719352046}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &1960943753
 Rigidbody:
@@ -1613,7 +1632,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2919c91a18b49f6449e926d34a0ec8ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveInput: {x: 0, y: 0}
 --- !u!114 &1960943756
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1629,9 +1647,9 @@ MonoBehaviour:
   moveManager: {fileID: 1960943757}
   inputHandler: {fileID: 1960943755}
   animator: {fileID: 1960943754}
-  movementSpeed: 25
+  movementSpeed: 32
   jumpForce: 2
-  rotationSpeed: 10
+  rotationSpeed: 500
 --- !u!114 &1960943757
 MonoBehaviour:
   m_ObjectHideFlags: 0

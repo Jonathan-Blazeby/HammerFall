@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class PlayerInputHandler : MonoBehaviour
 {
-    [SerializeField] private Vector2 moveInput;
+    private Vector2 moveInput;
+    private float mouseXInput;
     private bool willJump;
 
     public Vector2 GetMoveInput() { return moveInput; }
+    public float GetMouseInput() { return mouseXInput; }
     public bool GetJumpInput() { return willJump; }
 
     private void FixedUpdate()
@@ -35,6 +37,8 @@ public class PlayerInputHandler : MonoBehaviour
         {
             willJump = true;
         }
+
+        mouseXInput = Input.GetAxis("Mouse X");
     }
 
 }

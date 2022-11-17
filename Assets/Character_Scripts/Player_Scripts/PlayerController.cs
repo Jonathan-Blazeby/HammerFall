@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private MovementManager moveManager;
     [SerializeField] private PlayerInputHandler inputHandler;
     [SerializeField] private PlayerCharacterAnimator animator;
-
+    private float rotationInput;
     [SerializeField] private float movementSpeed = 5;
     [SerializeField] private float jumpForce = 5;
     [SerializeField] private float rotationSpeed = 10;
@@ -28,8 +28,9 @@ public class PlayerController : MonoBehaviour
         bool willJump = false;
 
         movementDirection = inputHandler.GetMoveInput();
+        rotationInput = inputHandler.GetMouseInput();
         willJump = inputHandler.GetJumpInput();
-        moveManager.Move(movementDirection, willJump, movementSpeed, jumpForce);
+        moveManager.Move(movementDirection, rotationInput, willJump, movementSpeed, jumpForce, rotationSpeed);
     }
     
 }

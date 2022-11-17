@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class CameraHandler : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private float yOffset = 4;
+    [SerializeField] private float zOffset = -3;
+
+    private void Start()
     {
-        
+        Cursor.lockState = CursorLockMode.Locked;
+        transform.localPosition += new Vector3(0, yOffset, zOffset);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

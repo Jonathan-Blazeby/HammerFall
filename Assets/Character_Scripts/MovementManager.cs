@@ -8,9 +8,12 @@ public class MovementManager : MonoBehaviour, IMovement
     [SerializeField] private Collider moveCollider;
     private Vector3 moveDirection;
     private Vector3 movementVelocity;
+    private Quaternion targetRot;
     private float verticalVelocity;
+    private float rotationAmount;
     private float speed;
     private float jumpAmount;
+    private float rotationSpeed;
     [SerializeField] private bool isGrounded = true;
     [SerializeField] private bool jumpState;
 
@@ -34,11 +37,11 @@ public class MovementManager : MonoBehaviour, IMovement
 
         moveRigidbody.AddForce(movementVelocity, ForceMode.Impulse);
 
+        Quaternion newRotation = Quaternion.Euler(0, rotationAmount * rotationSpeed * Time.fixedDeltaTime, 0);
+        transform.localRotation = Quaternion.Lerp(transform.localRotation, newRotation, 1);
     }
 
-
-
-    public void Move(Vector2 direction, bool willJump, float characterSpeed, float jumpForce)
+    public void Move(Vector2 direction, float rotationInput, bool willJump, float characterSpeed, float jumpForce, float characterRotationSpeed)
     {
         moveDirection = transform.forward * direction.y;
         moveDirection += transform.right * direction.x;
@@ -53,9 +56,11 @@ public class MovementManager : MonoBehaviour, IMovement
         {
             jumpState = false;
         }
-        
+
+        rotationAmount += rotationInput;
         speed = characterSpeed;
         jumpAmount = jumpForce;
+        rotationSpeed = characterRotationSpeed;
     }
 
     private void GroundCheck()
@@ -76,35 +81,4 @@ public class MovementManager : MonoBehaviour, IMovement
             isGrounded = false;
         }
     }
-
-    //#region Movement
-    //Vector3 normalVec;
-    //Vector3 targetPos;
-
-    //private void HandleRotation(float delta)
-    //{
-    //    Vector3 targetDir = Vector3.zero;
-    //    float moveOverride = inputHandler.moveAmount;
-
-    //    targetDir = transform.forward * moveDirection.y;
-    //    targetDir += transform.right * moveDirection.x;
-
-    //    targetDir.Normalize();
-    //    targetDir.y = 0;
-
-    //    if (targetDir == Vector3.zero)
-    //    {
-    //        targetDir = myTransform.forward;
-    //    }
-
-    //    float rs = rotationSpeed;
-    //    Quaternion tr = Quaternion.LookRotation(targetDir);
-    //    Quaternion targetRot = Quaternion.Slerp(myTransform.rotation, tr, rs * delta);
-
-    //    myTransform.rotation = targetRot;
-    //}
-
-    //#endregion
-
-
 }
