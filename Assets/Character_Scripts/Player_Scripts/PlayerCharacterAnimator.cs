@@ -6,7 +6,8 @@ public class PlayerCharacterAnimator : MonoBehaviour
 {
     private IMovement movement;
     [SerializeField] private PlayerController playerController;
-    [SerializeField] private Animator animator;
+    [SerializeField] private Animator moveAnimator;
+    [SerializeField] private Animator hammerAnimator;
     private int horizontal;
     private int vertical;
 
@@ -72,7 +73,38 @@ public class PlayerCharacterAnimator : MonoBehaviour
         }
         #endregion
                 
-        animator.SetFloat(horizontal, h, 0.1f, Time.deltaTime);
-        animator.SetFloat(vertical, v, 0.1f, Time.deltaTime);
+        moveAnimator.SetFloat(horizontal, h, 0.1f, Time.deltaTime);
+        moveAnimator.SetFloat(vertical, v, 0.1f, Time.deltaTime);
+    }
+
+    public void Attack(int attackInt)
+    {
+        if(attackInt == 1)
+        {
+            hammerAnimator.Play("LeftSwing");
+        }
+        else if(attackInt == 2)
+        {
+            hammerAnimator.Play("RightSwing");
+        }
+    }
+
+    public bool HammerSwingFinishedCheck()
+    {
+        if(HammerAnimatorIsFinishedPlaying("LeftSwing") || HammerAnimatorIsFinishedPlaying("RightSwing"))
+        {
+            return true;
+        }
+        else { return false; }
+    }
+
+    private bool HammerAnimatorIsFinishedPlaying()
+    {
+        return hammerAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1;
+    }
+
+    private bool HammerAnimatorIsFinishedPlaying(string stateName)
+    {
+        return HammerAnimatorIsFinishedPlaying() && hammerAnimator.GetCurrentAnimatorStateInfo(0).IsName(stateName);
     }
 }
