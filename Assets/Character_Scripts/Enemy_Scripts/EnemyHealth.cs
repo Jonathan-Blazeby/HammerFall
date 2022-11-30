@@ -4,24 +4,45 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour, IDamageable
 {
-    [SerializeField] UnityEngine.UI.Scrollbar healthBar;
-    [SerializeField] private int startHealth;
+    [SerializeField] private UnityEngine.UI.Scrollbar healthBar;
+    [SerializeField] private int maxHealth;
     [SerializeField] private int currentHealth;
+    [SerializeField] private float damagedDelay = 0.75f;
+    private float damageTimer;
     public void ApplyDamage(int damage)
     {
-        currentHealth -= damage;
-        healthBar.size = (float)currentHealth / (float)startHealth;
-        Debug.Log("Enemy Health: " + currentHealth);
+        if(damageTimer <= 0)
+        {
+            currentHealth -= damage;
+            healthBar.size = (float)currentHealth / (float)maxHealth;
+            damageTimer = damagedDelay;
+            Debug.Log("Enemy Health: " + currentHealth);
+
+            if(currentHealth <= 0)
+            {
+                GameManager.Instance.DeathSignal(this);
+                gameObject.SetActive(false);
+            }
+        }
     }
 
     private void Start()
     {
-        currentHealth = startHealth;
+        currentHealth = maxHealth;
         healthBar.size = 1;
     }
 
     private void Update()
     {
         healthBar.transform.forward = Camera.main.transform.forward;
+        damageTimer -= Time.deltaTime;
+    }
+
+    public void ResetHealth()
+    {
+        gameObject.SetActive(true);
+        currentHealth = maxHealth;
+        healthBar.size = 1;
+        damageTimer = damagedDelay;
     }
 }

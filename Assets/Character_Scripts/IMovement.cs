@@ -12,4 +12,5 @@ public interface IMovement
     public void SetJumpState(bool jump);
     public bool GetIsGrounded();
     public void SetIsGrounded(bool grounded);
+    public void SetUseCalculatedRotation(bool useCalcRotate);
 }

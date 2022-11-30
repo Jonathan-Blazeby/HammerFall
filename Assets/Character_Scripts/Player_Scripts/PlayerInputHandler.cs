@@ -14,7 +14,7 @@ public class PlayerInputHandler : MonoBehaviour
     public int GetAttackInput() { return attackInput; }
     public bool GetJumpInput() { return willJump; }
 
-    private void FixedUpdate()
+    private void Update()
     {
         moveInput = Vector2.zero;
         attackInput = 0;

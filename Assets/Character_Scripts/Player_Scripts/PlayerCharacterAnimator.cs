@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerCharacterAnimator : MonoBehaviour
+public class PlayerCharacterAnimator : MonoBehaviour, IAnimation
 {
     private IMovement movement;
     [SerializeField] private PlayerController playerController;
@@ -10,6 +10,7 @@ public class PlayerCharacterAnimator : MonoBehaviour
     [SerializeField] private Animator hammerAnimator;
     private int horizontal;
     private int vertical;
+    private bool weaponActive;
 
     private void Start()
     {
@@ -77,6 +78,11 @@ public class PlayerCharacterAnimator : MonoBehaviour
         moveAnimator.SetFloat(vertical, v, 0.1f, Time.deltaTime);
     }
 
+    public bool IsWeaponActive()
+    {
+        return hammerAnimator.GetBool("WeaponActive");
+    }
+
     public void Attack(int attackInt)
     {
         if(attackInt == 1)
@@ -87,24 +93,5 @@ public class PlayerCharacterAnimator : MonoBehaviour
         {
             hammerAnimator.Play("RightSwing");
         }
-    }
-
-    public bool HammerSwingFinishedCheck()
-    {
-        if(HammerAnimatorIsFinishedPlaying("LeftSwing") || HammerAnimatorIsFinishedPlaying("RightSwing"))
-        {
-            return true;
-        }
-        else { return false; }
-    }
-
-    private bool HammerAnimatorIsFinishedPlaying()
-    {
-        return hammerAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1;
-    }
-
-    private bool HammerAnimatorIsFinishedPlaying(string stateName)
-    {
-        return HammerAnimatorIsFinishedPlaying() && hammerAnimator.GetCurrentAnimatorStateInfo(0).IsName(stateName);
     }
 }

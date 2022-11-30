@@ -5,6 +5,7 @@ using UnityEngine;
 public class GravityManager : MonoBehaviour
 {
     [SerializeField] float gravityMultiplier = 2f;
+    private float gravity;
     private List<IMovement> allMovingList = new List<IMovement>();
 
     //If new moveable characters created, this should be called to add them to the list
@@ -18,10 +19,11 @@ public class GravityManager : MonoBehaviour
         }
     }
 
-
+    //Apply gravity multiplier, find and add all IMoveable components to list
     private void Start()
     {
-        Physics.gravity *= gravityMultiplier;
+        gravity = Physics.gravity.y;
+        gravity *= gravityMultiplier;
 
         MonoBehaviour[] allScripts = FindObjectsOfType<MonoBehaviour>();
         for (int i = 0; i < allScripts.Length; i++)
@@ -42,17 +44,17 @@ public class GravityManager : MonoBehaviour
 
             if (verticalVelocity < 0 && isGrounded) //Continues applying gravity in case isGrounded check sets off too high
             {
-                newVerticalVelocity = Physics.gravity.y * Time.fixedDeltaTime;
+                newVerticalVelocity = gravity * Time.fixedDeltaTime;
             }
             else
             {
-                newVerticalVelocity += Physics.gravity.y * Time.fixedDeltaTime;
+                newVerticalVelocity += gravity * Time.fixedDeltaTime;
             }
 
             if (jumpState && isGrounded) //IsGrounded set to false to prevent more than one application of the jump velocity being added
             {
                 allMovingList[i].SetIsGrounded(false);
-                newVerticalVelocity += Mathf.Sqrt(allMovingList[i].GetJumpAmount() * -Physics.gravity.y);
+                newVerticalVelocity += Mathf.Sqrt(allMovingList[i].GetJumpAmount() * -gravity);
             }
 
             if (verticalVelocity < 0 && jumpState) //Jumpstate swiched to false when falling

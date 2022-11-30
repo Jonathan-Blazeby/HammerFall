@@ -8,14 +8,13 @@ public class MovementManager : MonoBehaviour, IMovement
     [SerializeField] private Collider moveCollider;
     private Vector3 moveDirection;
     private Vector3 movementVelocity;
-    private Quaternion targetRot;
     private float verticalVelocity;
     private float rotationAmount;
-    private float speed;
+    private float moveSpeed;
     private float jumpAmount;
-    private float rotationSpeed;
     [SerializeField] private bool isGrounded = true;
     [SerializeField] private bool jumpState;
+    [SerializeField] private bool useCalculatedRotation;
 
     #region IMovement Get/Set Methods
     public Vector3 GetDirection() { return moveDirection; }
@@ -26,27 +25,47 @@ public class MovementManager : MonoBehaviour, IMovement
     public void SetJumpState(bool jump) { jumpState = jump; }
     public bool GetIsGrounded() { return isGrounded; }
     public void SetIsGrounded(bool grounded) { isGrounded = grounded; }
+    public void SetUseCalculatedRotation(bool useCalcRotated) { useCalculatedRotation = useCalcRotated; }
+    #endregion
+
+    #region Other Get/Set Methods
+    public void SetMoveSpeed(float speed) { moveSpeed = speed; }
+    public void SetJumpAmount(float jump) { jumpAmount = jump; }
     #endregion
 
     private void FixedUpdate()
     {
-        movementVelocity = moveDirection * speed * Time.fixedDeltaTime;
+        if(isGrounded || jumpState)
+        {
+            movementVelocity = moveDirection * moveSpeed * Time.fixedDeltaTime;
+        }
 
         movementVelocity.y = verticalVelocity;
         verticalVelocity = 0;
 
         moveRigidbody.AddForce(movementVelocity, ForceMode.Impulse);
 
-        Quaternion newRotation = Quaternion.Euler(0, rotationAmount * rotationSpeed * Time.fixedDeltaTime, 0);
-        transform.localRotation = Quaternion.Lerp(transform.localRotation, newRotation, 1);
+        if(useCalculatedRotation)
+        {
+            Quaternion newRotation = Quaternion.Euler(0, rotationAmount * Time.fixedDeltaTime, 0);
+            moveRigidbody.MoveRotation(newRotation);
+        }
     }
 
-    public void Move(Vector2 direction, float rotationInput, bool willJump, float characterSpeed, float jumpForce, float characterRotationSpeed)
+    public void Move(Vector2 direction)
     {
         moveDirection = transform.forward * direction.y;
         moveDirection += transform.right * direction.x;
         moveDirection.Normalize();
+    }
 
+    public void Rotate(float rotationInput)
+    {
+        rotationAmount += rotationInput;
+    }
+
+    public void Jump(bool willJump)
+    {
         GroundCheck();
         if (isGrounded && willJump)
         {
@@ -56,19 +75,15 @@ public class MovementManager : MonoBehaviour, IMovement
         {
             jumpState = false;
         }
-
-        rotationAmount += rotationInput;
-        speed = characterSpeed;
-        jumpAmount = jumpForce;
-        rotationSpeed = characterRotationSpeed;
     }
 
     private void GroundCheck()
     {
         RaycastHit hit;
         Vector3 checkPoint = moveCollider.bounds.center;
-        checkPoint.y -= (moveCollider.bounds.extents.y * 0.95f);
-        if (Physics.Raycast(checkPoint, Vector3.down, out hit, (moveCollider.bounds.extents.y * 0.1f)))
+        checkPoint.y -= (moveCollider.bounds.extents.y - moveCollider.bounds.extents.x) * 0.95f;
+        //if (Physics.Raycast(checkPoint, Vector3.down, out hit, (moveCollider.bounds.extents.y * 0.1f)))
+        if (Physics.SphereCast(checkPoint, moveCollider.bounds.extents.x, Vector3.down, out hit, (moveCollider.bounds.extents.y * 0.25f)))
         {
             if (hit.transform.gameObject.layer == 8)
             {
