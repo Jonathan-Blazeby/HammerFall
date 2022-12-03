@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour, IDamageable
 {
+    [SerializeField] private Rigidbody enemyRigidbody;
+    Vector3 appliedForce;
     [SerializeField] private UnityEngine.UI.Scrollbar healthBar;
     [SerializeField] private int maxHealth;
     [SerializeField] private int currentHealth;
     [SerializeField] private float damagedDelay = 0.75f;
     private float damageTimer;
+
     public void ApplyDamage(int damage)
     {
         if(damageTimer <= 0)

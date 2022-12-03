@@ -86,4 +86,10 @@ public class EnemyCharacterAnimator : MonoBehaviour, IAnimation
     {
         punchAnimator.Play("Punch");
     }
+
+    public void Stop()
+    {
+        moveAnimator.Play("Idle");
+        punchAnimator.Play("Standby");
+    }
 }

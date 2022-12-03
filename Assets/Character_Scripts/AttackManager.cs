@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class AttackManager : MonoBehaviour
 {
-
+    #region Serialized Fields
     [SerializeField] private Collider weaponCollider;
+    [SerializeField] private bool weaponEnabled;
+    #endregion
+
+    #region Private Fields
+    private IDamageDealer attackApplicationComponent;
     private Vector3 leftUpVector = new Vector3(-2, 1, 0);
     private Vector3 RightUpVector = new Vector3(2, 1, 0);
     private float weaponForceMultiplier;
     private int weaponDamage;
     private int attackDirection; //0 = No direction, 1 = Left Swing, 2 = Right Swing
-    [SerializeField] private bool weaponEnabled;
-
+    #endregion
+    
     private void Start()
     {
         weaponEnabled = false;
@@ -25,7 +30,9 @@ public class AttackManager : MonoBehaviour
         {
             if (other.tag == "Enemy" && gameObject != other.gameObject)
             {
-                other.GetComponent<EnemyHealth>().ApplyDamage(weaponDamage);
+                attackApplicationComponent.AddDazed(other.GetComponent<ICharacterController>());
+                attackApplicationComponent.AddDamage(other.GetComponent<IDamageable>());
+                attackApplicationComponent.AddForce(other.GetComponent<IStrikeable>(), attackDirection);
                 //Rigidbody enemyRigid = other.GetComponent<Rigidbody>();
                 //Vector3 direction;
                 //switch (attackDirection)
@@ -67,7 +74,7 @@ public class AttackManager : MonoBehaviour
             weaponCollider.enabled = active;
         }
     }
-    public void SetWeaponDamage(int damage) { weaponDamage = damage; }
-    public void SetWeaponForce(float forceMultiplier) { weaponForceMultiplier = forceMultiplier; }
+    public void SetAttackDirection(int dir) { attackDirection = dir; }
+    public void SetAttackApplicationComponent(IDamageDealer component) { attackApplicationComponent = component; }
 
 }

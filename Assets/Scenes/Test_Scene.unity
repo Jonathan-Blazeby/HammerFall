@@ -444,6 +444,7 @@ GameObject:
   - component: {fileID: 140740812}
   - component: {fileID: 140740809}
   - component: {fileID: 140740813}
+  - component: {fileID: 140740814}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -511,6 +512,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8fa03212f421ef4dbcfca737c203b2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyRigidbody: {fileID: 140740805}
   healthBar: {fileID: 445830537}
   maxHealth: 20
   currentHealth: 0
@@ -574,6 +576,7 @@ MonoBehaviour:
   navMeshAgent: {fileID: 140740809}
   enemyRigidbody: {fileID: 140740805}
   attackDistance: 2
+  dazedDelay: 1.2
 --- !u!114 &140740812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -606,6 +609,20 @@ MonoBehaviour:
   isGrounded: 1
   jumpState: 0
   useCalculatedRotation: 0
+--- !u!114 &140740814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 140740803}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b77869e3386a78e45a0287d3034b03b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownRigidbody: {fileID: 140740805}
+  forcedDelay: 0.75
 --- !u!1 &184439913
 GameObject:
   m_ObjectHideFlags: 0
@@ -700,6 +717,7 @@ GameObject:
   - component: {fileID: 189380931}
   - component: {fileID: 189380930}
   - component: {fileID: 189380929}
+  - component: {fileID: 189380932}
   m_Layer: 0
   m_Name: NavMesh
   m_TagString: Untagged
@@ -768,6 +786,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &189380932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 189380928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6eeb5dc026fdf4b488bc7ae0138ab719, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_StartPoint: {x: 4, y: 3, z: -11.79}
+  m_EndPoint: {x: 4, y: 0, z: -9}
+  m_Width: 4.5489655
+  m_CostModifier: -1
+  m_Bidirectional: 1
+  m_AutoUpdatePosition: 0
+  m_Area: 0
 --- !u!1 &294144648
 GameObject:
   m_ObjectHideFlags: 0
@@ -1041,6 +1079,7 @@ GameObject:
   - component: {fileID: 372683417}
   - component: {fileID: 372683416}
   - component: {fileID: 372683418}
+  - component: {fileID: 372683419}
   m_Layer: 0
   m_Name: Shoulder
   m_TagString: Weapon
@@ -1134,6 +1173,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &372683419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 372683414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec3f5db0de443e74b8ce409d498847bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &383721161
 GameObject:
   m_ObjectHideFlags: 0
@@ -1150,8 +1201,8 @@ GameObject:
   m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 2
+  m_StaticEditorFlags: 40
   m_IsActive: 1
 --- !u!65 &383721162
 BoxCollider:
@@ -3486,7 +3537,7 @@ MonoBehaviour:
   movementSpeed: 32
   jumpForce: 1.2
   rotationSpeed: 500
-  attackForce: 15
+  attackForce: 1800
   attackDamage: 5
   attackDelay: 0.75
 --- !u!114 &1960943757
@@ -3532,6 +3583,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 190776976e3588940a232b979d3c461b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerRigidbody: {fileID: 0}
   healthBar: {fileID: 1537213418}
   maxHealth: 30
   currentHealth: 0
@@ -3546,6 +3598,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1984202276}
   - component: {fileID: 1984202277}
+  - component: {fileID: 1984202278}
   m_Layer: 0
   m_Name: Hammer
   m_TagString: Weapon
@@ -3590,6 +3643,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1984202278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1984202275}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d05a2fe0ff4a37499bf35b7b7d01b5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2043757173
 GameObject:
   m_ObjectHideFlags: 0
@@ -3806,8 +3871,8 @@ GameObject:
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 2
+  m_StaticEditorFlags: 40
   m_IsActive: 1
 --- !u!4 &2137244388
 Transform:

@@ -2,20 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, ICharacterController
 {
+    #region Serialized Fields
     [SerializeField] private MovementManager moveManager;
     [SerializeField] private AttackManager attackManager;
     [SerializeField] private PlayerInputHandler inputHandler;
     [SerializeField] private PlayerCharacterAnimator animator;
-    private float rotationInput;
-    private float attackTimer;
+    private IDamageDealer attackApplicationComponent;
     [SerializeField] private float movementSpeed = 5;
     [SerializeField] private float jumpForce = 5;
     [SerializeField] private float rotationSpeed = 10;
     [SerializeField] private float attackForce = 1;
     [SerializeField] private int attackDamage = 5;
     [SerializeField] private float attackDelay = 1.2f;
+    #endregion
+
+    private float rotationInput;
+    private float attackTimer;
 
     public MovementManager GetMovement() { return moveManager; }
 
@@ -24,8 +28,12 @@ public class PlayerController : MonoBehaviour
         moveManager.SetMoveSpeed(movementSpeed);
         moveManager.SetJumpAmount(jumpForce);
         moveManager.SetUseCalculatedRotation(true);
-        attackManager.SetWeaponDamage(attackDamage);
-        attackManager.SetWeaponForce(attackForce);
+
+        attackApplicationComponent = GetComponentInChildren<IDamageDealer>();
+
+        attackManager.SetAttackApplicationComponent(attackApplicationComponent);
+        attackApplicationComponent.SetWeaponDamage(attackDamage);
+        attackApplicationComponent.SetWeaponForce(attackForce);
     }
 
     private void LateUpdate()
@@ -54,6 +62,7 @@ public class PlayerController : MonoBehaviour
         attackDirection = inputHandler.GetAttackInput();
         if(attackDirection > 0 && attackTimer <= 0)
         {
+            attackManager.SetAttackDirection(attackDirection);
             animator.Attack(attackDirection);
             attackTimer = attackDelay;
         }
@@ -64,5 +73,10 @@ public class PlayerController : MonoBehaviour
         rotationInput = inputHandler.GetMouseInput() * rotationSpeed;
         moveManager.Rotate(rotationInput);
     }
-    
+
+    public void Daze()
+    {
+
+    }
+
 }

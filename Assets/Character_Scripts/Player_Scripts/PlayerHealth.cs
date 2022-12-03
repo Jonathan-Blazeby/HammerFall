@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour, IDamageable
 {
-    [SerializeField] UnityEngine.UI.Scrollbar healthBar;
+    [SerializeField] private Rigidbody playerRigidbody;
+    [SerializeField] private UnityEngine.UI.Scrollbar healthBar;
     [SerializeField] private int maxHealth;
     [SerializeField] private int currentHealth;
     [SerializeField] private float damagedDelay = 0.75f;
@@ -45,4 +46,5 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         healthBar.size = 1;
         damageTimer = damagedDelay;
     }
+
 }

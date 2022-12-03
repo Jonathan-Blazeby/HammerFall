@@ -14,6 +14,8 @@ public class EnemyAIBasic : MonoBehaviour
     private Vector2 moveInput;
     private float rotationInput;
     [SerializeField] private float attackDistance;
+    [SerializeField] private float dazedDelay;
+    private float dazedTimer;
     private int willAttack; //Above 0 = Attack
 
     public Vector3 GetDirection()
@@ -34,23 +36,32 @@ public class EnemyAIBasic : MonoBehaviour
     
     private void Update()
     {
-        if(Vector3.Distance(playerTransform.position, navMeshAgent.nextPosition) >= attackDistance)
+        dazedTimer -= Time.deltaTime;
+
+        if(dazedTimer <= 0)
         {
-            if(navMeshAgent.enabled) { navMeshAgent.isStopped = false; navMeshAgent.SetDestination(playerTransform.position); }
-            willAttack = 0;
-        }
-        else if(Vector3.Distance(playerTransform.position, navMeshAgent.nextPosition) < attackDistance)
-        {
-            if (navMeshAgent.enabled) { navMeshAgent.isStopped = true; }
-            willAttack = 1;
-        }
-        else
-        {
-            willAttack = 1;
+            navMeshAgent.enabled = true;
+            enemyRigidbody.isKinematic = true;
+
+            if (Vector3.Distance(playerTransform.position, navMeshAgent.nextPosition) >= attackDistance)
+            {
+                if (navMeshAgent.enabled) { navMeshAgent.isStopped = false; navMeshAgent.SetDestination(playerTransform.position); }
+                willAttack = 0;
+            }
+            else if (Vector3.Distance(playerTransform.position, navMeshAgent.nextPosition) < attackDistance)
+            {
+                if (navMeshAgent.enabled) { navMeshAgent.isStopped = true; }
+                willAttack = 1;
+            }
+            else
+            {
+                willAttack = 1;
+            }
+
+            CheckDirection();
+            FaceTarget();
         }
 
-        CheckDirection();
-        FaceTarget();
     }
 
     private void CheckDirection()
@@ -68,34 +79,26 @@ public class EnemyAIBasic : MonoBehaviour
         var turnTowardNavSteeringTarget = navMeshAgent.steeringTarget;
 
         Vector3 direction = (turnTowardNavSteeringTarget - transform.position).normalized;
-        if (direction != Vector3.zero) //Eliminates unnecessary calculations
+        if (direction.x != 0 && direction.z != 0) //Eliminates unnecessary calculations
         {
             Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5);
         }
     }
 
-    void OnCollisionEnter(Collision collision)
-    {
-        if(collision.transform.root != gameObject)
+    public bool GetDazed() 
+    { 
+        if(dazedTimer > 0) 
         {
-            if (collision.gameObject.tag == "Weapon" || collision.gameObject.tag == "Player")
-            {
-                navMeshAgent.enabled = false;
-                enemyRigidbody.isKinematic = false;
-            }
-        }
+            return true;
+        } 
+        else { return false; }
     }
 
-    void OnCollisionExit(Collision collision)
+    public void SetDazed()
     {
-        if (collision.transform.root != gameObject)
-        {
-            if (collision.gameObject.tag == "Weapon" || collision.gameObject.tag == "Player")
-            {
-                navMeshAgent.enabled = true;
-                enemyRigidbody.isKinematic = true;
-            }
-        }
+        dazedTimer = dazedDelay;
+        navMeshAgent.enabled = false;
+        enemyRigidbody.isKinematic = false;
     }
 }
