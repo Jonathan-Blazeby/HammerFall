@@ -14,6 +14,11 @@ public class PlayerCharacterAnimator : MonoBehaviour, IAnimation
 
     private void Start()
     {
+        Initialise();
+    }
+
+    private void Initialise()
+    {
         horizontal = Animator.StringToHash("Horizontal");
         vertical = Animator.StringToHash("Vertical");
         movement = playerController.GetMovement();
@@ -25,21 +30,13 @@ public class PlayerCharacterAnimator : MonoBehaviour, IAnimation
         float verticalMove = movement.GetDirection().z;
 
         #region Horizontal Clamping
-        float h = 0;
+        float h = Mathf.Abs(horizontalMove);
 
-        if (horizontalMove > 0 && horizontalMove < 0.55f)
+        if (h > 0 && h < 0.55f)
         {
             h = 0.5f;
         }
-        else if (horizontalMove > 0.55f)
-        {
-            h = 1;
-        }
-        else if (horizontalMove < 0 && horizontalMove > -0.55f)
-        {
-            h = 0.5f;
-        }
-        else if (horizontalMove < -0.55f)
+        else if (h > 0.55f)
         {
             h = 1;
         }
@@ -50,21 +47,13 @@ public class PlayerCharacterAnimator : MonoBehaviour, IAnimation
         #endregion
 
         #region Vertical Clamping
-        float v = 0;
+        float v = Mathf.Abs(verticalMove);
 
-        if (verticalMove > 0 && verticalMove < 0.55f)
+        if (v > 0 && v < 0.55f)
         {
             v = 0.5f;
         }
-        else if (verticalMove > 0.55f)
-        {
-            v = 1;
-        }
-        else if (verticalMove < 0 && verticalMove > -0.55f)
-        {
-            v = 0.5f;
-        }
-        else if (verticalMove < -0.55f)
+        else if (v > 0.55f)
         {
             v = 1;
         }

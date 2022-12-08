@@ -13,6 +13,11 @@ public class EnemyCharacterAnimator : MonoBehaviour, IAnimation
 
     private void Start()
     {
+        Initialise();
+    }
+
+    private void Initialise()
+    {
         horizontal = Animator.StringToHash("Horizontal");
         vertical = Animator.StringToHash("Vertical");
         movement = enemyController.GetMovement();
@@ -82,7 +87,7 @@ public class EnemyCharacterAnimator : MonoBehaviour, IAnimation
         return punchAnimator.GetBool("WeaponActive");
     }
 
-    public void Attack(int attackInt)
+    public void Attack()
     {
         punchAnimator.Play("Punch");
     }

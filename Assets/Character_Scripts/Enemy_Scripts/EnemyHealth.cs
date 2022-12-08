@@ -3,25 +3,46 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour, IDamageable
-{
-    [SerializeField] private Rigidbody enemyRigidbody;
-    Vector3 appliedForce;
+{ 
     [SerializeField] private UnityEngine.UI.Scrollbar healthBar;
     [SerializeField] private int maxHealth;
     [SerializeField] private int currentHealth;
     [SerializeField] private float damagedDelay = 0.75f;
-    private float damageTimer;
+    private bool canBeDamaged;
+
+    private void Awake()
+    {
+        FindObjectOfType<GameManager>().AddNewDamageable(this);
+    }
+
+    private void Start()
+    {
+        ResetHealth();
+    }
+
+    private void Update()
+    {
+        healthBar.transform.forward = Camera.main.transform.forward;
+    }
+
+    private IEnumerator DamageTimer()
+    {
+        canBeDamaged = false;
+        yield return new WaitForSeconds(damagedDelay);
+        canBeDamaged = true;
+    }
 
     public void ApplyDamage(int damage)
     {
-        if(damageTimer <= 0)
+        if (canBeDamaged)
         {
+            StartCoroutine(DamageTimer());
             currentHealth -= damage;
             healthBar.size = (float)currentHealth / (float)maxHealth;
-            damageTimer = damagedDelay;
+      
             Debug.Log("Enemy Health: " + currentHealth);
 
-            if(currentHealth <= 0)
+            if (currentHealth <= 0)
             {
                 GameManager.Instance.DeathSignal(this);
                 gameObject.SetActive(false);
@@ -29,23 +50,10 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         }
     }
 
-    private void Start()
-    {
-        currentHealth = maxHealth;
-        healthBar.size = 1;
-    }
-
-    private void Update()
-    {
-        healthBar.transform.forward = Camera.main.transform.forward;
-        damageTimer -= Time.deltaTime;
-    }
-
     public void ResetHealth()
     {
-        gameObject.SetActive(true);
         currentHealth = maxHealth;
         healthBar.size = 1;
-        damageTimer = damagedDelay;
+        canBeDamaged = true;
     }
 }

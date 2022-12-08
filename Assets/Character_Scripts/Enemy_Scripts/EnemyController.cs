@@ -11,49 +11,63 @@ public class EnemyController : MonoBehaviour, ICharacterController
     [SerializeField] private EnemyAIBasic aiInput;
     [SerializeField] private EnemyCharacterAnimator animator;
     private IDamageDealer attackApplicationComponent;
-    [SerializeField] private float movementSpeed = 5;
     [SerializeField] private float jumpForce = 5;
-    [SerializeField] private float rotationSpeed = 10;
     [SerializeField] private float attackForce = 1;
     [SerializeField] private float attackDelay = 3f;
     [SerializeField] private int attackDamage = 5;
     #endregion
 
-    private float attackTimer;
+    private bool canAttack;
 
     public MovementManager GetMovement() { return moveManager; }
 
     private void Start()
     {
-        
+        Initialise();
+    }
+
+    private void Update()
+    {
+        ControllerUpdate();
+    }
+
+    private void LateUpdate()
+    {
+        attackManager.SetWeaponActive(animator.IsWeaponActive());
+    }
+
+    private void Initialise()
+    {
+
         moveManager.SetJumpAmount(jumpForce);
         moveManager.SetUseCalculatedRotation(false);
 
         attackApplicationComponent = GetComponentInChildren<IDamageDealer>();
 
+        attackManager.SetAttackApplicationComponent(attackApplicationComponent);
         attackApplicationComponent.SetWeaponDamage(attackDamage);
         attackApplicationComponent.SetWeaponForce(attackForce);
+
+        canAttack = true;
     }
 
-    private void Update()
+    private void ControllerUpdate()
     {
-        attackTimer -= Time.deltaTime;
         MoveFunction();
-        if (!aiInput.GetDazed())
+
+        if (aiInput.GetState() == AIStates.Attacking)
         {
-            
             AttackFunction();
+        }
+
+        if (aiInput.GetState() != AIStates.Dazed)
+        {
             animator.UpdateAnimatorValues();
         }
         else
         {
             animator.Stop();
         }
-    }
-
-    private void LateUpdate()
-    {
-        attackManager.SetWeaponActive(animator.IsWeaponActive());
     }
 
     //Looks for horizontal & vertical input to be applied to x z axis, and looks for jump
@@ -69,14 +83,19 @@ public class EnemyController : MonoBehaviour, ICharacterController
         moveManager.Jump(willJump);
     }
 
+    private IEnumerator AttackTimer()
+    {
+        canAttack = false;
+        yield return new WaitForSeconds(attackDelay);
+        canAttack = true;
+    }
+
     private void AttackFunction()
     {
-        int attackDirection = 0; //0 = No attack, 1 = left attack, 2 = right attack
-        attackDirection = aiInput.GetWillAttack();
-        if (attackDirection > 0 && attackTimer <= 0)
+        if (canAttack)
         {
-            animator.Attack(attackDirection);
-            attackTimer = attackDelay;
+            StartCoroutine(AttackTimer());
+            animator.Attack();
         }
     }
 

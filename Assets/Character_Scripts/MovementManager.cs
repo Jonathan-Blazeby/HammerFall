@@ -12,6 +12,11 @@ public class MovementManager : MonoBehaviour, IMovement
     private float rotationAmount;
     private float moveSpeed;
     private float jumpAmount;
+
+    private float groundCheckPointAdjust = 0.95f;
+    private float groundCheckSphereDistAdjust = 0.25f;
+    private int traversableLayer = 8;
+
     [SerializeField] private bool isGrounded = true;
     [SerializeField] private bool jumpState;
     [SerializeField] private bool useCalculatedRotation;
@@ -33,9 +38,19 @@ public class MovementManager : MonoBehaviour, IMovement
     public void SetJumpAmount(float jump) { jumpAmount = jump; }
     #endregion
 
+    private void Awake()
+    {
+        FindObjectOfType<GravityManager>().AddNewMoving(this);    
+    }
+
     private void FixedUpdate()
     {
-        if(isGrounded || jumpState)
+        MovementUpdate();
+    }
+
+    private void MovementUpdate()
+    {
+        if (isGrounded || jumpState)
         {
             movementVelocity = moveDirection * moveSpeed * Time.fixedDeltaTime;
         }
@@ -45,7 +60,7 @@ public class MovementManager : MonoBehaviour, IMovement
 
         moveRigidbody.AddForce(movementVelocity, ForceMode.Impulse);
 
-        if(useCalculatedRotation)
+        if (useCalculatedRotation)
         {
             Quaternion newRotation = Quaternion.Euler(0, rotationAmount * Time.fixedDeltaTime, 0);
             moveRigidbody.MoveRotation(newRotation);
@@ -81,11 +96,10 @@ public class MovementManager : MonoBehaviour, IMovement
     {
         RaycastHit hit;
         Vector3 checkPoint = moveCollider.bounds.center;
-        checkPoint.y -= (moveCollider.bounds.extents.y - moveCollider.bounds.extents.x) * 0.95f;
-        //if (Physics.Raycast(checkPoint, Vector3.down, out hit, (moveCollider.bounds.extents.y * 0.1f)))
-        if (Physics.SphereCast(checkPoint, moveCollider.bounds.extents.x, Vector3.down, out hit, (moveCollider.bounds.extents.y * 0.25f)))
+        checkPoint.y -= (moveCollider.bounds.extents.y - moveCollider.bounds.extents.x) * groundCheckPointAdjust;
+        if (Physics.SphereCast(checkPoint, moveCollider.bounds.extents.x, Vector3.down, out hit, moveCollider.bounds.extents.y * groundCheckSphereDistAdjust))
         {
-            if (hit.transform.gameObject.layer == 8)
+            if (hit.transform.gameObject.layer == traversableLayer)
             {
                 isGrounded = true;
                 jumpState = false;

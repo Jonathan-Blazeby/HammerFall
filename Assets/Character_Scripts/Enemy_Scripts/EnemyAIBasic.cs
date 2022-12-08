@@ -3,6 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+public enum AIStates 
+{ 
+    Idle, //0 
+    Moving, //1
+    Attacking, //2
+    Dazed //3
+}
+
 public class EnemyAIBasic : MonoBehaviour
 {
     [SerializeField] private NavMeshAgent navMeshAgent;
@@ -11,66 +19,110 @@ public class EnemyAIBasic : MonoBehaviour
     private Vector3 direction;
     private Vector3 oldPosition;
     private Vector3 newPosition;
-    private Vector2 moveInput;
-    private float rotationInput;
     [SerializeField] private float attackDistance;
     [SerializeField] private float dazedDelay;
-    private float dazedTimer;
-    private int willAttack; //Above 0 = Attack
+    private AIStates currentState;
 
     public Vector3 GetDirection()
     {
         return direction;
     }
 
-    public int GetWillAttack()
-    {
-        return willAttack;
-    }
-
     private void OnEnable()
     {
-        playerTransform = GameObject.FindWithTag("Player").transform;
+        playerTransform = GameManager.Instance.GetPlayerTransform();
         oldPosition = transform.position;
+        if(playerTransform)
+        {
+            currentState = AIStates.Moving;
+        }
     }
     
     private void Update()
     {
-        dazedTimer -= Time.deltaTime;
+        AIUpdate();
+    }
 
-        if(dazedTimer <= 0)
+    private void AIUpdate()
+    {
+        switch((int)currentState)
         {
-            navMeshAgent.enabled = true;
-            enemyRigidbody.isKinematic = true;
+            case 0:
+                break;
+            case 1:
+                RunMovingState();
+                break;
+            case 2:
+                RunAttackingState();
+                break;
+            case 3:
+                RunDazedState();
+                break;
+        }
+    }
 
-            if (Vector3.Distance(playerTransform.position, navMeshAgent.nextPosition) >= attackDistance)
-            {
-                if (navMeshAgent.enabled) { navMeshAgent.isStopped = false; navMeshAgent.SetDestination(playerTransform.position); }
-                willAttack = 0;
-            }
-            else if (Vector3.Distance(playerTransform.position, navMeshAgent.nextPosition) < attackDistance)
-            {
-                if (navMeshAgent.enabled) { navMeshAgent.isStopped = true; }
-                willAttack = 1;
-            }
-            else
-            {
-                willAttack = 1;
-            }
+    private void RunMovingState()
+    {
+        navMeshAgent.enabled = true;
+        enemyRigidbody.isKinematic = true;
 
-            CheckDirection();
-            FaceTarget();
+        if (Vector3.Distance(playerTransform.position, navMeshAgent.nextPosition) > attackDistance)
+        {
+            if (navMeshAgent.enabled)
+            {
+                navMeshAgent.isStopped = false;
+                navMeshAgent.SetDestination(playerTransform.position);
+            }
+        }
+        else
+        {
+            currentState = AIStates.Attacking;
         }
 
+        CheckDirection();
+        FaceTarget();
+    }
+
+    private void RunAttackingState()
+    {
+        if (Vector3.Distance(playerTransform.position, navMeshAgent.nextPosition) <= attackDistance)
+        {
+            if (navMeshAgent.enabled)
+            {
+                navMeshAgent.isStopped = true;
+            }
+        }
+        else
+        {
+            currentState = AIStates.Moving;
+        }
+
+
+        CheckDirection();
+        FaceTarget();
+    }
+
+    private void RunDazedState()
+    {
+        navMeshAgent.enabled = false;
+        enemyRigidbody.isKinematic = false;
+        StartCoroutine(DazedTimer());
+    }
+
+    private IEnumerator DazedTimer()
+    {
+        currentState = AIStates.Dazed;
+        yield return new WaitForSeconds(dazedDelay);
+        currentState = AIStates.Moving;
     }
 
     private void CheckDirection()
     {
         newPosition = transform.position;
-        var media = (newPosition - oldPosition);
+        Vector3 dir = (newPosition - oldPosition);
         oldPosition = newPosition;
         newPosition = transform.position;
-        direction = (media / Time.deltaTime).normalized;   
+        direction = (dir / Time.deltaTime).normalized;   
     }
 
     //Allows for enemy rotation to function properly with the navmesh agent, but only when its movementManager is set to not use the Calculated Rotation
@@ -86,19 +138,10 @@ public class EnemyAIBasic : MonoBehaviour
         }
     }
 
-    public bool GetDazed() 
-    { 
-        if(dazedTimer > 0) 
-        {
-            return true;
-        } 
-        else { return false; }
-    }
-
     public void SetDazed()
     {
-        dazedTimer = dazedDelay;
-        navMeshAgent.enabled = false;
-        enemyRigidbody.isKinematic = false;
+        currentState = AIStates.Dazed;
     }
+
+    public AIStates GetState() => currentState;
 }

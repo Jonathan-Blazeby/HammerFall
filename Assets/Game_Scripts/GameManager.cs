@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private TMPro.TMP_Text victoryText;
     [SerializeField] private TMPro.TMP_Text lossText;
-    [SerializeField] private GameObject playerCharacter;
+    [SerializeField] private Transform playerTransform;
     private List<IDamageable> allDamagebles = new List<IDamageable>();
     private Vector3 playerStartPosition;
     private Quaternion playerStartRotation;
@@ -16,25 +16,16 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance;
 
-    private void Start()
+    public Transform GetPlayerTransform() => playerTransform;
+
+    private void Awake()
     {
         Instance = this;
+    }
 
-        playerStartPosition = playerCharacter.transform.position;
-        playerStartRotation = playerCharacter.transform.rotation;
-
-        currentEnemyCount = 0;
-
-        allDamagebles.Add(playerCharacter.GetComponent<PlayerHealth>()); //Start the list with the PlayerHealth
-        MonoBehaviour[] allScripts = FindObjectsOfType<MonoBehaviour>(); //Add all enemyHealth componants to the list
-        for (int i = 0; i < allScripts.Length; i++)
-        {
-            if (allScripts[i] is IDamageable && allScripts[i].transform.root.tag == "Enemy")
-            {
-                allDamagebles.Add(allScripts[i] as IDamageable);
-                currentEnemyCount++;
-            }   
-        }
+    private void Start()
+    {
+        Initialise();
     }
 
     private void Update()
@@ -44,24 +35,32 @@ public class GameManager : MonoBehaviour
             ResetGame();
         }
 
-        if(playerCharacter.transform.position.y < yDeathHeight)
+        if(playerTransform.position.y < yDeathHeight)
         {
             ResetPlayer();
         }
     }
 
-    private void ResetGame()
+    private void Initialise()
+    {
+        playerStartPosition = playerTransform.position;
+        playerStartRotation = playerTransform.rotation;
+
+        currentEnemyCount = 0;
+    }
+
+    public void ResetGame()
     {
         ResetPlayer();
         ResetHealth();
         ResetUI();
     }
 
-    private void ResetPlayer()
+    public void ResetPlayer()
     {
-        playerCharacter.transform.position = playerStartPosition;
-        playerCharacter.transform.rotation = playerStartRotation;
-        playerCharacter.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        playerTransform.position = playerStartPosition;
+        playerTransform.rotation = playerStartRotation;
+        playerTransform.GetComponent<Rigidbody>().velocity = Vector3.zero;
     }
 
     private void ResetHealth()
@@ -86,6 +85,18 @@ public class GameManager : MonoBehaviour
     private void PlayerLoss()
     {
         lossText.enabled = true;
+    }
+
+    //If new living characters created, this should be called to add them to the list
+    public void AddNewDamageable(IDamageable damageableComp)
+    {
+        allDamagebles.Add(damageableComp);
+        currentEnemyCount++;
+    }
+
+    public void AddPlayerDamageable(PlayerHealth playerHealthComp)
+    {
+        allDamagebles.Insert(0, playerHealthComp);
     }
 
     public void DeathSignal(IDamageable characterHealth)

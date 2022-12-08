@@ -7,22 +7,31 @@ public class ForcedMovement : MonoBehaviour, IStrikeable
     [SerializeField] private Rigidbody ownRigidbody;
     [SerializeField] private float forcedDelay = 0.75f;
     private Vector3 appliedForce;
-    private float forceTimer;
-    private float cutOff = 0.2f;
+    private bool canBeForced = true;
 
     private void Update()
     {
-        forceTimer -= Time.deltaTime;
+        ForceUpdate();
+    }
+
+    private void ForceUpdate()
+    {
         ownRigidbody.AddForce(appliedForce * Time.deltaTime, ForceMode.Impulse);
         appliedForce /= 2;
-        
+    }
+
+    private IEnumerator ForceTimer()
+    {
+        canBeForced = false;
+        yield return new WaitForSeconds(forcedDelay);
+        canBeForced = true;
     }
 
     public void ApplyForce(Vector3 force)
     {
-        if (forceTimer <= 0)
+        if (canBeForced && gameObject.activeInHierarchy)
         {
-            forceTimer = forcedDelay;
+            StartCoroutine(ForceTimer());
             appliedForce = force;
         }
     }

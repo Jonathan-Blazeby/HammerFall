@@ -4,36 +4,41 @@ using UnityEngine;
 
 public class GravityManager : MonoBehaviour
 {
-    [SerializeField] float gravityMultiplier = 2f;
+    [SerializeField] private float gravityMultiplier = 2f;
     private float gravity;
     private List<IMovement> allMovingList = new List<IMovement>();
 
+    public static GravityManager Instance;
+
     //If new moveable characters created, this should be called to add them to the list
-    public void AddNewMoving(GameObject newObject)
+    public void AddNewMoving(IMovement moveComp)
     {
-        MonoBehaviour[] allScripts = newObject.GetComponents<MonoBehaviour>();
-        for (int i = 0; i < allScripts.Length; i++)
-        {
-            if (allScripts[i] is IMovement)
-                allMovingList.Add(allScripts[i] as IMovement);
-        }
+        allMovingList.Add(moveComp);
+    }
+
+    private void Awake()
+    {
+        Instance = this;
     }
 
     //Apply gravity multiplier, find and add all IMoveable components to list
     private void Start()
     {
-        gravity = Physics.gravity.y;
-        gravity *= gravityMultiplier;
-
-        MonoBehaviour[] allScripts = FindObjectsOfType<MonoBehaviour>();
-        for (int i = 0; i < allScripts.Length; i++)
-        {
-            if (allScripts[i] is IMovement)
-                allMovingList.Add(allScripts[i] as IMovement);
-        }
+        Initialise();
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
+    {
+        GravityUpdate();
+    }
+
+    private void Initialise()
+    {
+        gravity = Physics.gravity.y;
+        gravity *= gravityMultiplier;
+    }
+
+    private void GravityUpdate()
     {
         for (int i = 0; i < allMovingList.Count; i++)
         {

@@ -2,6 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum AttackType 
+{ 
+    none, //0
+    left, //1
+    right //2
+}
+
 public class AttackManager : MonoBehaviour
 {
     #region Serialized Fields
@@ -11,17 +18,12 @@ public class AttackManager : MonoBehaviour
 
     #region Private Fields
     private IDamageDealer attackApplicationComponent;
-    private Vector3 leftUpVector = new Vector3(-2, 1, 0);
-    private Vector3 RightUpVector = new Vector3(2, 1, 0);
-    private float weaponForceMultiplier;
-    private int weaponDamage;
     private int attackDirection; //0 = No direction, 1 = Left Swing, 2 = Right Swing
     #endregion
     
     private void Start()
     {
-        weaponEnabled = false;
-        weaponCollider.enabled = false;
+        Initialise();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -33,36 +35,18 @@ public class AttackManager : MonoBehaviour
                 attackApplicationComponent.AddDazed(other.GetComponent<ICharacterController>());
                 attackApplicationComponent.AddDamage(other.GetComponent<IDamageable>());
                 attackApplicationComponent.AddForce(other.GetComponent<IStrikeable>(), attackDirection);
-                //Rigidbody enemyRigid = other.GetComponent<Rigidbody>();
-                //Vector3 direction;
-                //switch (attackDirection)
-                //{
-                //    case 0:
-                //        break;
-                //    case 1:
-                //        direction = -transform.right;
-                //        direction.x *= weaponForceMultiplier;
-                //        direction.y *= weaponForceMultiplier / 2;
-                //        enemyRigid.AddForce(direction, ForceMode.Impulse);
-                //        break;
-                //    case 2:
-                //        direction = transform.right;
-                //        direction.x *= weaponForceMultiplier;
-                //        direction.y *= weaponForceMultiplier / 2;
-                //        enemyRigid.AddForce(direction, ForceMode.Impulse);
-                //        break;
-                //}
-                //enemyRigid.AddForce(Vector3.up * weaponForceMultiplier, ForceMode.Impulse);
-
-
-
             }
             else if (other.tag == "Player" && gameObject != other.gameObject)
             {
-                other.GetComponent<PlayerHealth>().ApplyDamage(weaponDamage);
+                attackApplicationComponent.AddDamage(other.GetComponent<IDamageable>());
             }
-
         }
+    }
+
+    private void Initialise()
+    {
+        weaponEnabled = false;
+        weaponCollider.enabled = false;
     }
 
     public bool GetWeaponActive() { return weaponEnabled; }

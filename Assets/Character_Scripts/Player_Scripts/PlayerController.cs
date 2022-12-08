@@ -10,20 +10,36 @@ public class PlayerController : MonoBehaviour, ICharacterController
     [SerializeField] private PlayerInputHandler inputHandler;
     [SerializeField] private PlayerCharacterAnimator animator;
     private IDamageDealer attackApplicationComponent;
-    [SerializeField] private float movementSpeed = 5;
-    [SerializeField] private float jumpForce = 5;
-    [SerializeField] private float rotationSpeed = 10;
-    [SerializeField] private float attackForce = 1;
+    [SerializeField] private float movementSpeed = 5.0f;
+    [SerializeField] private float jumpForce = 5.0f;
+    [SerializeField] private float rotationSpeed = 10.0f;
+    [SerializeField] private float attackForce = 1.0f;
     [SerializeField] private int attackDamage = 5;
     [SerializeField] private float attackDelay = 1.2f;
     #endregion
 
+    Vector2 movementDirection = Vector2.zero;
+    bool willJump = false;
     private float rotationInput;
-    private float attackTimer;
+    private bool canAttack;
 
     public MovementManager GetMovement() { return moveManager; }
 
     private void Start()
+    {
+        Initialise();
+    }
+
+    private void LateUpdate()
+    {
+        CaptureInput();
+        Move();
+        Attack();
+        animator.UpdateAnimatorValues();
+        attackManager.SetWeaponActive(animator.IsWeaponActive());
+    }
+
+    private void Initialise()
     {
         moveManager.SetMoveSpeed(movementSpeed);
         moveManager.SetJumpAmount(jumpForce);
@@ -34,37 +50,43 @@ public class PlayerController : MonoBehaviour, ICharacterController
         attackManager.SetAttackApplicationComponent(attackApplicationComponent);
         attackApplicationComponent.SetWeaponDamage(attackDamage);
         attackApplicationComponent.SetWeaponForce(attackForce);
-    }
 
-    private void LateUpdate()
-    {
-        attackTimer -= Time.deltaTime;
-        CaptureInput();
-        animator.UpdateAnimatorValues();
-        attackManager.SetWeaponActive(animator.IsWeaponActive());
+        canAttack = true;
     }
 
     //Looks for horizontal & vertical input to be applied to x z axis, looks for jump input, looks for attack input
     private void CaptureInput()
     {
-        Vector2 movementDirection = Vector2.zero;
-        bool willJump = false;
-
         movementDirection = inputHandler.GetMoveInput();
         rotationInput = inputHandler.GetMouseInput();
         willJump = inputHandler.GetJumpInput();
+    }
 
+    private void Move()
+    {
         moveManager.Move(movementDirection);
         RotateCalc();
         moveManager.Jump(willJump);
+        movementDirection = Vector2.zero;
+        willJump = false;
+    }
 
-        int attackDirection = 0; //0 = No attack, 1 = left attack, 2 = right attack
+    private IEnumerator AttackTimer()
+    {
+        canAttack = false;
+        yield return new WaitForSeconds(attackDelay);
+        canAttack = true;
+    }
+
+    private void Attack()
+    {
+        AttackType attackDirection = 0; //0 = No attack, 1 = left attack, 2 = right attack
         attackDirection = inputHandler.GetAttackInput();
-        if(attackDirection > 0 && attackTimer <= 0)
+        if (attackDirection > 0 && canAttack)
         {
-            attackManager.SetAttackDirection(attackDirection);
-            animator.Attack(attackDirection);
-            attackTimer = attackDelay;
+            StartCoroutine(AttackTimer());
+            attackManager.SetAttackDirection(((int)attackDirection));
+            animator.Attack(((int)attackDirection));
         }
     }
 

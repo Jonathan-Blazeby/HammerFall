@@ -6,20 +6,25 @@ public class PlayerInputHandler : MonoBehaviour
 {
     private Vector2 moveInput;
     private float mouseXInput;
-    private int attackInput; //attackInput 0 = no Input, 1 = left Input, 2 = right Input
+    private AttackType attackInput; //attackInput 0 = no Input, 1 = left Input, 2 = right Input
     private bool willJump;
 
-    public Vector2 GetMoveInput() { return moveInput; }
-    public float GetMouseInput() { return mouseXInput; }
-    public int GetAttackInput() { return attackInput; }
-    public bool GetJumpInput() { return willJump; }
+    public Vector2 GetMoveInput() => moveInput;
+    public float GetMouseInput() => mouseXInput;
+    public AttackType GetAttackInput() => attackInput;
+    public bool GetJumpInput() => willJump;
 
     private void Update()
+    {
+        InputCapture();
+    }
+
+    private void InputCapture()
     {
         moveInput = Vector2.zero;
         attackInput = 0;
         willJump = false;
-        
+
         if (Input.GetKey(KeyCode.A))
         {
             moveInput.x -= 1;
@@ -36,18 +41,34 @@ public class PlayerInputHandler : MonoBehaviour
         {
             moveInput.y -= 1;
         }
+
         if (Input.GetKey(KeyCode.Space))
         {
             willJump = true;
         }
 
-        if(Input.GetMouseButton(0))
+        moveInput.x = Input.GetAxis("Horizontal");
+        moveInput.y = Input.GetAxis("Vertical");
+        willJump = Input.GetButton("Jump");
+
+
+
+        if (Input.GetButton("LeftAttack"))
         {
-            attackInput = 1;
+            attackInput = AttackType.left;
         }
-        else if(Input.GetMouseButton(1))
+        else if (Input.GetButton("RightAttack"))
         {
-            attackInput = 2;
+            attackInput = AttackType.right;
+        }
+        else
+        {
+            attackInput = AttackType.none;
+        }
+
+        if(Input.GetKey(KeyCode.R))
+        {
+            GameManager.Instance.ResetPlayer();
         }
 
         mouseXInput = Input.GetAxis("Mouse X");

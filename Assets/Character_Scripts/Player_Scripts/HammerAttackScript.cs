@@ -33,7 +33,6 @@ public class HammerAttackScript : MonoBehaviour, IDamageDealer
                 break;
         }
         forceVector *= forceMultiplier;
-        Debug.Log("Direction: " + directionRelativeToSelf + " Force to Enemy: " + forceVector.ToString());
         recipient.ApplyForce(forceVector);
     }
 

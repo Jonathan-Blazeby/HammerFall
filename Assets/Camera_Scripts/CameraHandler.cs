@@ -4,13 +4,19 @@ using UnityEngine;
 
 public class CameraHandler : MonoBehaviour
 {
-    [SerializeField] private float yOffset = 4;
-    [SerializeField] private float zOffset = -3;
+    [SerializeField] private float yOffset;
+    [SerializeField] private float zOffset;
 
     private void Start()
     {
+        Initialise();
+    }
+
+    private void Initialise()
+    {
         Cursor.lockState = CursorLockMode.Locked;
-        transform.localPosition += new Vector3(0, yOffset, zOffset);
+        yOffset = transform.localPosition.y;
+        zOffset = transform.localPosition.z;
     }
 
 }
