@@ -73,7 +73,7 @@ public class EnemyController : MonoBehaviour, ICharacterController
     //Looks for horizontal & vertical input to be applied to x z axis, and looks for jump
     private void MoveFunction()
     {
-        Vector2 movementDirection = Vector2.zero;
+        Vector2 movementDirection;
         bool willJump = false;
 
         movementDirection = aiInput.GetDirection();

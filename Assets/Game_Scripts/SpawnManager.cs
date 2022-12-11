@@ -9,7 +9,7 @@ public class SpawnManager : MonoBehaviour
     private List<Transform> spawnPoints = new List<Transform>();
     private int nextSpawn = 0;
     [SerializeField] private float maxNumberToSpawnPerFrame = 25;
-    [SerializeField] private int numberToSpawn = 4;
+    private int numberToSpawn;
 
     public static SpawnManager Instance;
 
@@ -20,7 +20,7 @@ public class SpawnManager : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(SpawnObject());
+        //StartCoroutine(SpawnObject());
     }
 
     private IEnumerator SpawnObject()
@@ -29,19 +29,28 @@ public class SpawnManager : MonoBehaviour
         {
             foreach(var obj in liveObjects)
             {
-                //Move obj to place, reset its health, etc
-            }
-        }
+                //Move already living objects to spawns
+                obj.transform.position = spawnPoints[nextSpawn].position;
+                nextSpawn++;
+                if (nextSpawn == spawnPoints.Count)
+                {
+                    nextSpawn = 0;
+                }
 
-        numberToSpawn -= liveObjects.Count;
+                //Enable them again
+                obj.SetActive(true);
+            }
+            //Reset their health
+            GameManager.Instance.GetCharactersManager().ResetEnemyHealth();
+        }
 
         while(liveObjects.Count < numberToSpawn)
         {       
             for (int i = 0; i < maxNumberToSpawnPerFrame; i++)
             {
-                liveObjects.Add(Instantiate(prefab, spawnPoints[nextSpawn].transform.position, Quaternion.identity));
+                liveObjects.Add(Instantiate(prefab, spawnPoints[nextSpawn].position, Quaternion.identity));
 
-                if(liveObjects.Count >= numberToSpawn)
+                if(liveObjects.Count == numberToSpawn)
                 {
                     yield break;
                 }
@@ -54,7 +63,14 @@ public class SpawnManager : MonoBehaviour
             }
             
             yield return new WaitForEndOfFrame();            
-        }
+        }        
+    }
+
+    public void SpawnWave(int numInWave)
+    {
+        numberToSpawn = numInWave;
+        StartCoroutine(SpawnObject());
+        GameManager.Instance.SetActiveEnemyCount(liveObjects.Count);
     }
 
     public void RegisterSpawnPoints(Transform spawn)

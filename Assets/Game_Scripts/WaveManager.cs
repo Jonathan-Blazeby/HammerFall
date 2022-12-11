@@ -4,15 +4,40 @@ using UnityEngine;
 
 public class WaveManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private List<int> waveList;
+    [SerializeField] private float timeBetweenWaves = 10.0f;
+    private int currentWave;
+
+    private void Start()
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
+    private IEnumerator WaveTimer()
     {
-        
+        yield return new WaitForSeconds(timeBetweenWaves);
+        BeginNextWave();
+    }
+
+    public void BeginNextWave()
+    {
+        currentWave++;
+        GameManager.Instance.GetSpawnManager().SpawnWave(waveList[currentWave]);
+    }
+
+    public void FirstWave()
+    {
+        GameManager.Instance.GetSpawnManager().SpawnWave(waveList[0]);
+    }
+
+    public void NextWave()
+    {
+        StartCoroutine(WaveTimer());
+    }
+
+    public bool FinalWaveCompleteCheck()
+    {
+        if(currentWave == waveList.Count -1) { return true; }
+        else { return false; }
     }
 }

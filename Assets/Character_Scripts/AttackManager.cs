@@ -30,13 +30,13 @@ public class AttackManager : MonoBehaviour
     {
         if(weaponEnabled) 
         {
-            if (other.tag == "Enemy" && gameObject != other.gameObject)
+            if (other.CompareTag("Enemy") && gameObject != other.gameObject)
             {
                 attackApplicationComponent.AddDazed(other.GetComponent<ICharacterController>());
                 attackApplicationComponent.AddDamage(other.GetComponent<IDamageable>());
                 attackApplicationComponent.AddForce(other.GetComponent<IStrikeable>(), attackDirection);
             }
-            else if (other.tag == "Player" && gameObject != other.gameObject)
+            else if (other.CompareTag("Player") && gameObject != other.gameObject)
             {
                 attackApplicationComponent.AddDamage(other.GetComponent<IDamageable>());
             }

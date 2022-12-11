@@ -94,10 +94,9 @@ public class MovementManager : MonoBehaviour, IMovement
 
     private void GroundCheck()
     {
-        RaycastHit hit;
         Vector3 checkPoint = moveCollider.bounds.center;
         checkPoint.y -= (moveCollider.bounds.extents.y - moveCollider.bounds.extents.x) * groundCheckPointAdjust;
-        if (Physics.SphereCast(checkPoint, moveCollider.bounds.extents.x, Vector3.down, out hit, moveCollider.bounds.extents.y * groundCheckSphereDistAdjust))
+        if (Physics.SphereCast(checkPoint, moveCollider.bounds.extents.x, Vector3.down, out RaycastHit hit, moveCollider.bounds.extents.y * groundCheckSphereDistAdjust))
         {
             if (hit.transform.gameObject.layer == traversableLayer)
             {

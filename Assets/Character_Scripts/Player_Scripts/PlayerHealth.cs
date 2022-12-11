@@ -12,7 +12,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     private void Awake()
     {
-        FindObjectOfType<GameManager>().AddPlayerDamageable(this);
+        FindObjectOfType<GameManager>().GetCharactersManager().AddPlayerDamageable(this);
     }
 
     private void Start()
@@ -38,7 +38,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
             if (currentHealth <= 0)
             {
-                GameManager.Instance.DeathSignal(this);
+                GameManager.Instance.GetCharactersManager().DeathSignal(this);
             }
         }
 

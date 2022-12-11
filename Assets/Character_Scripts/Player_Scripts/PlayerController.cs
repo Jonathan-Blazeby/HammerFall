@@ -80,7 +80,7 @@ public class PlayerController : MonoBehaviour, ICharacterController
 
     private void Attack()
     {
-        AttackType attackDirection = 0; //0 = No attack, 1 = left attack, 2 = right attack
+        AttackType attackDirection; //0 = No attack, 1 = left attack, 2 = right attack
         attackDirection = inputHandler.GetAttackInput();
         if (attackDirection > 0 && canAttack)
         {

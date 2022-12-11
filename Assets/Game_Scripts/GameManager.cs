@@ -5,18 +5,32 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private TMPro.TMP_Text victoryText;
-    [SerializeField] private TMPro.TMP_Text lossText;
+    [SerializeField] private UIManager uIManager;
+    [SerializeField] private SpawnManager spawnManager;
+    [SerializeField] private WaveManager waveManager;
+    [SerializeField] private GravityManager gravityManager;
+    [SerializeField] private CharactersManager charactersManager;
+
     [SerializeField] private Transform playerTransform;
-    private List<IDamageable> allDamagebles = new List<IDamageable>();
+
     private Vector3 playerStartPosition;
     private Quaternion playerStartRotation;
     [SerializeField] private float yDeathHeight = -5.0f;
-    private int currentEnemyCount;
+    [SerializeField] private int activeEnemyCount;
 
     public static GameManager Instance;
 
+    public UIManager GetUIManager() => uIManager;
+    public SpawnManager GetSpawnManager() => spawnManager;
+    public WaveManager GetWaveManager() => waveManager;
+    public GravityManager GetGravityManager() => gravityManager;
+    public CharactersManager GetCharactersManager() => charactersManager;
     public Transform GetPlayerTransform() => playerTransform;
+    public int GetActiveEnemyCount() => activeEnemyCount;
+    public void SetActiveEnemyCount(int waveSpawnedEnemies) 
+    { 
+        activeEnemyCount = waveSpawnedEnemies;
+    }
 
     private void Awake()
     {
@@ -46,13 +60,13 @@ public class GameManager : MonoBehaviour
         playerStartPosition = playerTransform.position;
         playerStartRotation = playerTransform.rotation;
 
-        currentEnemyCount = 0;
+        waveManager.FirstWave();
     }
 
     public void ResetGame()
     {
         ResetPlayer();
-        ResetHealth();
+        ResetAllHealth();
         ResetUI();
     }
 
@@ -63,61 +77,36 @@ public class GameManager : MonoBehaviour
         playerTransform.GetComponent<Rigidbody>().velocity = Vector3.zero;
     }
 
-    private void ResetHealth()
+    private void ResetAllHealth()
     {
-        foreach(IDamageable healthComponent in allDamagebles)
-        {
-            healthComponent.ResetHealth();
-        }
+        charactersManager.ResetAllHealth();
     }
 
     private void ResetUI()
     {
-        victoryText.enabled = false;
-        lossText.enabled = false;
+        uIManager.ResetUI();
     }
 
-    private void PlayerVictory()
+    public void WaveComplete()
     {
-        victoryText.enabled = true;
-    }
-
-    private void PlayerLoss()
-    {
-        lossText.enabled = true;
-    }
-
-    //If new living characters created, this should be called to add them to the list
-    public void AddNewDamageable(IDamageable damageableComp)
-    {
-        allDamagebles.Add(damageableComp);
-        currentEnemyCount++;
-    }
-
-    public void AddPlayerDamageable(PlayerHealth playerHealthComp)
-    {
-        allDamagebles.Insert(0, playerHealthComp);
-    }
-
-    public void DeathSignal(IDamageable characterHealth)
-    {
-        if(characterHealth == allDamagebles[0])
+        if(waveManager.FinalWaveCompleteCheck())
         {
-            PlayerLoss();
+            PlayerVictory();
         }
         else
         {
-            for (int i = 1; i < allDamagebles.Count; i++)
-            {
-                if (characterHealth == allDamagebles[i])
-                {
-                    currentEnemyCount--;
-
-                    if (currentEnemyCount <= 0) { PlayerVictory(); }
-
-                    return;
-                }
-            }
+            waveManager.NextWave();
         }
     }
+
+    public void PlayerVictory()
+    {
+        uIManager.PlayerVictory();
+    }
+
+    public void PlayerLoss()
+    {
+        uIManager.PlayerLoss();
+    }
+
 }

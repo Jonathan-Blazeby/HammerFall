@@ -10,7 +10,6 @@ public class PlayerCharacterAnimator : MonoBehaviour, IAnimation
     [SerializeField] private Animator hammerAnimator;
     private int horizontal;
     private int vertical;
-    private bool weaponActive;
 
     private void Start()
     {

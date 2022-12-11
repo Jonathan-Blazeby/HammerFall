@@ -11,6 +11,9 @@ GameObject:
   - component: {fileID: 721412810441222798}
   - component: {fileID: 721412810441222799}
   - component: {fileID: 721412810441222796}
+  - component: {fileID: 673716209}
+  - component: {fileID: 673716210}
+  - component: {fileID: 1351009966682836422}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -58,7 +61,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 799d2b8e91551ae4698a911e28dcaa0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uIManager: {fileID: 673716210}
+  spawnManager: {fileID: 673716209}
+  playerTransform: {fileID: 0}
+  yDeathHeight: -5
+--- !u!114 &673716209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 721412810441222784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed01c65078f472b4cbdbcbb369bc5e62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 1499564833181392637, guid: 1130e605f9ef1ae4ab6aa3a1255452d5, type: 3}
+  maxNumberToSpawnPerFrame: 25
+  numberToSpawn: 8
+--- !u!114 &673716210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 721412810441222784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad65c8d37250ae84faf0ac2d27c6d785, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiCanvas: {fileID: 0}
   victoryText: {fileID: 0}
   lossText: {fileID: 0}
-  playerCharacter: {fileID: 0}
-  yDeathHeight: -5
+--- !u!114 &1351009966682836422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 721412810441222784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4722d8dbfc8ffe14895bcd4c505e3878, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waveList: 

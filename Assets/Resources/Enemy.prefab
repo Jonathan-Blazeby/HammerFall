@@ -528,9 +528,7 @@ MonoBehaviour:
   attackManager: {fileID: 1499564833181392625}
   aiInput: {fileID: 1499564833181392629}
   animator: {fileID: 1499564833181392626}
-  movementSpeed: 5
   jumpForce: 5
-  rotationSpeed: 10
   attackForce: 1
   attackDelay: 2.5
   attackDamage: 5
@@ -563,7 +561,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBar: {fileID: 1499564833417233335}
-  maxHealth: 20
+  maxHealth: 15
   currentHealth: 0
   damagedDelay: 0.75
 --- !u!114 &1499564833181392626
