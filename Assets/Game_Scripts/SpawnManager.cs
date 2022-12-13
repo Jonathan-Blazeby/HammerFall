@@ -18,11 +18,6 @@ public class SpawnManager : MonoBehaviour
         Instance = this;
     }
 
-    private void Start()
-    {
-        //StartCoroutine(SpawnObject());
-    }
-
     private IEnumerator SpawnObject()
     {
         if(liveObjects.Count > 0)

@@ -631,7 +631,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ownRigidbody: {fileID: 1499564833181392635}
-  forcedDelay: 0.75
+  forcedDelay: 0.5
 --- !u!114 &1499564833181392625
 MonoBehaviour:
   m_ObjectHideFlags: 0
