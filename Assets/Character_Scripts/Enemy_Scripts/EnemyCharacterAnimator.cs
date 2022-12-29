@@ -4,25 +4,39 @@ using UnityEngine;
 
 public class EnemyCharacterAnimator : MonoBehaviour, IAnimation
 {
+    #region Private Fields
     private IMovement movement;
     [SerializeField] private EnemyController enemyController;
     [SerializeField] private Animator moveAnimator;
     [SerializeField] private Animator punchAnimator;
     private int horizontal;
     private int vertical;
+    #endregion
 
+    #region MonoBehaviour Callbacks
     private void Start()
     {
         Initialise();
     }
+    #endregion
 
+    #region IAnimation Implementation
+    public bool IsWeaponActive()
+    {
+        return punchAnimator.GetBool("WeaponActive");
+    }
+    #endregion
+
+    #region Private Methods
     private void Initialise()
     {
         horizontal = Animator.StringToHash("Horizontal");
         vertical = Animator.StringToHash("Vertical");
         movement = enemyController.GetMovement();
     }
+    #endregion
 
+    #region Public Methods
     public void UpdateAnimatorValues()
     {
         float horizontalMove = movement.GetDirection().x;
@@ -66,10 +80,7 @@ public class EnemyCharacterAnimator : MonoBehaviour, IAnimation
         moveAnimator.SetFloat(vertical, v, 0.1f, Time.deltaTime);
     }
 
-    public bool IsWeaponActive()
-    {
-        return punchAnimator.GetBool("WeaponActive");
-    }
+
 
     public void Attack()
     {
@@ -81,4 +92,6 @@ public class EnemyCharacterAnimator : MonoBehaviour, IAnimation
         moveAnimator.Play("Idle");
         punchAnimator.Play("Standby");
     }
+    #endregion
+
 }

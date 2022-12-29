@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class SpawnPointScript : MonoBehaviour
 {
+    #region MonoBehaviour Callbacks
     private void Awake()
     {
         FindObjectOfType<SpawnManager>().RegisterSpawnPoints(transform);
     }
+    #endregion
+
 }

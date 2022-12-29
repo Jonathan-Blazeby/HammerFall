@@ -13,6 +13,7 @@ public enum AIStates
 
 public class EnemyAIBasic : MonoBehaviour
 {
+    #region Private Fields
     [SerializeField] private NavMeshAgent navMeshAgent;
     [SerializeField] private Rigidbody enemyRigidbody;
     private Transform playerTransform;
@@ -22,30 +23,29 @@ public class EnemyAIBasic : MonoBehaviour
     [SerializeField] private float attackDistance;
     [SerializeField] private float dazedDelay;
     private AIStates currentState;
+    #endregion
 
-    public Vector3 GetDirection()
-    {
-        return direction;
-    }
-
+    #region MonoBehaviour Callbacks
     private void OnEnable()
     {
         playerTransform = GameManager.Instance.GetPlayerTransform();
         oldPosition = transform.position;
-        if(playerTransform)
+        if (playerTransform)
         {
             currentState = AIStates.Moving;
         }
     }
-    
+
     private void Update()
     {
         AIUpdate();
     }
+    #endregion
 
+    #region Private Methods
     private void AIUpdate()
     {
-        switch((int)currentState)
+        switch ((int)currentState)
         {
             case 0:
                 break;
@@ -122,7 +122,7 @@ public class EnemyAIBasic : MonoBehaviour
         Vector3 dir = (newPosition - oldPosition);
         oldPosition = newPosition;
         newPosition = transform.position;
-        direction = (dir / Time.deltaTime).normalized;   
+        direction = (dir / Time.deltaTime).normalized;
     }
 
     //Allows for enemy rotation to function properly with the navmesh agent, but only when its movementManager is set to not use the Calculated Rotation
@@ -137,11 +137,19 @@ public class EnemyAIBasic : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5);
         }
     }
+    #endregion
 
+    #region Public Methods
+    public Vector3 GetDirection()
+    {
+        return direction;
+    }
     public void SetDazed()
     {
         currentState = AIStates.Dazed;
     }
 
     public AIStates GetState() => currentState;
+    #endregion
+
 }

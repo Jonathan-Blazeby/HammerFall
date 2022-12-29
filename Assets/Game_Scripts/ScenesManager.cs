@@ -5,11 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class ScenesManager : MonoBehaviour
 {
+    #region MonoBehaviour Callbacks
     private void Start()
     {
         DontDestroyOnLoad(this);
     }
+    #endregion
 
+    #region Public Methods
     public void LoadTestLevel()
     {
         SceneManager.LoadScene("Test_Scene");
@@ -24,4 +27,6 @@ public class ScenesManager : MonoBehaviour
     {
         SceneManager.LoadScene("StartMenu_Scene");
     }
+    #endregion
+
 }

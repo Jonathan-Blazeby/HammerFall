@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class EnemyController : MonoBehaviour, ICharacterController
 {
-    #region Serialized Fields
+    #region Private Fields
     [SerializeField] private MovementManager moveManager;
     [SerializeField] private AttackManager attackManager;
     [SerializeField] private EnemyAIBasic aiInput;
@@ -15,12 +15,10 @@ public class EnemyController : MonoBehaviour, ICharacterController
     [SerializeField] private float attackForce = 1;
     [SerializeField] private float attackDelay = 3f;
     [SerializeField] private int attackDamage = 5;
+    private bool canAttack;
     #endregion
 
-    private bool canAttack;
-
-    public MovementManager GetMovement() { return moveManager; }
-
+    #region MonoBehaviour Callbacks
     private void Start()
     {
         Initialise();
@@ -35,7 +33,16 @@ public class EnemyController : MonoBehaviour, ICharacterController
     {
         attackManager.SetWeaponActive(animator.IsWeaponActive());
     }
+    #endregion
 
+    #region ICharacterController Implementation
+    public void Daze()
+    {
+        aiInput.SetDazed();
+    }
+    #endregion
+
+    #region Private Methods
     private void Initialise()
     {
 
@@ -98,9 +105,10 @@ public class EnemyController : MonoBehaviour, ICharacterController
             animator.Attack();
         }
     }
+    #endregion
 
-    public void Daze()
-    {
-        aiInput.SetDazed();
-    }
+    #region Public Methods
+    public MovementManager GetMovement() { return moveManager; }
+    #endregion
+
 }

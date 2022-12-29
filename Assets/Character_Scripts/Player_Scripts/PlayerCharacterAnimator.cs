@@ -4,25 +4,32 @@ using UnityEngine;
 
 public class PlayerCharacterAnimator : MonoBehaviour, IAnimation
 {
+    #region Private Fields
     private IMovement movement;
     [SerializeField] private PlayerController playerController;
     [SerializeField] private Animator moveAnimator;
     [SerializeField] private Animator hammerAnimator;
     private int horizontal;
     private int vertical;
+    #endregion
 
+    #region MonoBehaviour Callbacks
     private void Start()
     {
         Initialise();
     }
+    #endregion
 
+    #region Private Methods
     private void Initialise()
     {
         horizontal = Animator.StringToHash("Horizontal");
         vertical = Animator.StringToHash("Vertical");
         movement = playerController.GetMovement();
     }
+    #endregion
 
+    #region Public Methods
     public void UpdateAnimatorValues()
     {
         float horizontalMove = movement.GetDirection().x;
@@ -61,7 +68,7 @@ public class PlayerCharacterAnimator : MonoBehaviour, IAnimation
             v = 0;
         }
         #endregion
-                
+
         moveAnimator.SetFloat(horizontal, h, 0.1f, Time.deltaTime);
         moveAnimator.SetFloat(vertical, v, 0.1f, Time.deltaTime);
     }
@@ -73,13 +80,15 @@ public class PlayerCharacterAnimator : MonoBehaviour, IAnimation
 
     public void Attack(int attackInt)
     {
-        if(attackInt == 1)
+        if (attackInt == 1)
         {
             hammerAnimator.Play("LeftSwing");
         }
-        else if(attackInt == 2)
+        else if (attackInt == 2)
         {
             hammerAnimator.Play("RightSwing");
         }
     }
+    #endregion
+
 }

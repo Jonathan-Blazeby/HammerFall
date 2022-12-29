@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MovementManager : MonoBehaviour, IMovement
 {
+    #region Private Fields
     [SerializeField] private Rigidbody moveRigidbody;
     [SerializeField] private Collider moveCollider;
     private Vector3 moveDirection;
@@ -20,8 +21,21 @@ public class MovementManager : MonoBehaviour, IMovement
     [SerializeField] private bool isGrounded = true;
     [SerializeField] private bool jumpState;
     [SerializeField] private bool useCalculatedRotation;
+    #endregion
 
-    #region IMovement Get/Set Methods
+    #region MonoBehaviour Callbacks
+    private void Awake()
+    {
+        FindObjectOfType<GravityManager>().AddNewMoving(this);
+    }
+
+    private void FixedUpdate()
+    {
+        MovementUpdate();
+    }
+    #endregion
+
+    #region IMovement Implementation
     public Vector3 GetDirection() { return moveDirection; }
     public float GetVerticalVelocity() { return moveRigidbody.velocity.y; }
     public void SetVerticalVelocity(float velocity) { verticalVelocity = velocity; }
@@ -33,21 +47,7 @@ public class MovementManager : MonoBehaviour, IMovement
     public void SetUseCalculatedRotation(bool useCalcRotated) { useCalculatedRotation = useCalcRotated; }
     #endregion
 
-    #region Other Get/Set Methods
-    public void SetMoveSpeed(float speed) { moveSpeed = speed; }
-    public void SetJumpAmount(float jump) { jumpAmount = jump; }
-    #endregion
-
-    private void Awake()
-    {
-        FindObjectOfType<GravityManager>().AddNewMoving(this);    
-    }
-
-    private void FixedUpdate()
-    {
-        MovementUpdate();
-    }
-
+    #region Private Methods
     private void MovementUpdate()
     {
         if (isGrounded || jumpState)
@@ -66,6 +66,29 @@ public class MovementManager : MonoBehaviour, IMovement
             moveRigidbody.MoveRotation(newRotation);
         }
     }
+
+    private void GroundCheck()
+    {
+        Vector3 checkPoint = moveCollider.bounds.center;
+        checkPoint.y -= (moveCollider.bounds.extents.y - moveCollider.bounds.extents.x) * groundCheckPointAdjust;
+        if (Physics.SphereCast(checkPoint, moveCollider.bounds.extents.x, Vector3.down, out RaycastHit hit, moveCollider.bounds.extents.y * groundCheckSphereDistAdjust))
+        {
+            if (hit.transform.gameObject.layer == traversableLayer)
+            {
+                isGrounded = true;
+                jumpState = false;
+            }
+        }
+        else
+        {
+            isGrounded = false;
+        }
+    }
+    #endregion
+
+    #region Public Methods
+    public void SetMoveSpeed(float speed) { moveSpeed = speed; }
+    public void SetJumpAmount(float jump) { jumpAmount = jump; }
 
     public void Move(Vector2 direction)
     {
@@ -91,22 +114,6 @@ public class MovementManager : MonoBehaviour, IMovement
             jumpState = false;
         }
     }
+    #endregion
 
-    private void GroundCheck()
-    {
-        Vector3 checkPoint = moveCollider.bounds.center;
-        checkPoint.y -= (moveCollider.bounds.extents.y - moveCollider.bounds.extents.x) * groundCheckPointAdjust;
-        if (Physics.SphereCast(checkPoint, moveCollider.bounds.extents.x, Vector3.down, out RaycastHit hit, moveCollider.bounds.extents.y * groundCheckSphereDistAdjust))
-        {
-            if (hit.transform.gameObject.layer == traversableLayer)
-            {
-                isGrounded = true;
-                jumpState = false;
-            }
-        }
-        else
-        {
-            isGrounded = false;
-        }
-    }
 }

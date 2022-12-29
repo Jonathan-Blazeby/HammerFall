@@ -4,21 +4,21 @@ using UnityEngine;
 
 public class WaveManager : MonoBehaviour
 {
+    #region Private Fields
     [SerializeField] private List<int> waveList;
     [SerializeField] private int secondsBetweenWaves = 10;
     private int currentWave;
+    #endregion
 
-    private void Start()
-    {
-        
-    }
-
+    #region Private Methods
     private IEnumerator WaveTimer()
     {
         yield return new WaitForSeconds(secondsBetweenWaves);
         BeginNextWave();
     }
+    #endregion
 
+    #region Public Methods
     public void BeginNextWave()
     {
         currentWave++;
@@ -40,7 +40,9 @@ public class WaveManager : MonoBehaviour
 
     public bool FinalWaveCompleteCheck()
     {
-        if(currentWave == waveList.Count -1) { return true; }
+        if (currentWave == waveList.Count - 1) { return true; }
         else { return false; }
     }
+    #endregion
+
 }

@@ -4,18 +4,23 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
+    #region Private Fields
     [SerializeField] private Canvas uiCanvas;
     [SerializeField] private TMPro.TMP_Text victoryText;
     [SerializeField] private TMPro.TMP_Text lossText;
     [SerializeField] private TMPro.TMP_Text waveNumberText;
     [SerializeField] private TMPro.TMP_Text waveCountdownText;
     private List<GameObject> uiObjectList = new List<GameObject>();
+    #endregion
 
+    #region MonoBehaviour Callbacks
     private void Start()
     {
         Initialise();
     }
+    #endregion
 
+    #region Private Methods
     private void Initialise()
     {
         uiObjectList.Add(victoryText.gameObject);
@@ -26,7 +31,7 @@ public class UIManager : MonoBehaviour
 
     private IEnumerator WaveCountdownTimer(int waveDelaySecs)
     {
-        while(waveDelaySecs > 0)
+        while (waveDelaySecs > 0)
         {
             waveDelaySecs--;
             waveCountdownText.text = waveDelaySecs.ToString();
@@ -34,10 +39,12 @@ public class UIManager : MonoBehaviour
         }
         waveCountdownText.gameObject.SetActive(false);
     }
+    #endregion
 
+    #region Public Methods
     public void ResetUI()
     {
-        foreach(GameObject uiObject in uiObjectList)
+        foreach (GameObject uiObject in uiObjectList)
         {
             uiObject.SetActive(false);
         }
@@ -63,10 +70,6 @@ public class UIManager : MonoBehaviour
         waveCountdownText.gameObject.SetActive(true);
         StartCoroutine(WaveCountdownTimer(waveDelaySecs));
     }
-
-    public void SetEnemiesRemaining(int liveEnemies)
-    {
-
-    }
+    #endregion
 
 }

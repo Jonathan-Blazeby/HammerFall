@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class PunchAttackScript : MonoBehaviour, IDamageDealer
 {
+    #region Private Fields
     private float forceMultiplier;
     private int attackDamage;
+    #endregion
 
+    #region IDamageDealer Implementation
     public void AddDazed(ICharacterController recipient)
     {
         recipient.Daze();
@@ -34,4 +37,6 @@ public class PunchAttackScript : MonoBehaviour, IDamageDealer
     {
         forceMultiplier = multiplier;
     }
+    #endregion
+
 }

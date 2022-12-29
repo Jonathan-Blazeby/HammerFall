@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    #region Private Fields
     [SerializeField] private UIManager uIManager;
     [SerializeField] private SpawnManager spawnManager;
     [SerializeField] private WaveManager waveManager;
@@ -17,21 +18,13 @@ public class GameManager : MonoBehaviour
     private Quaternion playerStartRotation;
     [SerializeField] private float yDeathHeight = -5.0f;
     [SerializeField] private int activeEnemyCount;
+    #endregion
 
+    #region Public Fields
     public static GameManager Instance;
+    #endregion
 
-    public UIManager GetUIManager() => uIManager;
-    public SpawnManager GetSpawnManager() => spawnManager;
-    public WaveManager GetWaveManager() => waveManager;
-    public GravityManager GetGravityManager() => gravityManager;
-    public CharactersManager GetCharactersManager() => charactersManager;
-    public Transform GetPlayerTransform() => playerTransform;
-    public int GetActiveEnemyCount() => activeEnemyCount;
-    public void SetActiveEnemyCount(int waveSpawnedEnemies) 
-    { 
-        activeEnemyCount = waveSpawnedEnemies;
-    }
-
+    #region MonoBehaviour Callbacks
     private void Awake()
     {
         Instance = this;
@@ -49,18 +42,34 @@ public class GameManager : MonoBehaviour
             ResetGame();
         }
 
-        if(playerTransform.position.y < yDeathHeight)
+        if (playerTransform.position.y < yDeathHeight)
         {
             ResetPlayer();
         }
     }
+    #endregion
 
+    #region Private Methods
     private void Initialise()
     {
         playerStartPosition = playerTransform.position;
         playerStartRotation = playerTransform.rotation;
 
         waveManager.FirstWave();
+    }
+    #endregion
+
+    #region Public Methods
+    public UIManager GetUIManager() => uIManager;
+    public SpawnManager GetSpawnManager() => spawnManager;
+    public WaveManager GetWaveManager() => waveManager;
+    public GravityManager GetGravityManager() => gravityManager;
+    public CharactersManager GetCharactersManager() => charactersManager;
+    public Transform GetPlayerTransform() => playerTransform;
+    public int GetActiveEnemyCount() => activeEnemyCount;
+    public void SetActiveEnemyCount(int waveSpawnedEnemies)
+    {
+        activeEnemyCount = waveSpawnedEnemies;
     }
 
     public void ResetGame()
@@ -89,7 +98,7 @@ public class GameManager : MonoBehaviour
 
     public void WaveComplete()
     {
-        if(waveManager.FinalWaveCompleteCheck())
+        if (waveManager.FinalWaveCompleteCheck())
         {
             PlayerVictory();
         }
@@ -108,5 +117,6 @@ public class GameManager : MonoBehaviour
     {
         uIManager.PlayerLoss();
     }
+    #endregion
 
 }

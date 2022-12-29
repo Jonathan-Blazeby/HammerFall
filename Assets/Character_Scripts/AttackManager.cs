@@ -11,16 +11,14 @@ public enum AttackType
 
 public class AttackManager : MonoBehaviour
 {
-    #region Serialized Fields
+    #region Private Fields
     [SerializeField] private Collider weaponCollider;
     [SerializeField] private bool weaponEnabled;
-    #endregion
-
-    #region Private Fields
     private IDamageDealer attackApplicationComponent;
     private int attackDirection; //0 = No direction, 1 = Left Swing, 2 = Right Swing
     #endregion
-    
+
+    #region MonoBehaviour Callbacks
     private void Start()
     {
         Initialise();
@@ -28,7 +26,7 @@ public class AttackManager : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(weaponEnabled) 
+        if (weaponEnabled)
         {
             if (other.CompareTag("Enemy") && gameObject != other.gameObject)
             {
@@ -42,17 +40,21 @@ public class AttackManager : MonoBehaviour
             }
         }
     }
+    #endregion
 
+    #region Private Methods
     private void Initialise()
     {
         weaponEnabled = false;
         weaponCollider.enabled = false;
     }
+    #endregion
 
+    #region Public Methods
     public bool GetWeaponActive() { return weaponEnabled; }
-    public void SetWeaponActive(bool active) 
-    { 
-        if(weaponEnabled != active)
+    public void SetWeaponActive(bool active)
+    {
+        if (weaponEnabled != active)
         {
             weaponEnabled = active;
             weaponCollider.enabled = active;
@@ -60,5 +62,6 @@ public class AttackManager : MonoBehaviour
     }
     public void SetAttackDirection(int dir) { attackDirection = dir; }
     public void SetAttackApplicationComponent(IDamageDealer component) { attackApplicationComponent = component; }
+    #endregion
 
 }

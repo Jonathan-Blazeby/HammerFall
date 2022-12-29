@@ -4,16 +4,21 @@ using UnityEngine;
 
 public class ForcedMovement : MonoBehaviour, IStrikeable
 {
+    #region Private Fields
     [SerializeField] private Rigidbody ownRigidbody;
     [SerializeField] private float forcedDelay = 0.75f;
     private Vector3 appliedForce;
     private bool canBeForced = true;
+    #endregion
 
+    #region MonoBehaviour Callbacks
     private void Update()
     {
         ForceUpdate();
     }
+    #endregion
 
+    #region Private Methods
     private void ForceUpdate()
     {
         ownRigidbody.AddForce(appliedForce * Time.deltaTime, ForceMode.Impulse);
@@ -26,7 +31,9 @@ public class ForcedMovement : MonoBehaviour, IStrikeable
         yield return new WaitForSeconds(forcedDelay);
         canBeForced = true;
     }
+    #endregion
 
+    #region IStrikeable Implementation
     public void ApplyForce(Vector3 force)
     {
         if (canBeForced && gameObject.activeInHierarchy)
@@ -35,4 +42,6 @@ public class ForcedMovement : MonoBehaviour, IStrikeable
             appliedForce = force;
         }
     }
+    #endregion
+
 }

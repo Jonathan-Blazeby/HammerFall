@@ -4,18 +4,17 @@ using UnityEngine;
 
 public class GravityManager : MonoBehaviour
 {
+    #region Private Fields
     [SerializeField] private float gravityMultiplier = 2f;
     private float gravity;
     private List<IMovement> allMovingList = new List<IMovement>();
+    #endregion
 
+    #region Public Fields
     public static GravityManager Instance;
+    #endregion
 
-    //If new moveable characters created, this should be called to add them to the list
-    public void AddNewMoving(IMovement moveComp)
-    {
-        allMovingList.Add(moveComp);
-    }
-
+    #region MonoBehaviour Callbacks
     private void Awake()
     {
         Instance = this;
@@ -31,7 +30,9 @@ public class GravityManager : MonoBehaviour
     {
         GravityUpdate();
     }
+    #endregion
 
+    #region Private Methods
     private void Initialise()
     {
         gravity = Physics.gravity.y;
@@ -70,4 +71,14 @@ public class GravityManager : MonoBehaviour
             allMovingList[i].SetVerticalVelocity(newVerticalVelocity);
         }
     }
+    #endregion
+
+    #region Public Methods
+    //If new moveable characters created, this should be called to add them to the list
+    public void AddNewMoving(IMovement moveComp)
+    {
+        allMovingList.Add(moveComp);
+    }
+    #endregion
+        
 }

@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class CharactersManager : MonoBehaviour
 {
+    #region Private Fields
     private List<IDamageable> allDamagebles = new List<IDamageable>();
-    private int currentEnemyCount;
+    #endregion
 
+    #region Public Methods
     //If new living characters created, this should be called to add them to the list
     public void AddNewDamageable(IDamageable damageableComp)
     {
@@ -32,9 +34,9 @@ public class CharactersManager : MonoBehaviour
                 {
                     GameManager.Instance.SetActiveEnemyCount(GameManager.Instance.GetActiveEnemyCount() - 1);
 
-                    if (GameManager.Instance.GetActiveEnemyCount() == 0) 
-                    { 
-                        GameManager.Instance.WaveComplete(); 
+                    if (GameManager.Instance.GetActiveEnemyCount() == 0)
+                    {
+                        GameManager.Instance.WaveComplete();
                     }
 
                     return;
@@ -58,4 +60,6 @@ public class CharactersManager : MonoBehaviour
             allDamagebles[i].ResetHealth();
         }
     }
+    #endregion
+
 }

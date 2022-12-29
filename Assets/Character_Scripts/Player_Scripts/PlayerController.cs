@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour, ICharacterController
 {
-    #region Serialized Fields
+    #region Private Fields
     [SerializeField] private MovementManager moveManager;
     [SerializeField] private AttackManager attackManager;
     [SerializeField] private PlayerInputHandler inputHandler;
@@ -16,15 +16,13 @@ public class PlayerController : MonoBehaviour, ICharacterController
     [SerializeField] private float attackForce = 1.0f;
     [SerializeField] private int attackDamage = 5;
     [SerializeField] private float attackDelay = 1.2f;
-    #endregion
-
-    Vector2 movementDirection = Vector2.zero;
-    bool willJump = false;
+    private Vector2 movementDirection = Vector2.zero;
+    private bool willJump = false;
     private float rotationInput;
     private bool canAttack;
+    #endregion
 
-    public MovementManager GetMovement() { return moveManager; }
-
+    #region MonoBehaviour Callbacks
     private void Start()
     {
         Initialise();
@@ -38,7 +36,13 @@ public class PlayerController : MonoBehaviour, ICharacterController
         animator.UpdateAnimatorValues();
         attackManager.SetWeaponActive(animator.IsWeaponActive());
     }
+    #endregion
 
+    #region ICharacterController Implementation
+    public void Daze() { }
+    #endregion
+
+    #region Private Methods
     private void Initialise()
     {
         moveManager.SetMoveSpeed(movementSpeed);
@@ -95,10 +99,10 @@ public class PlayerController : MonoBehaviour, ICharacterController
         rotationInput = inputHandler.GetMouseInput() * rotationSpeed;
         moveManager.Rotate(rotationInput);
     }
+    #endregion
 
-    public void Daze()
-    {
-
-    }
+    #region Public Methods
+    public MovementManager GetMovement() { return moveManager; }
+    #endregion
 
 }
