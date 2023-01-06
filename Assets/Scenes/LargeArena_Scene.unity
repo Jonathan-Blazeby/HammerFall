@@ -3363,15 +3363,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1351009966682836422, guid: 5e237586e0a69b94fa97d94a62730c91, type: 3}
       propertyPath: waveList.Array.data[0]
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1351009966682836422, guid: 5e237586e0a69b94fa97d94a62730c91, type: 3}
-      propertyPath: waveList.Array.data[1]
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1351009966682836422, guid: 5e237586e0a69b94fa97d94a62730c91, type: 3}
+      propertyPath: waveList.Array.data[1]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1351009966682836422, guid: 5e237586e0a69b94fa97d94a62730c91, type: 3}
       propertyPath: waveList.Array.data[2]
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e237586e0a69b94fa97d94a62730c91, type: 3}
@@ -5206,6 +5206,10 @@ PrefabInstance:
       propertyPath: healthBar
       value: 
       objectReference: {fileID: 604041833}
+    - target: {fileID: 1289121891409664438, guid: c6f85a85dbaeed0438a18a073f92bd15, type: 3}
+      propertyPath: attackForce
+      value: 400
+      objectReference: {fileID: 0}
     - target: {fileID: 1289121891409664444, guid: c6f85a85dbaeed0438a18a073f92bd15, type: 3}
       propertyPath: m_Name
       value: Player
@@ -6880,6 +6884,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4794912883522987549, guid: 185ec192327fa3849a4048ee99d74286, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
     - target: {fileID: 4794912883522987551, guid: 185ec192327fa3849a4048ee99d74286, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -6888,6 +6896,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4794912883732141220, guid: 185ec192327fa3849a4048ee99d74286, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
     - target: {fileID: 4794912883732141222, guid: 185ec192327fa3849a4048ee99d74286, type: 3}
       propertyPath: m_IsActive
       value: 0

@@ -87,8 +87,8 @@ public class MovementManager : MonoBehaviour, IMovement
     #endregion
 
     #region Public Methods
-    public void SetMoveSpeed(float speed) { moveSpeed = speed; }
-    public void SetJumpAmount(float jump) { jumpAmount = jump; }
+    public void SetMoveSpeed(float speed) => moveSpeed = speed;
+    public void SetJumpAmount(float jump) => jumpAmount = jump;
 
     public void Move(Vector2 direction)
     {

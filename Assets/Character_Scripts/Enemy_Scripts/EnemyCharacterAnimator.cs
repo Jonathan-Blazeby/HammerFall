@@ -80,8 +80,6 @@ public class EnemyCharacterAnimator : MonoBehaviour, IAnimation
         moveAnimator.SetFloat(vertical, v, 0.1f, Time.deltaTime);
     }
 
-
-
     public void Attack()
     {
         punchAnimator.Play("Punch");

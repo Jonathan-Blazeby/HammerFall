@@ -28,15 +28,7 @@ public class PunchAttackScript : MonoBehaviour, IDamageDealer
         recipient.ApplyForce(forceVector);
     }
 
-    public void SetWeaponDamage(int damage)
-    {
-        attackDamage = damage;
-    }
-
-    public void SetWeaponForce(float multiplier)
-    {
-        forceMultiplier = multiplier;
-    }
+    public void SetWeaponDamage(int damage) => attackDamage = damage;
+    public void SetWeaponForce(float multiplier) => forceMultiplier = multiplier;
     #endregion
-
 }

@@ -15,6 +15,7 @@ public class AttackManager : MonoBehaviour
     [SerializeField] private Collider weaponCollider;
     [SerializeField] private bool weaponEnabled;
     private IDamageDealer attackApplicationComponent;
+    private List<Collider> collidersHitThisAttack;
     private int attackDirection; //0 = No direction, 1 = Left Swing, 2 = Right Swing
     #endregion
 
@@ -26,19 +27,20 @@ public class AttackManager : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (weaponEnabled)
+        if(!weaponEnabled) { return; }
+        if(collidersHitThisAttack.Contains(other)) { return; }
+
+        if (other.CompareTag("Enemy"))
         {
-            if (other.CompareTag("Enemy") && gameObject != other.gameObject)
-            {
-                attackApplicationComponent.AddDazed(other.GetComponent<ICharacterController>());
-                attackApplicationComponent.AddDamage(other.GetComponent<IDamageable>());
-                attackApplicationComponent.AddForce(other.GetComponent<IStrikeable>(), attackDirection);
-            }
-            else if (other.CompareTag("Player") && gameObject != other.gameObject)
-            {
-                attackApplicationComponent.AddDamage(other.GetComponent<IDamageable>());
-            }
+            attackApplicationComponent.AddDazed(other.GetComponent<ICharacterController>());
+            attackApplicationComponent.AddDamage(other.GetComponent<IDamageable>());
+            attackApplicationComponent.AddForce(other.GetComponent<IStrikeable>(), attackDirection);
         }
+        else if (other.CompareTag("Player"))
+        {
+            attackApplicationComponent.AddDamage(other.GetComponent<IDamageable>());
+        }
+        collidersHitThisAttack.Add(other);
     }
     #endregion
 
@@ -58,10 +60,11 @@ public class AttackManager : MonoBehaviour
         {
             weaponEnabled = active;
             weaponCollider.enabled = active;
+            collidersHitThisAttack = new List<Collider>();
         }
     }
-    public void SetAttackDirection(int dir) { attackDirection = dir; }
-    public void SetAttackApplicationComponent(IDamageDealer component) { attackApplicationComponent = component; }
+    public void SetAttackDirection(int dir) => attackDirection = dir;
+    public void SetAttackApplicationComponent(IDamageDealer component) => attackApplicationComponent = component;
     #endregion
 
 }

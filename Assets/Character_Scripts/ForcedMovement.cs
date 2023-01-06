@@ -12,7 +12,7 @@ public class ForcedMovement : MonoBehaviour, IStrikeable
     #endregion
 
     #region MonoBehaviour Callbacks
-    private void Update()
+    private void FixedUpdate()
     {
         ForceUpdate();
     }
@@ -21,7 +21,7 @@ public class ForcedMovement : MonoBehaviour, IStrikeable
     #region Private Methods
     private void ForceUpdate()
     {
-        ownRigidbody.AddForce(appliedForce * Time.deltaTime, ForceMode.Impulse);
+        ownRigidbody.AddForce(appliedForce * Time.fixedDeltaTime, ForceMode.Impulse);
         appliedForce /= 2;
     }
 
@@ -39,6 +39,7 @@ public class ForcedMovement : MonoBehaviour, IStrikeable
         if (canBeForced && gameObject.activeInHierarchy)
         {
             StartCoroutine(ForceTimer());
+            Debug.Log("Forced movement: " + force + " force");
             appliedForce = force;
         }
     }

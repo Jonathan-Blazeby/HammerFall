@@ -41,18 +41,25 @@ public class SpawnManager : MonoBehaviour
 
                 //Enable them again
                 obj.SetActive(true);
+                numberToSpawn--;
+                if (numberToSpawn == 0)
+                {
+                    //Reset their health
+                    GameManager.Instance.GetCharactersManager().ResetEnemyHealth();
+                    yield break;
+                }
             }
             //Reset their health
             GameManager.Instance.GetCharactersManager().ResetEnemyHealth();
         }
 
-        while (liveObjects.Count < numberToSpawn)
+        while (numberToSpawn > 0)
         {
             for (int i = 0; i < maxNumberToSpawnPerFrame; i++)
             {
                 liveObjects.Add(Instantiate(prefab, spawnPoints[nextSpawn].position, Quaternion.identity));
-
-                if (liveObjects.Count == numberToSpawn)
+                numberToSpawn--;
+                if (numberToSpawn == 0)
                 {
                     yield break;
                 }
@@ -74,7 +81,7 @@ public class SpawnManager : MonoBehaviour
     {
         numberToSpawn = numInWave;
         StartCoroutine(SpawnObject());
-        GameManager.Instance.SetActiveEnemyCount(liveObjects.Count);
+        GameManager.Instance.SetActiveEnemyCount(numInWave);
     }
 
     public void RegisterSpawnPoints(Transform spawn)

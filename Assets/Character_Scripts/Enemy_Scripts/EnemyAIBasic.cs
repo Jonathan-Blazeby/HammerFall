@@ -22,7 +22,7 @@ public class EnemyAIBasic : MonoBehaviour
     private Vector3 newPosition;
     [SerializeField] private float attackDistance;
     [SerializeField] private float dazedDelay;
-    private AIStates currentState;
+    [SerializeField] private AIStates currentState;
     #endregion
 
     #region MonoBehaviour Callbacks
@@ -144,11 +144,7 @@ public class EnemyAIBasic : MonoBehaviour
     {
         return direction;
     }
-    public void SetDazed()
-    {
-        currentState = AIStates.Dazed;
-    }
-
+    public void SetDazed() => currentState = AIStates.Dazed;
     public AIStates GetState() => currentState;
     #endregion
 
