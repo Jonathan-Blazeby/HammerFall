@@ -39,7 +39,6 @@ public class ForcedMovement : MonoBehaviour, IStrikeable
         if (canBeForced && gameObject.activeInHierarchy)
         {
             StartCoroutine(ForceTimer());
-            Debug.Log("Forced movement: " + force + " force");
             appliedForce = force;
         }
     }

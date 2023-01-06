@@ -562,9 +562,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBar: {fileID: 1499564833417233335}
-  maxHealth: 15
+  maxHealth: 20
   currentHealth: 0
-  damagedDelay: 0.75
+  damagedDelay: 0.25
 --- !u!114 &1499564833181392626
 MonoBehaviour:
   m_ObjectHideFlags: 0

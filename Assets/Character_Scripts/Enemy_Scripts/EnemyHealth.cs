@@ -47,7 +47,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
             currentHealth -= damage;
             healthBar.size = (float)currentHealth / (float)maxHealth;
 
-            Debug.Log("Enemy Health: " + currentHealth);
+            //Debug.Log("Enemy Health: " + currentHealth);
 
             if (currentHealth <= 0)
             {
