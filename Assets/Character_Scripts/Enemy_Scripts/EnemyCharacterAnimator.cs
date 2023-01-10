@@ -87,9 +87,15 @@ public class EnemyCharacterAnimator : MonoBehaviour, IAnimation
 
     public void Stop()
     {
-        moveAnimator.Play("Idle");
+        moveAnimator.Play("IdleEnemy");
         punchAnimator.Play("Standby");
     }
+
+    public void Die()
+    {
+        moveAnimator.Play("Death");
+    }
+
     #endregion
 
 }

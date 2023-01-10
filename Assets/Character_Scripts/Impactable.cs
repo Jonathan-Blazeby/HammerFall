@@ -15,14 +15,15 @@ public class Impactable : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if(collision.collider.GetComponent<IDamageable>() == null) { return; }
-
-        Debug.Log("Impact Force: " + collision.relativeVelocity.magnitude);
+        
         if (collision.relativeVelocity.magnitude >= hardImpactForceThreshold)
         {
+            Debug.Log("Hard Impact");
             collision.collider.GetComponent<IDamageable>().ApplyDamage(hardImpactDamage);
         }
         else if (collision.relativeVelocity.magnitude >= softImpactForceThreshold)
         {
+            Debug.Log("Soft Impact");
             collision.collider.GetComponent<IDamageable>().ApplyDamage(softImpactDamage);
         }
     }

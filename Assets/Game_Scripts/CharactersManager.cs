@@ -32,7 +32,8 @@ public class CharactersManager : MonoBehaviour
             {
                 if (characterHealth == allDamagebles[i])
                 {
-                    GameManager.Instance.SetActiveEnemyCount(GameManager.Instance.GetActiveEnemyCount() - 1);
+                    Debug.Log("Enemy Died");
+                    GameManager.Instance.DecrementActiveEnemyCount();
 
                     if (GameManager.Instance.GetActiveEnemyCount() == 0)
                     {

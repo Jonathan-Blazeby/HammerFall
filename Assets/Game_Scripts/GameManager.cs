@@ -72,6 +72,11 @@ public class GameManager : MonoBehaviour
         activeEnemyCount = waveSpawnedEnemies;
     }
 
+    public void DecrementActiveEnemyCount()
+    {
+        activeEnemyCount--;
+    }
+
     public void ResetGame()
     {
         ResetPlayer();

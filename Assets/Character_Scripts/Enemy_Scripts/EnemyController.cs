@@ -11,10 +11,12 @@ public class EnemyController : MonoBehaviour, ICharacterController
     [SerializeField] private EnemyAIBasic aiInput;
     [SerializeField] private EnemyCharacterAnimator animator;
     private IDamageDealer attackApplicationComponent;
+    [SerializeField] private float corpseRemainTime = 4.0f;
     [SerializeField] private float jumpForce = 5;
     [SerializeField] private float attackForce = 1;
     [SerializeField] private float attackDelay = 3f;
     [SerializeField] private int attackDamage = 5;
+
     private bool canAttack;
     #endregion
 
@@ -60,21 +62,13 @@ public class EnemyController : MonoBehaviour, ICharacterController
 
     private void ControllerUpdate()
     {
-        MoveFunction();
+        if (aiInput.GetState() != AIStates.Dead) { MoveFunction(); }
 
-        if (aiInput.GetState() == AIStates.Attacking)
-        {
-            AttackFunction();
-        }
+        if (aiInput.GetState() == AIStates.Attacking) { AttackFunction(); }
 
-        if (aiInput.GetState() != AIStates.Dazed)
-        {
-            animator.UpdateAnimatorValues();
-        }
-        else
-        {
-            animator.Stop();
-        }
+        if (aiInput.GetState() == AIStates.Dazed) { animator.Stop(); }
+        else if (aiInput.GetState() == AIStates.Dead) { animator.Die(); }
+        else { animator.UpdateAnimatorValues(); }
     }
 
     //Looks for horizontal & vertical input to be applied to x z axis, and looks for jump
@@ -88,6 +82,12 @@ public class EnemyController : MonoBehaviour, ICharacterController
         moveManager.Move(movementDirection);
         moveManager.Rotate(0);
         moveManager.Jump(willJump);
+    }
+
+    private IEnumerator CorpseDisappearTimer()
+    {
+        yield return new WaitForSeconds(corpseRemainTime);
+        gameObject.SetActive(false);
     }
 
     private IEnumerator AttackTimer()
@@ -109,6 +109,12 @@ public class EnemyController : MonoBehaviour, ICharacterController
 
     #region Public Methods
     public MovementManager GetMovement() { return moveManager; }
+
+    public void Death()
+    {
+        aiInput.SetDead();
+        StartCoroutine(CorpseDisappearTimer());
+    }
     #endregion
 
 }

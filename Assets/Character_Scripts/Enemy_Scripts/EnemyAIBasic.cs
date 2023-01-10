@@ -8,7 +8,8 @@ public enum AIStates
     Idle, //0 
     Moving, //1
     Attacking, //2
-    Dazed //3
+    Dazed, //3
+    Dead //4
 }
 
 public class EnemyAIBasic : MonoBehaviour
@@ -58,11 +59,15 @@ public class EnemyAIBasic : MonoBehaviour
             case 3:
                 RunDazedState();
                 break;
+            case 4:
+                RunDeadState();
+                break;
         }
     }
 
     private void RunMovingState()
     {
+        enemyRigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
         navMeshAgent.enabled = true;
         enemyRigidbody.isKinematic = true;
 
@@ -109,11 +114,18 @@ public class EnemyAIBasic : MonoBehaviour
         StartCoroutine(DazedTimer());
     }
 
+    private void RunDeadState()
+    {
+        navMeshAgent.enabled = false;
+        enemyRigidbody.isKinematic = false;
+        enemyRigidbody.constraints = RigidbodyConstraints.FreezeRotation;
+    }
+
     private IEnumerator DazedTimer()
     {
-        currentState = AIStates.Dazed;
+        if (currentState != AIStates.Dead) { currentState = AIStates.Dazed; }
         yield return new WaitForSeconds(dazedDelay);
-        currentState = AIStates.Moving;
+        if (currentState != AIStates.Dead) { currentState = AIStates.Moving; }
     }
 
     private void CheckDirection()
@@ -145,6 +157,7 @@ public class EnemyAIBasic : MonoBehaviour
         return direction;
     }
     public void SetDazed() => currentState = AIStates.Dazed;
+    public void SetDead() => currentState = AIStates.Dead;
     public AIStates GetState() => currentState;
     #endregion
 

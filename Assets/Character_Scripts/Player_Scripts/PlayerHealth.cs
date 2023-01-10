@@ -41,7 +41,6 @@ public class PlayerHealth : MonoBehaviour, IDamageable
             StartCoroutine(DamageTimer());
             currentHealth -= damage;
             healthBar.size = (float)currentHealth / (float)maxHealth;
-            Debug.Log("Player Health: " + currentHealth);
 
             if (currentHealth <= 0)
             {
