@@ -1897,6 +1897,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0c302105f943104baf9a9c6d7a39c35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  softImpactAudio: {fileID: 8300000, guid: 019d95821259a77439325253556d1e9e, type: 3}
+  hardImpactAudio: {fileID: 8300000, guid: 3b9287983d4a881448de979699d08438, type: 3}
   softImpactForceThreshold: 6
   hardImpactForceThreshold: 12
   softImpactDamage: 5
@@ -2709,6 +2711,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0c302105f943104baf9a9c6d7a39c35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  softImpactAudio: {fileID: 8300000, guid: 019d95821259a77439325253556d1e9e, type: 3}
+  hardImpactAudio: {fileID: 8300000, guid: 3b9287983d4a881448de979699d08438, type: 3}
   softImpactForceThreshold: 6
   hardImpactForceThreshold: 12
   softImpactDamage: 5
@@ -3745,7 +3749,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1351009966682836422, guid: 5e237586e0a69b94fa97d94a62730c91, type: 3}
       propertyPath: waveList.Array.data[1]
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1351009966682836422, guid: 5e237586e0a69b94fa97d94a62730c91, type: 3}
       propertyPath: waveList.Array.data[2]
@@ -6024,6 +6028,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0c302105f943104baf9a9c6d7a39c35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  softImpactAudio: {fileID: 8300000, guid: 019d95821259a77439325253556d1e9e, type: 3}
+  hardImpactAudio: {fileID: 8300000, guid: 3b9287983d4a881448de979699d08438, type: 3}
   softImpactForceThreshold: 6
   hardImpactForceThreshold: 12
   softImpactDamage: 5
@@ -6990,6 +6996,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0c302105f943104baf9a9c6d7a39c35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  softImpactAudio: {fileID: 8300000, guid: 019d95821259a77439325253556d1e9e, type: 3}
+  hardImpactAudio: {fileID: 8300000, guid: 3b9287983d4a881448de979699d08438, type: 3}
   softImpactForceThreshold: 6
   hardImpactForceThreshold: 12
   softImpactDamage: 5
@@ -11188,6 +11196,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0c302105f943104baf9a9c6d7a39c35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  softImpactAudio: {fileID: 8300000, guid: 019d95821259a77439325253556d1e9e, type: 3}
+  hardImpactAudio: {fileID: 8300000, guid: 3b9287983d4a881448de979699d08438, type: 3}
   softImpactForceThreshold: 6
   hardImpactForceThreshold: 12
   softImpactDamage: 5

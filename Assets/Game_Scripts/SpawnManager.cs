@@ -70,7 +70,6 @@ public class SpawnManager : MonoBehaviour
                     nextSpawn = 0;
                 }
             }
-
             yield return new WaitForEndOfFrame();
         }
     }
