@@ -156,7 +156,13 @@ public class EnemyAIBasic : MonoBehaviour
     {
         return direction;
     }
-    public void SetDazed() => currentState = AIStates.Dazed;
+    public void SetDazed()
+    {
+        if (currentState != AIStates.Dead)
+        {
+            currentState = AIStates.Dazed;
+        }
+    }
     public void SetDead() => currentState = AIStates.Dead;
     public AIStates GetState() => currentState;
     #endregion

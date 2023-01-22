@@ -24,7 +24,7 @@ public class ForcedMovement : MonoBehaviour, IStrikeable
         ownRigidbody.AddForce(appliedForce * Time.fixedDeltaTime, ForceMode.Impulse);
         appliedForce /= 2;
     }
-
+    
     private IEnumerator ForceTimer()
     {
         canBeForced = false;
@@ -34,13 +34,16 @@ public class ForcedMovement : MonoBehaviour, IStrikeable
     #endregion
 
     #region IStrikeable Implementation
+    /// <summary>
+    /// Takes in the Force parameter as a direction and initial magnitude to apply force to the character
+    /// </summary>
+    /// <param name="force">The direction Magnitude of the impact</param>
     public void ApplyForce(Vector3 force)
     {
-        if (canBeForced && gameObject.activeInHierarchy)
-        {
-            StartCoroutine(ForceTimer());
-            appliedForce = force;
-        }
+        if (!canBeForced) { return; }
+
+        StartCoroutine(ForceTimer());
+        appliedForce = force;
     }
     #endregion
 

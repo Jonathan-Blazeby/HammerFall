@@ -16,19 +16,20 @@ public class Impactable : MonoBehaviour
     #region MonoBehavior Callbacks
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.collider.GetComponent<IDamageable>() == null) { return; }
+        IDamageable healthComponent = collision.collider.GetComponent<IDamageable>();
+        if(healthComponent is null) { return; }
         
         if (collision.relativeVelocity.magnitude >= hardImpactForceThreshold)
         {
             Debug.Log("Hard Impact");
             AudioSource.PlayClipAtPoint(hardImpactAudio, collision.collider.ClosestPointOnBounds(transform.position));
-            collision.collider.GetComponent<IDamageable>().ApplyDamage(hardImpactDamage);
+            healthComponent.ApplyDamage(hardImpactDamage);
         }
         else if (collision.relativeVelocity.magnitude >= softImpactForceThreshold)
         {
             Debug.Log("Soft Impact");
             AudioSource.PlayClipAtPoint(softImpactAudio, collision.collider.ClosestPointOnBounds(transform.position));
-            collision.collider.GetComponent<IDamageable>().ApplyDamage(softImpactDamage);
+            healthComponent.ApplyDamage(softImpactDamage);
         }
     }
     #endregion

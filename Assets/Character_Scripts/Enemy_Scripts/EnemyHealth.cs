@@ -6,6 +6,8 @@ public class EnemyHealth : MonoBehaviour, IDamageable
 {
     #region Private Fields
     [SerializeField] private UnityEngine.UI.Scrollbar healthBar;
+    private AudioSource enemyAudioSource;
+    [SerializeField] private List<AudioClip> damageAudioClips;
     [SerializeField] private int maxHealth;
     [SerializeField] private int currentHealth;
     [SerializeField] private float damagedDelay = 0.75f;
@@ -22,6 +24,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
     private void Start()
     {
         ResetHealth();
+        enemyAudioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -47,7 +50,8 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         StartCoroutine(DamageTimer());
         currentHealth -= damage;
         healthBar.size = (float)currentHealth / (float)maxHealth;
-
+        enemyAudioSource.clip = damageAudioClips[Random.Range(0, damageAudioClips.Count)];
+        enemyAudioSource.Play();
         //Debug.Log("Enemy Health: " + currentHealth);
 
         if (currentHealth <= 0)
