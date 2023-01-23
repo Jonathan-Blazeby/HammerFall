@@ -52,7 +52,6 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         healthBar.size = (float)currentHealth / (float)maxHealth;
         enemyAudioSource.clip = damageAudioClips[Random.Range(0, damageAudioClips.Count)];
         enemyAudioSource.Play();
-        //Debug.Log("Enemy Health: " + currentHealth);
 
         if (currentHealth <= 0)
         {

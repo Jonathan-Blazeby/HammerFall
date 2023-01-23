@@ -6,6 +6,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 {
     #region Private Fields
     [SerializeField] private UnityEngine.UI.Scrollbar healthBar;
+    [SerializeField] private UnityEngine.UI.Image redHitScreen;
     [SerializeField] private int maxHealth;
     [SerializeField] private int currentHealth;
     [SerializeField] private float damagedDelay = 0.75f;
@@ -22,6 +23,11 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     {
         ResetHealth();
     }
+
+    private void Update()
+    {
+        DecreaseHitColour();
+    }
     #endregion
 
     #region Private Methods
@@ -30,6 +36,16 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         canBeDamaged = false;
         yield return new WaitForSeconds(damagedDelay);
         canBeDamaged = true;
+    }
+
+    private void DecreaseHitColour()
+    {
+        if (redHitScreen.color.a > 0)
+        {
+            var hitColour = redHitScreen.color;
+            hitColour.a -= 0.01f;
+            redHitScreen.color = hitColour;
+        }
     }
     #endregion
 
@@ -41,6 +57,10 @@ public class PlayerHealth : MonoBehaviour, IDamageable
             StartCoroutine(DamageTimer());
             currentHealth -= damage;
             healthBar.size = (float)currentHealth / (float)maxHealth;
+
+            var hitColour = redHitScreen.color;
+            hitColour.a = 0.8f;
+            redHitScreen.color = hitColour;
 
             if (currentHealth <= 0)
             {
