@@ -19,12 +19,22 @@ public class ForcedMovement : MonoBehaviour, IStrikeable
     #endregion
 
     #region Private Methods
+    /// <summary>
+    /// Applies force to the character's rigidbody every fixed framerate frame if over minimum.
+    /// Then divides the applied force by 2 to slow it down to 
+    /// </summary>
     private void ForceUpdate()
     {
+        if (appliedForce.magnitude <= 0.01f) { return; }
         ownRigidbody.AddForce(appliedForce * Time.fixedDeltaTime, ForceMode.Impulse);
         appliedForce /= 2;
+
     }
     
+    /// <summary>
+    /// Prevents a character being force-moved for a period of time following the last
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator ForceTimer()
     {
         canBeForced = false;

@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/LargeArena_Scene.unity
     guid: 79dd11df37795ea41af0788e6b634602
+  - enabled: 1
+    path: Assets/Scenes/ObjectiveCastle_Scene.unity
+    guid: 473a955028cd3354696fb4e2444db874
   m_configObjects: {}

@@ -71,6 +71,11 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         canBeDamaged = true;
         dead = false;
     }
+
+    public GameObject GetGameObject()
+    {
+        return gameObject;
+    }
     #endregion
 
 }

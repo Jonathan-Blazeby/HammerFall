@@ -12,7 +12,7 @@ public class EnemyController : MonoBehaviour, ICharacterController
     [SerializeField] private EnemyCharacterAnimator animator;
     private IDamageDealer attackApplicationComponent;
     [SerializeField] private float corpseRemainTime = 4.0f;
-    [SerializeField] private float jumpForce = 5;
+    //[SerializeField] private float jumpForce = 5;
     [SerializeField] private float attackForce = 1;
     [SerializeField] private float attackDelay = 3f;
     [SerializeField] private int attackDamage = 5;
@@ -48,7 +48,7 @@ public class EnemyController : MonoBehaviour, ICharacterController
     private void Initialise()
     {
 
-        moveManager.SetJumpAmount(jumpForce);
+        //moveManager.SetJumpAmount(jumpForce);
         moveManager.SetUseCalculatedRotation(false);
 
         attackApplicationComponent = GetComponentInChildren<IDamageDealer>();
@@ -75,13 +75,13 @@ public class EnemyController : MonoBehaviour, ICharacterController
     private void MoveFunction()
     {
         Vector2 movementDirection;
-        bool willJump = false;
+        //bool willJump = false;
 
         movementDirection = aiInput.GetDirection();
 
         moveManager.Move(movementDirection);
         moveManager.Rotate(0);
-        moveManager.Jump(willJump);
+        //moveManager.Jump(willJump);
     }
 
     private IEnumerator CorpseDisappearTimer()

@@ -45,7 +45,7 @@ public class GravityManager : MonoBehaviour
         {
             float verticalVelocity = allMovingList[i].GetVerticalVelocity();
             float newVerticalVelocity = 0;
-            bool jumpState = allMovingList[i].GetJumpState();
+            //bool jumpState = allMovingList[i].GetJumpState();
             bool isGrounded = allMovingList[i].GetIsGrounded();
 
             if (verticalVelocity < 0 && isGrounded) //Continues applying gravity in case isGrounded check sets off too high
@@ -57,16 +57,16 @@ public class GravityManager : MonoBehaviour
                 newVerticalVelocity += gravity * Time.fixedDeltaTime;
             }
 
-            if (jumpState && isGrounded) //IsGrounded set to false to prevent more than one application of the jump velocity being added
-            {
-                allMovingList[i].SetIsGrounded(false);
-                newVerticalVelocity += Mathf.Sqrt(allMovingList[i].GetJumpAmount() * -gravity);
-            }
+            //if (jumpState && isGrounded) //IsGrounded set to false to prevent more than one application of the jump velocity being added
+            //{
+                //allMovingList[i].SetIsGrounded(false);
+                //newVerticalVelocity += Mathf.Sqrt(allMovingList[i].GetJumpAmount() * -gravity);
+            //}
 
-            if (verticalVelocity < 0 && jumpState) //Jumpstate swiched to false when falling
-            {
-                allMovingList[i].SetJumpState(false);
-            }
+            //if (verticalVelocity < 0 && jumpState) //Jumpstate swiched to false when falling
+            //{
+                //allMovingList[i].SetJumpState(false);
+            //}
 
             allMovingList[i].SetVerticalVelocity(newVerticalVelocity);
         }

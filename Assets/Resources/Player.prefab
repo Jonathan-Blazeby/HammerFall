@@ -285,7 +285,7 @@ MonoBehaviour:
   movementSpeed: 32
   jumpForce: 1.2
   rotationSpeed: 500
-  attackForce: 1800
+  attackForce: 500
   attackDamage: 5
   attackDelay: 0.75
 --- !u!114 &1289121891409664433
@@ -359,6 +359,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBar: {fileID: 0}
+  redHitScreen: {fileID: 0}
   maxHealth: 30
   currentHealth: 0
   damagedDelay: 0.75

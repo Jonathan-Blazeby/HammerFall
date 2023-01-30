@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public enum GameModes
+{
+    Waves, //0
+    Objectives //1
+}
+
 public class GameManager : MonoBehaviour
 {
     #region Private Fields
@@ -14,10 +20,14 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private Transform playerTransform;
 
+    [SerializeField] private List<Transform> allObjectiveTransforms;
+    private Transform currentObjectiveTransform;
+
     private Vector3 playerStartPosition;
     private Quaternion playerStartRotation;
     [SerializeField] private float yDeathHeight = -5.0f;
     [SerializeField] private int activeEnemyCount;
+    [SerializeField] private GameModes gameMode;
     #endregion
 
     #region Public Fields
@@ -55,7 +65,14 @@ public class GameManager : MonoBehaviour
         playerStartPosition = playerTransform.position;
         playerStartRotation = playerTransform.rotation;
 
-        waveManager.FirstWave();
+        if(gameMode == GameModes.Waves)
+        {
+            waveManager.FirstWave();
+        }
+        else if(gameMode == GameModes.Objectives)
+        {
+            currentObjectiveTransform = allObjectiveTransforms[0];
+        }        
     }
     #endregion
 
@@ -66,11 +83,14 @@ public class GameManager : MonoBehaviour
     public GravityManager GetGravityManager() => gravityManager;
     public CharactersManager GetCharactersManager() => charactersManager;
     public Transform GetPlayerTransform() => playerTransform;
+    public Transform GetCurrentObjectiveTransform() => currentObjectiveTransform;
     public int GetActiveEnemyCount() => activeEnemyCount;
     public void SetActiveEnemyCount(int waveSpawnedEnemies)
     {
         activeEnemyCount = waveSpawnedEnemies;
     }
+
+    public GameModes GetGameMode() => gameMode;
 
     public void DecrementActiveEnemyCount()
     {

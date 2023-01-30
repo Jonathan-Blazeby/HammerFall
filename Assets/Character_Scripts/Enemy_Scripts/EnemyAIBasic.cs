@@ -16,25 +16,44 @@ public class EnemyAIBasic : MonoBehaviour
 {
     #region Private Fields
     [SerializeField] private NavMeshAgent navMeshAgent;
-    [SerializeField] private Rigidbody enemyRigidbody;
-    private Transform playerTransform;
+    [SerializeField] private Rigidbody enemyRigidbody; 
+    [SerializeField] private Transform targetTransform;
     private Vector3 direction;
     private Vector3 oldPosition;
     private Vector3 newPosition;
     [SerializeField] private float attackDistance;
     [SerializeField] private float dazedDelay;
     [SerializeField] private AIStates currentState;
+    private GameModes gameMode;
+    [SerializeField] private bool followingPlayer;
     #endregion
 
     #region MonoBehaviour Callbacks
+
     private void OnEnable()
     {
-        playerTransform = GameManager.Instance.GetPlayerTransform();
-        oldPosition = transform.position;
-        if (playerTransform)
+        gameMode = GameManager.Instance.GetGameMode();
+        if(gameMode == GameModes.Waves)
         {
-            currentState = AIStates.Moving;
+            targetTransform = GameManager.Instance.GetPlayerTransform();
         }
+        else if(gameMode == GameModes.Objectives)
+        {
+            followingPlayer = EnemyBlackboard.Instance.WantToFollowPlayer(this);
+            if(followingPlayer)
+            {
+                targetTransform = GameManager.Instance.GetPlayerTransform();
+            }
+            else
+            {
+                targetTransform = GameManager.Instance.GetCurrentObjectiveTransform();
+            }
+        }
+
+
+        oldPosition = transform.position;
+
+        currentState = AIStates.Moving;
     }
 
     private void Update()
@@ -71,12 +90,18 @@ public class EnemyAIBasic : MonoBehaviour
         navMeshAgent.enabled = true;
         enemyRigidbody.isKinematic = true;
 
-        if (Vector3.Distance(playerTransform.position, navMeshAgent.nextPosition) > attackDistance)
+        if (Vector3.Distance(targetTransform.position, navMeshAgent.nextPosition) > attackDistance)
         {
             if (navMeshAgent.enabled)
             {
                 navMeshAgent.isStopped = false;
-                navMeshAgent.SetDestination(playerTransform.position);
+
+                if(gameMode == GameModes.Objectives)
+                {
+                    ObjectiveModeDetermineTarget();
+                }
+
+                navMeshAgent.SetDestination(targetTransform.position);
             }
         }
         else
@@ -90,7 +115,7 @@ public class EnemyAIBasic : MonoBehaviour
 
     private void RunAttackingState()
     {
-        if (Vector3.Distance(playerTransform.position, navMeshAgent.nextPosition) <= attackDistance)
+        if (Vector3.Distance(targetTransform.position, navMeshAgent.nextPosition) <= attackDistance)
         {
             if (navMeshAgent.enabled)
             {
@@ -149,6 +174,19 @@ public class EnemyAIBasic : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5);
         }
     }
+
+    private void ObjectiveModeDetermineTarget()
+    {
+        followingPlayer = EnemyBlackboard.Instance.WantToFollowPlayer(this);
+        if (followingPlayer)
+        {
+            targetTransform = GameManager.Instance.GetPlayerTransform();
+        }
+        else
+        {
+            targetTransform = GameManager.Instance.GetCurrentObjectiveTransform();
+        }
+    }
     #endregion
 
     #region Public Methods
@@ -163,7 +201,15 @@ public class EnemyAIBasic : MonoBehaviour
             currentState = AIStates.Dazed;
         }
     }
-    public void SetDead() => currentState = AIStates.Dead;
+    public void SetDead()
+    {
+        currentState = AIStates.Dead;
+
+        if(gameMode == GameModes.Objectives)
+        {
+            EnemyBlackboard.Instance.StopFollowPlayer(this);
+        }
+    }
     public AIStates GetState() => currentState;
     #endregion
 

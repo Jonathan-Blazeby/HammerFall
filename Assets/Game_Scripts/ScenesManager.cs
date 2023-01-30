@@ -10,6 +10,14 @@ public class ScenesManager : MonoBehaviour
     {
         DontDestroyOnLoad(this);
     }
+
+    private void Update()
+    {
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+    }
     #endregion
 
     #region Public Methods
@@ -21,6 +29,11 @@ public class ScenesManager : MonoBehaviour
     public void LoadArenaLevel()
     {
         SceneManager.LoadScene("LargeArena_Scene");
+    }
+
+    public void LoadCastleLevel()
+    {
+        SceneManager.LoadScene("ObjectiveCastle_Scene");
     }
 
     public void LoadMainMenu()

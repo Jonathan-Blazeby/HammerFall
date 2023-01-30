@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 673716209}
   - component: {fileID: 673716210}
   - component: {fileID: 1351009966682836422}
+  - component: {fileID: 673716215}
+  - component: {fileID: 8324983112064306790}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -63,8 +65,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uIManager: {fileID: 673716210}
   spawnManager: {fileID: 673716209}
+  waveManager: {fileID: 1351009966682836422}
+  gravityManager: {fileID: 721412810441222799}
+  charactersManager: {fileID: 673716215}
   playerTransform: {fileID: 0}
   yDeathHeight: -5
+  activeEnemyCount: 0
 --- !u!114 &673716209
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -79,7 +85,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 1499564833181392637, guid: 1130e605f9ef1ae4ab6aa3a1255452d5, type: 3}
   maxNumberToSpawnPerFrame: 25
-  numberToSpawn: 8
 --- !u!114 &673716210
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -95,6 +100,8 @@ MonoBehaviour:
   uiCanvas: {fileID: 0}
   victoryText: {fileID: 0}
   lossText: {fileID: 0}
+  waveNumberText: {fileID: 0}
+  waveCountdownText: {fileID: 0}
 --- !u!114 &1351009966682836422
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -107,4 +114,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4722d8dbfc8ffe14895bcd4c505e3878, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waveList: 
+  waveList: 020000000300000005000000
+  secondsBetweenWaves: 10
+--- !u!114 &673716215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 721412810441222784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6f218e25a2b47c4ab9295efd084ab1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8324983112064306790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 721412810441222784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8566d3e798269c9428d6897ba471f2d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxEnemiesFollowingPlayer: 3

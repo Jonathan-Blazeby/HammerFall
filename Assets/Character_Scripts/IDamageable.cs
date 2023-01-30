@@ -6,4 +6,6 @@ public interface IDamageable
 {
     public void ApplyDamage(int damage);
     public void ResetHealth();
+
+    public GameObject GetGameObject();
 }

@@ -76,6 +76,11 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         healthBar.size = 1;
         canBeDamaged = true;
     }
+
+    public GameObject GetGameObject()
+    {
+        return gameObject;
+    }
     #endregion
 
 }

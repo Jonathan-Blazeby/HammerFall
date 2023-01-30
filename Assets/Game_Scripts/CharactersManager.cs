@@ -9,7 +9,10 @@ public class CharactersManager : MonoBehaviour
     #endregion
 
     #region Public Methods
-    //If new living characters created, this should be called to add them to the list
+    /// <summary>
+    /// If new living characters created, this should be called to add them to the list
+    /// </summary>
+    /// <param name="damageableComp"></param>
     public void AddNewDamageable(IDamageable damageableComp)
     {
         allDamagebles.Add(damageableComp);
@@ -20,13 +23,17 @@ public class CharactersManager : MonoBehaviour
         allDamagebles.Insert(0, playerHealthComp);
     }
 
+    /// <summary>
+    /// Called to implement death effect of different character types in the GameManager
+    /// </summary>
+    /// <param name="characterHealth"></param>
     public void DeathSignal(IDamageable characterHealth)
     {
-        if (characterHealth == allDamagebles[0])
+        if (characterHealth.GetGameObject().CompareTag("Player"))
         {
             GameManager.Instance.PlayerLoss();
         }
-        else
+        else if(characterHealth.GetGameObject().CompareTag("Enemy"))
         {
             for (int i = 1; i < allDamagebles.Count; i++)
             {
@@ -43,6 +50,10 @@ public class CharactersManager : MonoBehaviour
                     return;
                 }
             }
+        }
+        else if(characterHealth.GetGameObject().CompareTag("Objective"))
+        {
+
         }
     }
 

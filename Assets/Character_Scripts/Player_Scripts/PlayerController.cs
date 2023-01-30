@@ -11,13 +11,13 @@ public class PlayerController : MonoBehaviour, ICharacterController
     [SerializeField] private PlayerCharacterAnimator animator;
     private IDamageDealer attackApplicationComponent;
     [SerializeField] private float movementSpeed = 5.0f;
-    [SerializeField] private float jumpForce = 5.0f;
+    //[SerializeField] private float jumpForce = 5.0f;
     [SerializeField] private float rotationSpeed = 10.0f;
     [SerializeField] private float attackForce = 1.0f;
     [SerializeField] private int attackDamage = 5;
     [SerializeField] private float attackDelay = 1.2f;
     private Vector2 movementDirection = Vector2.zero;
-    private bool willJump = false;
+    //private bool willJump = false;
     private float rotationInput;
     private bool canAttack;
     #endregion
@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour, ICharacterController
     private void Initialise()
     {
         moveManager.SetMoveSpeed(movementSpeed);
-        moveManager.SetJumpAmount(jumpForce);
+        //moveManager.SetJumpAmount(jumpForce);
         moveManager.SetUseCalculatedRotation(true);
 
         attackApplicationComponent = GetComponentInChildren<IDamageDealer>();
@@ -63,16 +63,16 @@ public class PlayerController : MonoBehaviour, ICharacterController
     {
         movementDirection = inputHandler.GetMoveInput();
         rotationInput = inputHandler.GetMouseInput();
-        willJump = inputHandler.GetJumpInput();
+        //willJump = inputHandler.GetJumpInput();
     }
 
     private void Move()
     {
         moveManager.Move(movementDirection);
         RotateCalc();
-        moveManager.Jump(willJump);
+        //moveManager.Jump(willJump);
         movementDirection = Vector2.zero;
-        willJump = false;
+        //willJump = false;
     }
 
     private IEnumerator AttackTimer()
