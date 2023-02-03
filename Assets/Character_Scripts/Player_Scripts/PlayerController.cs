@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour, ICharacterController
     [SerializeField] private PlayerCharacterAnimator animator;
     private IDamageDealer attackApplicationComponent;
     [SerializeField] private float movementSpeed = 5.0f;
-    //[SerializeField] private float jumpForce = 5.0f;
+    [SerializeField] private float maxMoveSpeed = 10.0f;
     [SerializeField] private float rotationSpeed = 10.0f;
     [SerializeField] private float attackForce = 1.0f;
     [SerializeField] private int attackDamage = 5;
@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour, ICharacterController
     private void Initialise()
     {
         moveManager.SetMoveSpeed(movementSpeed);
-        //moveManager.SetJumpAmount(jumpForce);
+        moveManager.SetMaxMoveSpeed(maxMoveSpeed);
         moveManager.SetUseCalculatedRotation(true);
 
         attackApplicationComponent = GetComponentInChildren<IDamageDealer>();
@@ -58,21 +58,18 @@ public class PlayerController : MonoBehaviour, ICharacterController
         canAttack = true;
     }
 
-    //Looks for horizontal & vertical input to be applied to x z axis, looks for jump input, looks for attack input
+    //Looks for horizontal & vertical input to be applied to x z axis, looks for attack input
     private void CaptureInput()
     {
         movementDirection = inputHandler.GetMoveInput();
         rotationInput = inputHandler.GetMouseInput();
-        //willJump = inputHandler.GetJumpInput();
     }
 
     private void Move()
     {
         moveManager.Move(movementDirection);
         RotateCalc();
-        //moveManager.Jump(willJump);
         movementDirection = Vector2.zero;
-        //willJump = false;
     }
 
     private IEnumerator AttackTimer()

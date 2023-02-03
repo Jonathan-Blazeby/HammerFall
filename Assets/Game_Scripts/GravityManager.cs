@@ -28,7 +28,7 @@ public class GravityManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        GravityUpdate();
+        //GravityUpdate();
     }
     #endregion
 
@@ -56,17 +56,6 @@ public class GravityManager : MonoBehaviour
             {
                 newVerticalVelocity += gravity * Time.fixedDeltaTime;
             }
-
-            //if (jumpState && isGrounded) //IsGrounded set to false to prevent more than one application of the jump velocity being added
-            //{
-                //allMovingList[i].SetIsGrounded(false);
-                //newVerticalVelocity += Mathf.Sqrt(allMovingList[i].GetJumpAmount() * -gravity);
-            //}
-
-            //if (verticalVelocity < 0 && jumpState) //Jumpstate swiched to false when falling
-            //{
-                //allMovingList[i].SetJumpState(false);
-            //}
 
             allMovingList[i].SetVerticalVelocity(newVerticalVelocity);
         }
