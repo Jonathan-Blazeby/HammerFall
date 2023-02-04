@@ -19,7 +19,6 @@ public class MovementManager : MonoBehaviour, IMovement
     private int traversableLayer = 8;
 
     [SerializeField] private bool isGrounded = true;
-    [SerializeField] private bool jumpState;
     [SerializeField] private bool useCalculatedRotation;
     #endregion
 
@@ -62,7 +61,7 @@ public class MovementManager : MonoBehaviour, IMovement
 
         moveRigidbody.AddForce(movementVelocity, ForceMode.Impulse);
 
-        LimitMoveSpeed();
+        if (maxMoveSpeed > 0.0f) { LimitMoveSpeed(); }
 
         if (useCalculatedRotation)
         {

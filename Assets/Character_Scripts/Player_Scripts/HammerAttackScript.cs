@@ -17,6 +17,7 @@ public class HammerAttackScript : MonoBehaviour, IDamageDealer
 
     public void AddDamage(IDamageable recipient)
     {
+        if (recipient.GetGameObject().CompareTag("Objective")) { return; }
         recipient.ApplyDamage(attackDamage);
     }
 

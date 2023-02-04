@@ -40,6 +40,10 @@ public class AttackManager : MonoBehaviour
         {
             attackApplicationComponent.AddDamage(other.GetComponent<IDamageable>());
         }
+        else if (other.CompareTag("Objective"))
+        {
+            attackApplicationComponent.AddDamage(other.GetComponent<IDamageable>());
+        }
         collidersHitThisAttack.Add(other);
     }
     #endregion

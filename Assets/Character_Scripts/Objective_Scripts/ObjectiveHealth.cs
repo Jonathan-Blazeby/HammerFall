@@ -48,7 +48,7 @@ public class ObjectiveHealth : MonoBehaviour, IDamageable
         if (!canBeDamaged || dead) { return; }
 
         StartCoroutine(DamageTimer());
-        //currentHealth -= damage;
+        currentHealth -= damage;
         //healthBar.size = (float)currentHealth / (float)maxHealth;
         //objectiveAudioSource.clip = damageAudioClips[Random.Range(0, damageAudioClips.Count)];
         //objectiveAudioSource.Play();

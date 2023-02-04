@@ -5752,7 +5752,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1289121891409664435, guid: c6f85a85dbaeed0438a18a073f92bd15, type: 3}
       propertyPath: m_UseGravity
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1289121891409664437, guid: c6f85a85dbaeed0438a18a073f92bd15, type: 3}
       propertyPath: healthBar

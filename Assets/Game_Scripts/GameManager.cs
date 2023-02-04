@@ -17,11 +17,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private WaveManager waveManager;
     [SerializeField] private GravityManager gravityManager;
     [SerializeField] private CharactersManager charactersManager;
+    [SerializeField] private ObjectiveManager objectiveManager;
 
     [SerializeField] private Transform playerTransform;
 
-    [SerializeField] private List<Transform> allObjectiveTransforms;
-    private Transform currentObjectiveTransform;
+    //[SerializeField] private List<Transform> allObjectiveTransforms;
+    //private Transform currentObjectiveTransform;
 
     private Vector3 playerStartPosition;
     private Quaternion playerStartRotation;
@@ -71,7 +72,7 @@ public class GameManager : MonoBehaviour
         }
         else if(gameMode == GameModes.Objectives)
         {
-            currentObjectiveTransform = allObjectiveTransforms[0];
+            objectiveManager.SetupGameMode();
         }        
     }
     #endregion
@@ -82,8 +83,9 @@ public class GameManager : MonoBehaviour
     public WaveManager GetWaveManager() => waveManager;
     public GravityManager GetGravityManager() => gravityManager;
     public CharactersManager GetCharactersManager() => charactersManager;
+    public ObjectiveManager GetObjectiveManager() => objectiveManager;
     public Transform GetPlayerTransform() => playerTransform;
-    public Transform GetCurrentObjectiveTransform() => currentObjectiveTransform;
+    public Transform GetCurrentObjectiveTransform() => objectiveManager.GetCurrentObjectiveTransform();
     public int GetActiveEnemyCount() => activeEnemyCount;
     public void SetActiveEnemyCount(int waveSpawnedEnemies)
     {

@@ -10,6 +10,17 @@ public class WaveManager : MonoBehaviour
     private int currentWave;
     #endregion
 
+    #region Public Fields
+    public static WaveManager Instance;
+    #endregion
+
+    #region Monobehavior Callbacks 
+    private void Awake()
+    {
+        Instance = this;
+    }
+    #endregion
+
     #region Private Methods
     private IEnumerator WaveTimer()
     {

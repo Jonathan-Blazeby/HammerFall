@@ -17,6 +17,7 @@ public class PunchAttackScript : MonoBehaviour, IDamageDealer
 
     public void AddDamage(IDamageable recipient)
     {
+        if (recipient.GetGameObject().CompareTag("Enemy")) { return; }
         recipient.ApplyDamage(attackDamage);
     }
 

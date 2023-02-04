@@ -53,7 +53,7 @@ public class CharactersManager : MonoBehaviour
         }
         else if(characterHealth.GetGameObject().CompareTag("Objective"))
         {
-
+            ObjectiveManager.Instance.ObjectiveDestroyed((ObjectiveHealth)characterHealth);
         }
     }
 
