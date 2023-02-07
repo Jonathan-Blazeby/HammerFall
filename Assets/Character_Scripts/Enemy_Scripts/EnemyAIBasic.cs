@@ -26,6 +26,7 @@ public class EnemyAIBasic : MonoBehaviour
     [SerializeField] private AIStates currentState;
     private GameModes gameMode;
     [SerializeField] private bool followingPlayer;
+    private bool isGrounded;
     #endregion
 
     #region MonoBehaviour Callbacks
@@ -86,6 +87,8 @@ public class EnemyAIBasic : MonoBehaviour
 
     private void RunMovingState()
     {
+        if (!isGrounded) { return; }
+
         enemyRigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
         navMeshAgent.enabled = true;
         enemyRigidbody.isKinematic = true;
@@ -96,10 +99,7 @@ public class EnemyAIBasic : MonoBehaviour
             {
                 navMeshAgent.isStopped = false;
 
-                if(gameMode == GameModes.Objectives)
-                {
-                    ObjectiveModeDetermineTarget();
-                }
+                if(gameMode == GameModes.Objectives) { ObjectiveModeDetermineTarget(); }
 
                 navMeshAgent.SetDestination(targetTransform.position);
             }
@@ -117,16 +117,13 @@ public class EnemyAIBasic : MonoBehaviour
     {
         if (Vector3.Distance(targetTransform.position, navMeshAgent.nextPosition) <= attackDistance)
         {
-            if (navMeshAgent.enabled)
-            {
-                navMeshAgent.isStopped = true;
-            }
+            if (navMeshAgent.enabled) { navMeshAgent.isStopped = true; }
+            if (gameMode == GameModes.Objectives) { ObjectiveModeDetermineTarget(); }
         }
         else
         {
             currentState = AIStates.Moving;
         }
-
 
         CheckDirection();
         FaceTarget();
@@ -150,7 +147,11 @@ public class EnemyAIBasic : MonoBehaviour
     {
         if (currentState != AIStates.Dead) { currentState = AIStates.Dazed; }
         yield return new WaitForSeconds(dazedDelay);
-        if (currentState != AIStates.Dead) { currentState = AIStates.Moving; }
+        if(!isGrounded)
+        {
+            StartCoroutine(DazedTimer());
+        }
+        if (currentState != AIStates.Dead && isGrounded) { currentState = AIStates.Moving; }
     }
 
     private void CheckDirection()
@@ -210,7 +211,9 @@ public class EnemyAIBasic : MonoBehaviour
             EnemyBlackboard.Instance.StopFollowPlayer(this);
         }
     }
+    public bool SetIsGrounded(bool onGround) => isGrounded = onGround;
     public AIStates GetState() => currentState;
+
     #endregion
 
 }

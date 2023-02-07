@@ -51,6 +51,7 @@ public class MovementManager : MonoBehaviour, IMovement
     #region Private Methods
     private void MovementUpdate()
     {
+        GroundCheck();
         if (isGrounded)
         {
             movementVelocity = moveDirection * moveSpeed * Time.fixedDeltaTime;

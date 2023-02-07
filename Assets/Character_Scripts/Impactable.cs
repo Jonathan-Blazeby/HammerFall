@@ -11,23 +11,28 @@ public class Impactable : MonoBehaviour
     [SerializeField] private float hardImpactForceThreshold = 12.0f;
     [SerializeField] private int softImpactDamage = 5;
     [SerializeField] private int hardImpactDamage = 10;
+
+    [SerializeField] private bool hurtsPlayer = false;
     #endregion
 
     #region MonoBehavior Callbacks
     private void OnCollisionEnter(Collision collision)
     {
+        Debug.Log("Impact");
         IDamageable healthComponent = collision.collider.GetComponent<IDamageable>();
         if(healthComponent is null) { return; }
+
+        if(healthComponent.GetGameObject().CompareTag("Player") && !hurtsPlayer) { return; }
         
         if (collision.relativeVelocity.magnitude >= hardImpactForceThreshold)
         {
-            Debug.Log("Hard Impact");
+            //Debug.Log("Hard Impact");
             AudioSource.PlayClipAtPoint(hardImpactAudio, collision.collider.ClosestPointOnBounds(transform.position));
             healthComponent.ApplyDamage(hardImpactDamage);
         }
         else if (collision.relativeVelocity.magnitude >= softImpactForceThreshold)
         {
-            Debug.Log("Soft Impact");
+            //Debug.Log("Soft Impact");
             AudioSource.PlayClipAtPoint(softImpactAudio, collision.collider.ClosestPointOnBounds(transform.position));
             healthComponent.ApplyDamage(softImpactDamage);
         }

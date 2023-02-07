@@ -73,6 +73,7 @@ public class GameManager : MonoBehaviour
         else if(gameMode == GameModes.Objectives)
         {
             objectiveManager.SetupGameMode();
+            spawnManager.SpawnWave(6);
         }        
     }
     #endregion
@@ -97,6 +98,11 @@ public class GameManager : MonoBehaviour
     public void DecrementActiveEnemyCount()
     {
         activeEnemyCount--;
+
+        if(gameMode == GameModes.Objectives)
+        {
+            spawnManager.SpawnWave(activeEnemyCount + 2);
+        }
     }
 
     public void ResetGame()

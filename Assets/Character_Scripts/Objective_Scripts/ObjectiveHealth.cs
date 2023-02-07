@@ -7,7 +7,11 @@ public class ObjectiveHealth : MonoBehaviour, IDamageable
     #region Private Fields
     [SerializeField] private UnityEngine.UI.Scrollbar healthBar;
     private AudioSource objectiveAudioSource;
-    [SerializeField] private List<AudioClip> damageAudioClips;
+    [SerializeField] private List<AudioClip> objectiveHitAudioClips;
+    [SerializeField] private AudioClip objectiveDestroyedAudioClip;
+    [SerializeField] private ParticleSystem deathParticleBurst;
+    [SerializeField] private ParticleSystem constantParticles;
+    [SerializeField] private MeshRenderer objectiveCoreRenderer;
     [SerializeField] private int maxHealth;
     [SerializeField] private int currentHealth;
     [SerializeField] private float damagedDelay = 0.75f;
@@ -29,7 +33,7 @@ public class ObjectiveHealth : MonoBehaviour, IDamageable
 
     private void Update()
     {
-        //healthBar.transform.forward = Camera.main.transform.forward;
+        healthBar.transform.forward = Camera.main.transform.forward;
     }
     #endregion
 
@@ -49,26 +53,41 @@ public class ObjectiveHealth : MonoBehaviour, IDamageable
 
         StartCoroutine(DamageTimer());
         currentHealth -= damage;
-        //healthBar.size = (float)currentHealth / (float)maxHealth;
-        //objectiveAudioSource.clip = damageAudioClips[Random.Range(0, damageAudioClips.Count)];
-        //objectiveAudioSource.Play();
+        healthBar.size = (float)currentHealth / (float)maxHealth;
+
 
         if (currentHealth <= 0)
         {
             dead = true;
-            //healthBar.gameObject.SetActive(false);
+            objectiveAudioSource.clip = objectiveDestroyedAudioClip;
+            objectiveAudioSource.Play();
+            healthBar.gameObject.SetActive(false);
+            constantParticles.Stop();
+            objectiveCoreRenderer.enabled = false;
+            deathParticleBurst.Play();
             GameManager.Instance.GetCharactersManager().DeathSignal(this);
+            return;
         }
 
+        objectiveAudioSource.clip = objectiveHitAudioClips[Random.Range(0, objectiveHitAudioClips.Count)];
+        objectiveAudioSource.Play();
     }
 
     public void ResetHealth()
     {
         currentHealth = maxHealth;
-        //healthBar.gameObject.SetActive(true);
-        //healthBar.size = 1;
+        healthBar.gameObject.SetActive(true);
+        healthBar.size = 1;
+        constantParticles.Play();
+        objectiveCoreRenderer.enabled = true;
         canBeDamaged = true;
         dead = false;
+    }
+
+    public bool Living()
+    {
+        if (currentHealth > 0) { return true; }
+        else { return false; }
     }
 
     public GameObject GetGameObject()

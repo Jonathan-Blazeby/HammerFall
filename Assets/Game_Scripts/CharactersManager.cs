@@ -6,6 +6,14 @@ public class CharactersManager : MonoBehaviour
 {
     #region Private Fields
     private List<IDamageable> allDamagebles = new List<IDamageable>();
+    private GameModes gameMode;
+    #endregion
+
+    #region MonoBehavior Callbacks
+    private void Start()
+    {
+        gameMode = GameManager.Instance.GetGameMode();
+    }
     #endregion
 
     #region Public Methods
@@ -42,7 +50,7 @@ public class CharactersManager : MonoBehaviour
                     Debug.Log("Enemy Died");
                     GameManager.Instance.DecrementActiveEnemyCount();
 
-                    if (GameManager.Instance.GetActiveEnemyCount() == 0)
+                    if (GameManager.Instance.GetActiveEnemyCount() == 0 && gameMode == GameModes.Waves)
                     {
                         GameManager.Instance.WaveComplete();
                     }

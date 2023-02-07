@@ -10,7 +10,14 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMPro.TMP_Text lossText;
     [SerializeField] private TMPro.TMP_Text waveNumberText;
     [SerializeField] private TMPro.TMP_Text waveCountdownText;
+    [SerializeField] private TMPro.TMP_Text defenceTimer;
     private List<GameObject> uiObjectList = new List<GameObject>();
+
+    private float startTime;
+
+    private bool playerLoss = false;
+
+    private GameModes gameMode;
     #endregion
 
     #region MonoBehaviour Callbacks
@@ -18,15 +25,38 @@ public class UIManager : MonoBehaviour
     {
         Initialise();
     }
+
+    private void Update()
+    {
+        if (gameMode == GameModes.Objectives && !playerLoss)
+        {
+            DefenceTimerUpdate();
+        }       
+    }
     #endregion
 
     #region Private Methods
     private void Initialise()
     {
+        gameMode = GameManager.Instance.GetGameMode();
+
         uiObjectList.Add(victoryText.gameObject);
         uiObjectList.Add(lossText.gameObject);
-        uiObjectList.Add(waveNumberText.gameObject);
-        uiObjectList.Add(waveCountdownText.gameObject);
+
+        if(gameMode == GameModes.Waves)
+        {
+            waveNumberText.gameObject.SetActive(true);
+            uiObjectList.Add(waveNumberText.gameObject);
+            uiObjectList.Add(waveCountdownText.gameObject);
+        }
+
+        else if(gameMode == GameModes.Objectives)
+        {
+            defenceTimer.gameObject.SetActive(true);
+            uiObjectList.Add(defenceTimer.gameObject);
+            startTime = Time.time;
+        }
+
     }
 
     private IEnumerator WaveCountdownTimer(int waveDelaySecs)
@@ -39,14 +69,35 @@ public class UIManager : MonoBehaviour
         }
         waveCountdownText.gameObject.SetActive(false);
     }
+
+    private void DefenceTimerUpdate()
+    {
+        float time = Time.time - startTime;
+
+        string minutes = ((int)time / 60).ToString();
+        string seconds = (time % 60).ToString("f0");
+
+        defenceTimer.text = minutes + ":" + seconds;
+    }
     #endregion
 
     #region Public Methods
     public void ResetUI()
     {
+        playerLoss = false;
         foreach (GameObject uiObject in uiObjectList)
         {
             uiObject.SetActive(false);
+        }
+
+        if(gameMode == GameModes.Waves)
+        {
+            waveNumberText.gameObject.SetActive(true);
+        }
+        else if(gameMode == GameModes.Objectives)
+        {
+            startTime = Time.time;
+            defenceTimer.gameObject.SetActive(true);
         }
     }
 
@@ -57,6 +108,7 @@ public class UIManager : MonoBehaviour
 
     public void PlayerLoss()
     {
+        playerLoss = true;
         lossText.gameObject.SetActive(true);
     }
 
@@ -69,6 +121,11 @@ public class UIManager : MonoBehaviour
     {
         waveCountdownText.gameObject.SetActive(true);
         StartCoroutine(WaveCountdownTimer(waveDelaySecs));
+    }
+
+    public void StopDefenceTimer()
+    {
+
     }
     #endregion
 

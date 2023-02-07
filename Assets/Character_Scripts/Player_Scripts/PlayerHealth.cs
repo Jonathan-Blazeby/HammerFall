@@ -77,6 +77,12 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         canBeDamaged = true;
     }
 
+    public bool Living()
+    {
+        if (currentHealth > 0) { return true; }
+        else { return false; }
+    }
+
     public GameObject GetGameObject()
     {
         return gameObject;

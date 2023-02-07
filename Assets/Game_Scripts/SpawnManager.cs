@@ -11,6 +11,8 @@ public class SpawnManager : MonoBehaviour
     private int nextSpawn = 0;
     [SerializeField] private float maxNumberToSpawnPerFrame = 25;
     private int numberToSpawn;
+
+    private GameModes gameMode;
     #endregion
 
     #region Public Fields
@@ -22,6 +24,11 @@ public class SpawnManager : MonoBehaviour
     {
         Instance = this;
     }
+
+    private void Start()
+    {
+        gameMode = GameManager.Instance.GetGameMode();
+    }
     #endregion
 
     #region Private Methods
@@ -31,26 +38,45 @@ public class SpawnManager : MonoBehaviour
         {
             foreach (var obj in liveObjects)
             {
-                //Move already living objects to spawns
-                obj.transform.position = spawnPoints[nextSpawn].position;
-                nextSpawn++;
-                if (nextSpawn == spawnPoints.Count)
+                IDamageable healthComponent = obj.GetComponent<IDamageable>();
+
+                //If still alive, do not reset (used for objective mode regular spawning)
+                if(healthComponent.Living()) 
                 {
-                    nextSpawn = 0;
+                    numberToSpawn--;
+                    continue; 
                 }
 
-                //Enable them again
-                obj.SetActive(true);
-                numberToSpawn--;
-                if (numberToSpawn == 0)
+                if(!obj.activeInHierarchy)
                 {
+                    //Move inactive but instantiated objects to spawns
+                    obj.transform.position = spawnPoints[nextSpawn].position;
+                    nextSpawn++;
+                    if (nextSpawn == spawnPoints.Count)
+                    {
+                        nextSpawn = 0;
+                    }
+
+                    //Enable them again
+                    obj.SetActive(true);
+                    numberToSpawn--;
+
                     //Reset their health
-                    GameManager.Instance.GetCharactersManager().ResetEnemyHealth();
-                    yield break;
+                    healthComponent.ResetHealth();
+
+                    if (numberToSpawn == 0)
+                    {
+                        yield break;
+                    }
                 }
+
             }
-            //Reset their health
-            GameManager.Instance.GetCharactersManager().ResetEnemyHealth();
+
+            //if(gameMode == GameModes.Waves)
+            //{
+            //    //Reset all dead enemies health at end of wave
+            //    GameManager.Instance.GetCharactersManager().ResetEnemyHealth();
+            //}
         }
 
         while (numberToSpawn > 0)
@@ -88,5 +114,4 @@ public class SpawnManager : MonoBehaviour
         spawnPoints.Add(spawn);
     }
     #endregion
-
 }

@@ -623,7 +623,6 @@ MonoBehaviour:
   moveRigidbody: {fileID: 1499564833181392635}
   moveCollider: {fileID: 1499564833181392632}
   isGrounded: 1
-  jumpState: 0
   useCalculatedRotation: 0
 --- !u!114 &1499564833181392624
 MonoBehaviour:

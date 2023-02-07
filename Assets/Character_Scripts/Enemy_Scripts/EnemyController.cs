@@ -17,6 +17,7 @@ public class EnemyController : MonoBehaviour, ICharacterController
     [SerializeField] private float attackDelay = 3f;
     [SerializeField] private int attackDamage = 5;
 
+    private bool isGrounded;
     private bool canAttack;
     #endregion
 
@@ -62,6 +63,8 @@ public class EnemyController : MonoBehaviour, ICharacterController
 
     private void ControllerUpdate()
     {
+        aiInput.SetIsGrounded(isGrounded);
+
         if (aiInput.GetState() != AIStates.Dead) { MoveFunction(); }
 
         if (aiInput.GetState() == AIStates.Attacking) { AttackFunction(); }
@@ -81,7 +84,7 @@ public class EnemyController : MonoBehaviour, ICharacterController
 
         moveManager.Move(movementDirection);
         moveManager.Rotate(0);
-        //moveManager.Jump(willJump);
+        isGrounded = moveManager.GetIsGrounded();
     }
 
     private IEnumerator CorpseDisappearTimer()
