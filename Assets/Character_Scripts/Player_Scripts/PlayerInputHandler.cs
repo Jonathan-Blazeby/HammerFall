@@ -66,10 +66,10 @@ public class PlayerInputHandler : MonoBehaviour
             attackInput = AttackType.none;
         }
 
-        if (Input.GetKey(KeyCode.R))
-        {
-            GameManager.Instance.ResetPlayer();
-        }
+        //if (Input.GetKey(KeyCode.R))
+        //{
+        //    GameManager.Instance.ResetPlayer();
+        //}
 
         mouseXInput = Input.GetAxis("Mouse X");
     }

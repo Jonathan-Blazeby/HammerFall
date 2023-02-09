@@ -18,14 +18,19 @@ public class EnemyAIBasic : MonoBehaviour
     [SerializeField] private NavMeshAgent navMeshAgent;
     [SerializeField] private Rigidbody enemyRigidbody; 
     [SerializeField] private Transform targetTransform;
-    private Vector3 direction;
-    private Vector3 oldPosition;
-    private Vector3 newPosition;
+
     [SerializeField] private float attackDistance;
     [SerializeField] private float dazedDelay;
+
     [SerializeField] private AIStates currentState;
-    private GameModes gameMode;
+
     [SerializeField] private bool followingPlayer;
+    private GameModes gameMode;
+
+    private Vector3 direction;
+    private Vector3 oldPosition;
+    private Vector3 currentPosition;
+
     private bool isGrounded;
     #endregion
 
@@ -33,28 +38,7 @@ public class EnemyAIBasic : MonoBehaviour
 
     private void OnEnable()
     {
-        gameMode = GameManager.Instance.GetGameMode();
-        if(gameMode == GameModes.Waves)
-        {
-            targetTransform = GameManager.Instance.GetPlayerTransform();
-        }
-        else if(gameMode == GameModes.Objectives)
-        {
-            followingPlayer = EnemyBlackboard.Instance.WantToFollowPlayer(this);
-            if(followingPlayer)
-            {
-                targetTransform = GameManager.Instance.GetPlayerTransform();
-            }
-            else
-            {
-                targetTransform = GameManager.Instance.GetCurrentObjectiveTransform();
-            }
-        }
-
-
-        oldPosition = transform.position;
-
-        currentState = AIStates.Moving;
+        Initialise();
     }
 
     private void Update()
@@ -64,22 +48,37 @@ public class EnemyAIBasic : MonoBehaviour
     #endregion
 
     #region Private Methods
+    private void Initialise()
+    {
+        gameMode = GameManager.Instance.GetGameMode();
+        oldPosition = transform.position;
+
+        currentState = AIStates.Moving;
+
+        if (gameMode == GameModes.Objectives)
+        {
+            ObjectiveModeDetermineTarget();
+            return;
+        }
+        targetTransform = GameManager.Instance.GetPlayerTransform();
+    }
+
     private void AIUpdate()
     {
-        switch ((int)currentState)
+        switch (currentState)
         {
-            case 0:
+            case AIStates.Idle:
                 break;
-            case 1:
+            case AIStates.Moving:
                 RunMovingState();
                 break;
-            case 2:
+            case AIStates.Attacking:
                 RunAttackingState();
                 break;
-            case 3:
+            case AIStates.Dazed:
                 RunDazedState();
                 break;
-            case 4:
+            case AIStates.Dead:
                 RunDeadState();
                 break;
         }
@@ -89,20 +88,12 @@ public class EnemyAIBasic : MonoBehaviour
     {
         if (!isGrounded) { return; }
 
-        enemyRigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
-        navMeshAgent.enabled = true;
-        enemyRigidbody.isKinematic = true;
+        SetNavMeshOn();
 
-        if (Vector3.Distance(targetTransform.position, navMeshAgent.nextPosition) > attackDistance)
+        float distance = Vector3.Distance(targetTransform.position, navMeshAgent.nextPosition);
+        if (distance > attackDistance) 
         {
-            if (navMeshAgent.enabled)
-            {
-                navMeshAgent.isStopped = false;
-
-                if(gameMode == GameModes.Objectives) { ObjectiveModeDetermineTarget(); }
-
-                navMeshAgent.SetDestination(targetTransform.position);
-            }
+            SetDestination();
         }
         else
         {
@@ -113,9 +104,27 @@ public class EnemyAIBasic : MonoBehaviour
         FaceTarget();
     }
 
+    private void SetNavMeshOn()
+    {
+        enemyRigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+        navMeshAgent.enabled = true;
+        enemyRigidbody.isKinematic = true;
+    }
+
+    private void SetDestination()
+    {
+        if(!navMeshAgent.enabled) { return; }
+        navMeshAgent.isStopped = false;
+
+        if (gameMode == GameModes.Objectives) { ObjectiveModeDetermineTarget(); }
+
+        navMeshAgent.SetDestination(targetTransform.position);
+    }
+
     private void RunAttackingState()
     {
-        if (Vector3.Distance(targetTransform.position, navMeshAgent.nextPosition) <= attackDistance)
+        float distance = Vector3.Distance(targetTransform.position, navMeshAgent.nextPosition);
+        if (distance <= attackDistance)
         {
             if (navMeshAgent.enabled) { navMeshAgent.isStopped = true; }
             if (gameMode == GameModes.Objectives) { ObjectiveModeDetermineTarget(); }
@@ -156,10 +165,11 @@ public class EnemyAIBasic : MonoBehaviour
 
     private void CheckDirection()
     {
-        newPosition = transform.position;
-        Vector3 dir = (newPosition - oldPosition);
-        oldPosition = newPosition;
-        newPosition = transform.position;
+        //Current Position
+        currentPosition = transform.position;
+        Vector3 dir = (currentPosition - oldPosition);
+        oldPosition = currentPosition;
+        currentPosition = transform.position;
         direction = (dir / Time.deltaTime).normalized;
     }
 
