@@ -8,6 +8,11 @@ public class WaveManager : MonoBehaviour
     [SerializeField] private List<int> waveList;
     [SerializeField] private int secondsBetweenWaves = 10;
     private int currentWave;
+    private int maxWaves;
+
+    //Gets & Sets
+    public int GetCurrentWave() => currentWave;
+    public int GetMaxWaves() => maxWaves;
     #endregion
 
     #region Public Fields
@@ -39,6 +44,7 @@ public class WaveManager : MonoBehaviour
 
     public void FirstWave()
     {
+        maxWaves = waveList.Count;
         GameManager.Instance.GetUIManager().SetWaveCount(1, waveList.Count);
         GameManager.Instance.GetSpawnManager().SpawnWave(waveList[0]);
     }

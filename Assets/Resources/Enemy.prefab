@@ -549,7 +549,7 @@ MonoBehaviour:
   enemyRigidbody: {fileID: 1499564833181392635}
   targetTransform: {fileID: 0}
   attackDistance: 2
-  dazedDelay: 1
+  dazedDelay: 1.2
   currentState: 0
   followingPlayer: 0
 --- !u!114 &1499564833181392630

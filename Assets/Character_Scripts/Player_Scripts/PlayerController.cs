@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour, ICharacterController
     //private bool willJump = false;
     private float rotationInput;
     private bool canAttack;
+    private bool dead = false;
     #endregion
 
     #region MonoBehaviour Callbacks
@@ -61,12 +62,16 @@ public class PlayerController : MonoBehaviour, ICharacterController
     //Looks for horizontal & vertical input to be applied to x z axis, looks for attack input
     private void CaptureInput()
     {
+        if(dead) { return; }
+
         movementDirection = inputHandler.GetMoveInput();
         rotationInput = inputHandler.GetMouseInput();
     }
 
     private void Move()
     {
+        if (dead) { return; }
+
         moveManager.Move(movementDirection);
         RotateCalc();
         movementDirection = Vector2.zero;
@@ -81,6 +86,8 @@ public class PlayerController : MonoBehaviour, ICharacterController
 
     private void Attack()
     {
+        if (dead) { return; }
+
         AttackType attackDirection; //0 = No attack, 1 = left attack, 2 = right attack
         attackDirection = inputHandler.GetAttackInput();
         if (attackDirection > 0 && canAttack)
@@ -100,6 +107,12 @@ public class PlayerController : MonoBehaviour, ICharacterController
 
     #region Public Methods
     public MovementManager GetMovement() { return moveManager; }
+
+    public void Death()
+    {
+        dead = true;
+        animator.Die();
+    }
     #endregion
 
 }

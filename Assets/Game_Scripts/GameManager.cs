@@ -18,17 +18,35 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GravityManager gravityManager;
     [SerializeField] private CharactersManager charactersManager;
     [SerializeField] private ObjectiveManager objectiveManager;
-
+    
     [SerializeField] private Transform playerTransform;
-
-    //[SerializeField] private List<Transform> allObjectiveTransforms;
-    //private Transform currentObjectiveTransform;
 
     private Vector3 playerStartPosition;
     private Quaternion playerStartRotation;
     [SerializeField] private float yDeathHeight = -5.0f;
+
     [SerializeField] private int activeEnemyCount;
     [SerializeField] private GameModes gameMode;
+
+    private bool playerLoss = false;
+
+    private float startTime;
+    private float gameTime;
+
+    //Gets & Sets
+    public UIManager GetUIManager() => uIManager;
+    public SpawnManager GetSpawnManager() => spawnManager;
+    public WaveManager GetWaveManager() => waveManager;
+    public GravityManager GetGravityManager() => gravityManager;
+    public CharactersManager GetCharactersManager() => charactersManager;
+    public ObjectiveManager GetObjectiveManager() => objectiveManager;
+    public Transform GetPlayerTransform() => playerTransform;
+    public Transform GetCurrentObjectiveTransform() => objectiveManager.GetCurrentObjectiveTransform();
+    public int GetActiveEnemyCount() => activeEnemyCount;
+    public void SetActiveEnemyCount(int waveSpawnedEnemies) => activeEnemyCount = waveSpawnedEnemies;
+    public GameModes GetGameMode() => gameMode;
+
+    public float GetGameTime() => gameTime;
     #endregion
 
     #region Public Fields
@@ -48,6 +66,8 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        UpdateTime();
+
         if (playerTransform.position.y < yDeathHeight)
         {
             ResetPlayer();
@@ -61,7 +81,9 @@ public class GameManager : MonoBehaviour
         playerStartPosition = playerTransform.position;
         playerStartRotation = playerTransform.rotation;
 
-        if(gameMode == GameModes.Waves)
+        startTime = Time.time;
+
+        if (gameMode == GameModes.Waves)
         {
             waveManager.FirstWave();
         }
@@ -71,24 +93,37 @@ public class GameManager : MonoBehaviour
             spawnManager.SpawnWave(6);
         }        
     }
+
+    private void ResetAllHealth()
+    {
+        charactersManager.ResetAllHealth();
+    }
+
+    private void ResetUI()
+    {
+        uIManager.ResetUI();
+    }
+
+    private void WaveScore()
+    {
+        int waveScore = waveManager.GetCurrentWave();
+        int maxWaves = waveManager.GetMaxWaves();
+        DataManager.Instance.SetWaveScore(waveScore, maxWaves);
+    }
+
+    private void UpdateTime()
+    {
+        gameTime = Time.time - startTime;
+    }
+
+    private void SaveScores()
+    {
+        DataManager.Instance.SaveScore();
+    }
     #endregion
 
     #region Public Methods
-    public UIManager GetUIManager() => uIManager;
-    public SpawnManager GetSpawnManager() => spawnManager;
-    public WaveManager GetWaveManager() => waveManager;
-    public GravityManager GetGravityManager() => gravityManager;
-    public CharactersManager GetCharactersManager() => charactersManager;
-    public ObjectiveManager GetObjectiveManager() => objectiveManager;
-    public Transform GetPlayerTransform() => playerTransform;
-    public Transform GetCurrentObjectiveTransform() => objectiveManager.GetCurrentObjectiveTransform();
-    public int GetActiveEnemyCount() => activeEnemyCount;
-    public void SetActiveEnemyCount(int waveSpawnedEnemies)
-    {
-        activeEnemyCount = waveSpawnedEnemies;
-    }
 
-    public GameModes GetGameMode() => gameMode;
 
     public void DecrementActiveEnemyCount()
     {
@@ -114,15 +149,7 @@ public class GameManager : MonoBehaviour
         playerTransform.GetComponent<Rigidbody>().velocity = Vector3.zero;
     }
 
-    private void ResetAllHealth()
-    {
-        charactersManager.ResetAllHealth();
-    }
 
-    private void ResetUI()
-    {
-        uIManager.ResetUI();
-    }
 
     public void WaveComplete()
     {
@@ -139,12 +166,29 @@ public class GameManager : MonoBehaviour
     public void PlayerVictory()
     {
         uIManager.PlayerVictory();
+        if (gameMode == GameModes.Waves)
+        {
+            WaveScore();
+        }
+        SaveScores();
     }
 
     public void PlayerLoss()
     {
+        playerLoss = true;
         uIManager.PlayerLoss();
+        if(gameMode == GameModes.Waves)
+        {
+            WaveScore();
+        }
+        else
+        {
+            DataManager.Instance.SetGameTime(gameTime);
+            
+        }
+        SaveScores();
     }
+
     #endregion
 
 }

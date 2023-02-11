@@ -336,6 +336,38 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerUICanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 4794912883522987548, guid: 185ec192327fa3849a4048ee99d74286, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 350
+      objectReference: {fileID: 0}
+    - target: {fileID: 4794912883522987549, guid: 185ec192327fa3849a4048ee99d74286, type: 3}
+      propertyPath: m_text
+      value: 'You Lose!
+
+        Press R to Restart
+
+        Or Esc To Quit'
+      objectReference: {fileID: 0}
+    - target: {fileID: 4794912883522987551, guid: 185ec192327fa3849a4048ee99d74286, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4794912883732141220, guid: 185ec192327fa3849a4048ee99d74286, type: 3}
+      propertyPath: m_text
+      value: 'Victory!
+
+        Press R to Restart
+
+        Or Esc To Quit'
+      objectReference: {fileID: 0}
+    - target: {fileID: 4794912883732141222, guid: 185ec192327fa3849a4048ee99d74286, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4794912883732141223, guid: 185ec192327fa3849a4048ee99d74286, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 350
+      objectReference: {fileID: 0}
     - target: {fileID: 5003875867668524623, guid: 185ec192327fa3849a4048ee99d74286, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -1974,7 +2006,7 @@ MonoBehaviour:
   softImpactAudio: {fileID: 8300000, guid: 3b9287983d4a881448de979699d08438, type: 3}
   hardImpactAudio: {fileID: 8300000, guid: 019d95821259a77439325253556d1e9e, type: 3}
   softImpactForceThreshold: 0
-  hardImpactForceThreshold: 1
+  hardImpactForceThreshold: 0.5
   softImpactDamage: 0
   hardImpactDamage: 200
   hurtsPlayer: 1

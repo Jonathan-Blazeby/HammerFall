@@ -89,6 +89,12 @@ public class PlayerCharacterAnimator : MonoBehaviour, IAnimation
             hammerAnimator.Play("RightSwing");
         }
     }
+
+    public void Die()
+    {
+        moveAnimator.Play("Death");
+        hammerAnimator.Play("HammerDisappear");
+    }
     #endregion
 
 }

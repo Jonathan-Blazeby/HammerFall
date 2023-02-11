@@ -13,10 +13,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMPro.TMP_Text defenceTimer;
     private List<GameObject> uiObjectList = new List<GameObject>();
 
-    private float startTime;
-
     private bool playerLoss = false;
-
     private GameModes gameMode;
     #endregion
 
@@ -28,10 +25,10 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-        if (gameMode == GameModes.Objectives && !playerLoss)
+        if(gameMode == GameModes.Objectives)
         {
             DefenceTimerUpdate();
-        }       
+        }
     }
     #endregion
 
@@ -54,7 +51,6 @@ public class UIManager : MonoBehaviour
         {
             defenceTimer.gameObject.SetActive(true);
             uiObjectList.Add(defenceTimer.gameObject);
-            startTime = Time.time;
         }
 
     }
@@ -72,8 +68,7 @@ public class UIManager : MonoBehaviour
 
     private void DefenceTimerUpdate()
     {
-        float time = Time.time - startTime;
-
+        float time = GameManager.Instance.GetGameTime();
         string minutes = ((int)time / 60).ToString();
         string seconds = (time % 60).ToString("f0");
 
@@ -96,7 +91,6 @@ public class UIManager : MonoBehaviour
         }
         else if(gameMode == GameModes.Objectives)
         {
-            startTime = Time.time;
             defenceTimer.gameObject.SetActive(true);
         }
     }
@@ -121,11 +115,6 @@ public class UIManager : MonoBehaviour
     {
         waveCountdownText.gameObject.SetActive(true);
         StartCoroutine(WaveCountdownTimer(waveDelaySecs));
-    }
-
-    public void StopDefenceTimer()
-    {
-
     }
     #endregion
 

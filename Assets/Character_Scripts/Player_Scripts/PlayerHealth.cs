@@ -11,6 +11,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     [SerializeField] private int currentHealth;
     [SerializeField] private float damagedDelay = 0.75f;
     private bool canBeDamaged;
+    private bool dead;
     #endregion
 
     #region MonoBehaviour Callbacks
@@ -52,22 +53,24 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     #region IDamageable Implementation
     public void ApplyDamage(int damage)
     {
-        if (canBeDamaged)
+        if (!canBeDamaged || dead) { return; }
+
+        StartCoroutine(DamageTimer());
+        currentHealth -= damage;
+        healthBar.size = (float)currentHealth / (float)maxHealth;
+
+        var hitColour = redHitScreen.color;
+        hitColour.a = 0.8f;
+        redHitScreen.color = hitColour;
+
+        if (currentHealth <= 0)
         {
-            StartCoroutine(DamageTimer());
-            currentHealth -= damage;
-            healthBar.size = (float)currentHealth / (float)maxHealth;
-
-            var hitColour = redHitScreen.color;
-            hitColour.a = 0.8f;
-            redHitScreen.color = hitColour;
-
-            if (currentHealth <= 0)
-            {
-                GameManager.Instance.GetCharactersManager().DeathSignal(this);
-            }
+            dead = true;
+            GetComponent<PlayerController>().Death();
+            GameManager.Instance.GetCharactersManager().DeathSignal(this);
+            
         }
-
+        
     }
 
     public void ResetHealth()

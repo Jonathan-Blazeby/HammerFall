@@ -30,7 +30,7 @@ public class MovementManager : MonoBehaviour, IMovement
 
     private void Start()
     {
-        GroundCheck();
+        Initialise();
     }
 
     private void FixedUpdate()
@@ -49,6 +49,13 @@ public class MovementManager : MonoBehaviour, IMovement
     #endregion
 
     #region Private Methods
+    private void Initialise()
+    {
+        moveDirection = Vector3.zero;
+        movementVelocity = Vector3.zero;
+        GroundCheck();
+    }
+
     private void MovementUpdate()
     {
         GroundCheck();

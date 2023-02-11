@@ -18,7 +18,6 @@ public class Impactable : MonoBehaviour
     #region MonoBehavior Callbacks
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("Impact");
         IDamageable healthComponent = collision.collider.GetComponent<IDamageable>();
         if(healthComponent is null) { return; }
 
