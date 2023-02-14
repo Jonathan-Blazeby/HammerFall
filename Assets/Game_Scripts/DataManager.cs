@@ -12,8 +12,6 @@ public class DataManager : MonoBehaviour
     private float defenceBestTimeFloat;
     private string defenceBestTimeString;
 
-    private bool timerActive = false;
-
     //Gets & Sets
     public string GetWaveScoreString() => waveBestScoreString;
 
@@ -72,9 +70,11 @@ public class DataManager : MonoBehaviour
         StreamReader reader = new StreamReader(Application.streamingAssetsPath + "/score.txt", false);
         
         waveBestScoreString = reader.ReadLine();
+        if (waveBestScoreString == "") { waveBestScoreString = "0/0"; }
         WaveScoreFromString(waveBestScoreString);
 
         defenceBestTimeString = reader.ReadLine();
+        if(defenceBestTimeString == "") { defenceBestTimeString = "0:0"; }
         GameTimerFromString(defenceBestTimeString);
 
         reader.Close();
@@ -98,7 +98,8 @@ public class DataManager : MonoBehaviour
     //Convert wave score string to individual ints
     public void WaveScoreFromString(string waveScoreString)
     {
-        string[] sArray = waveScoreString.Split('/');
+        string scoreOnly = waveScoreString.Split(' ')[1]; //Remove 'Wave: '
+        string[] sArray = scoreOnly.Split('/');
         waveBestScoreInt = int.Parse(sArray[0]);
         waveBestMaxInt = int.Parse(sArray[1]);
     }

@@ -45,5 +45,27 @@ public class MenuManager : MonoBehaviour
     {
         Application.Quit();
     }
+
+    public void FullScreen()
+    {
+        Screen.fullScreenMode = FullScreenMode.ExclusiveFullScreen;
+    }
+
+    public void FullScreenWindowed()
+    {
+        if (Application.platform == RuntimePlatform.WindowsPlayer)
+        {
+            Screen.fullScreenMode = FullScreenMode.FullScreenWindow;
+        }
+        else if(Application.platform == RuntimePlatform.OSXPlayer)
+        {
+            Screen.fullScreenMode = FullScreenMode.MaximizedWindow;
+        }
+    }
+
+    public void Windowed()
+    {
+        Screen.fullScreenMode = FullScreenMode.Windowed;
+    }
     #endregion
 }

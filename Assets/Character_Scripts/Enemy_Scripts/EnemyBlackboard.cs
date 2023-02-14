@@ -18,11 +18,6 @@ public class EnemyBlackboard : MonoBehaviour
     {
         Instance = this;
     }
-
-    void Update()
-    {
-
-    }
     #endregion
 
     #region Private Methods
