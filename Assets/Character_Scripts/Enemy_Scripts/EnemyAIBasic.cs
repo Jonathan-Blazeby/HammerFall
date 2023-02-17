@@ -35,12 +35,6 @@ public class EnemyAIBasic : MonoBehaviour
     #endregion
 
     #region MonoBehaviour Callbacks
-
-    private void OnEnable()
-    {
-        Initialise();
-    }
-
     private void Update()
     {
         AIUpdate();
@@ -48,21 +42,6 @@ public class EnemyAIBasic : MonoBehaviour
     #endregion
 
     #region Private Methods
-    private void Initialise()
-    {
-        gameMode = GameManager.Instance.GetGameMode();
-        oldPosition = transform.position;
-
-        currentState = AIStates.Moving;
-
-        if (gameMode == GameModes.Objectives)
-        {
-            ObjectiveModeDetermineTarget();
-            return;
-        }
-        targetTransform = GameManager.Instance.GetPlayerTransform();
-    }
-
     private void AIUpdate()
     {
         switch (currentState)
@@ -188,7 +167,7 @@ public class EnemyAIBasic : MonoBehaviour
 
     private void ObjectiveModeDetermineTarget()
     {
-        followingPlayer = EnemyBlackboard.Instance.WantToFollowPlayer(this);
+        followingPlayer = EnemyBlackboard.WantToFollowPlayer(this);
         if (followingPlayer)
         {
             targetTransform = GameManager.Instance.GetPlayerTransform();
@@ -201,6 +180,21 @@ public class EnemyAIBasic : MonoBehaviour
     #endregion
 
     #region Public Methods
+    public void Initialise()
+    {
+        gameMode = GameManager.Instance.GetGameMode();
+        oldPosition = transform.position;
+
+        currentState = AIStates.Moving;
+
+        if (gameMode == GameModes.Objectives)
+        {
+            ObjectiveModeDetermineTarget();
+            return;
+        }
+        targetTransform = GameManager.Instance.GetPlayerTransform();
+    }
+
     public Vector3 GetDirection()
     {
         return direction;
@@ -218,7 +212,7 @@ public class EnemyAIBasic : MonoBehaviour
 
         if(gameMode == GameModes.Objectives)
         {
-            EnemyBlackboard.Instance.StopFollowPlayer(this);
+            EnemyBlackboard.StopFollowPlayer(this);
         }
     }
     public bool SetIsGrounded(bool onGround) => isGrounded = onGround;

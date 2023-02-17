@@ -1341,13 +1341,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveManager: {fileID: 1289121890539568464}
+  healthManager: {fileID: 1289121890539568466}
   attackManager: {fileID: 1289121890539568467}
   inputHandler: {fileID: 1289121890539568470}
   animator: {fileID: 1289121890539568471}
   movementSpeed: 40
   maxMoveSpeed: 15
   rotationSpeed: 500
-  attackForce: 500
+  attackForce: 400
   attackDamage: 5
   attackDelay: 0.75
 --- !u!114 &1289121890539568466
@@ -1529,6 +1530,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d05a2fe0ff4a37499bf35b7b7d01b5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  forceMultiplier: 0
+  verticalForceMultiplier: 10
+  attackDamage: 0
 --- !u!1 &1289121890567150590
 GameObject:
   m_ObjectHideFlags: 0

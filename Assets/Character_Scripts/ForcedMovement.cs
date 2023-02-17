@@ -55,6 +55,11 @@ public class ForcedMovement : MonoBehaviour, IStrikeable
         StartCoroutine(ForceTimer());
         appliedForce = force;
     }
+
+    public float GetMass()
+    {
+        return ownRigidbody.mass;
+    }
     #endregion
 
 }

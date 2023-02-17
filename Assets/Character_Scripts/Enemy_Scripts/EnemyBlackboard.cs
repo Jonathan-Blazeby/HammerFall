@@ -2,22 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyBlackboard : MonoBehaviour
+public class EnemyBlackboard
 {
     #region Private Fields
-    private List<EnemyAIBasic> enemiesFollowingPlayer = new List<EnemyAIBasic>();
-    [SerializeField] private int maxEnemiesFollowingPlayer = 3;
-    #endregion
-
-    #region Public Fields
-    public static EnemyBlackboard Instance;
-    #endregion
-
-    #region Monobehavior Callbacks
-    void Start()
-    {
-        Instance = this;
-    }
+    private static List<EnemyAIBasic> enemiesFollowingPlayer = new List<EnemyAIBasic>();
+    [SerializeField] private static int maxEnemiesFollowingPlayer = 3;
     #endregion
 
     #region Private Methods
@@ -31,7 +20,7 @@ public class EnemyBlackboard : MonoBehaviour
     /// </summary>
     /// <param name="enemy"></param>
     /// <returns></returns>
-    public bool WantToFollowPlayer(EnemyAIBasic enemy)
+    public static bool WantToFollowPlayer(EnemyAIBasic enemy)
     {
         if(enemiesFollowingPlayer.Contains(enemy)) { return true; }
 
@@ -47,7 +36,7 @@ public class EnemyBlackboard : MonoBehaviour
     /// Removes enemy AI from list of those following the player
     /// </summary>
     /// <param name="enemy"></param>
-    public void StopFollowPlayer(EnemyAIBasic enemy)
+    public static void StopFollowPlayer(EnemyAIBasic enemy)
     {
         enemiesFollowingPlayer.Remove(enemy);
     }

@@ -37,11 +37,11 @@ public class CharactersManager : MonoBehaviour
     /// <param name="characterHealth"></param>
     public void DeathSignal(IDamageable characterHealth)
     {
-        if (characterHealth.GetGameObject().CompareTag("Player"))
+        if (characterHealth.CompareTag("Player"))
         {
             GameManager.Instance.PlayerLoss();
         }
-        else if(characterHealth.GetGameObject().CompareTag("Enemy"))
+        else if(characterHealth.CompareTag("Enemy"))
         {
             for (int i = 1; i < allDamagebles.Count; i++)
             {
@@ -59,7 +59,7 @@ public class CharactersManager : MonoBehaviour
                 }
             }
         }
-        else if(characterHealth.GetGameObject().CompareTag("Objective"))
+        else if(characterHealth.CompareTag("Objective"))
         {
             ObjectiveManager.Instance.ObjectiveDestroyed((ObjectiveHealth)characterHealth);
         }

@@ -452,13 +452,13 @@ GameObject:
   - component: {fileID: 1499564833181392632}
   - component: {fileID: 1499564833181392635}
   - component: {fileID: 1499564833181392628}
-  - component: {fileID: 1499564833181392629}
-  - component: {fileID: 1499564833181392630}
-  - component: {fileID: 1499564833181392626}
-  - component: {fileID: 1499564833181392631}
   - component: {fileID: 1499564833181392627}
-  - component: {fileID: 1499564833181392624}
+  - component: {fileID: 1499564833181392630}
   - component: {fileID: 1499564833181392625}
+  - component: {fileID: 1499564833181392629}
+  - component: {fileID: 1499564833181392626}
+  - component: {fileID: 1499564833181392624}
+  - component: {fileID: 1499564833181392631}
   - component: {fileID: 1046522780827345353}
   m_Layer: 0
   m_Name: Enemy
@@ -527,6 +527,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveManager: {fileID: 1499564833181392627}
+  healthManager: {fileID: 1499564833181392630}
   attackManager: {fileID: 1499564833181392625}
   aiInput: {fileID: 1499564833181392629}
   animator: {fileID: 1499564833181392626}
@@ -534,7 +535,7 @@ MonoBehaviour:
   attackForce: 1
   attackDelay: 2.5
   attackDamage: 5
---- !u!114 &1499564833181392629
+--- !u!114 &1499564833181392627
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -543,16 +544,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1499564833181392637}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 865630d2ee09a4147bcd97a03123fa84, type: 3}
+  m_Script: {fileID: 11500000, guid: 92941dfb02059e84fa29f4fe75de5cec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  navMeshAgent: {fileID: 1499564833181392631}
-  enemyRigidbody: {fileID: 1499564833181392635}
-  targetTransform: {fileID: 0}
-  attackDistance: 2
-  dazedDelay: 1.2
-  currentState: 0
-  followingPlayer: 0
+  moveRigidbody: {fileID: 1499564833181392635}
+  moveCollider: {fileID: 1499564833181392632}
+  isGrounded: 1
+  useCalculatedRotation: 0
 --- !u!114 &1499564833181392630
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -572,6 +570,39 @@ MonoBehaviour:
   maxHealth: 25
   currentHealth: 0
   damagedDelay: 0.15
+--- !u!114 &1499564833181392625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1499564833181392637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3f459f78db4d26418c3ca20e7705d0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponCollider: {fileID: 1499564831994442286}
+  weaponEnabled: 0
+--- !u!114 &1499564833181392629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1499564833181392637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 865630d2ee09a4147bcd97a03123fa84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  navMeshAgent: {fileID: 1499564833181392631}
+  enemyRigidbody: {fileID: 1499564833181392635}
+  targetTransform: {fileID: 0}
+  attackDistance: 2
+  dazedDelay: 1.2
+  currentState: 0
+  followingPlayer: 0
 --- !u!114 &1499564833181392626
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -587,6 +618,20 @@ MonoBehaviour:
   enemyController: {fileID: 1499564833181392628}
   moveAnimator: {fileID: 1499564832958692306}
   punchAnimator: {fileID: 1499564833209902244}
+--- !u!114 &1499564833181392624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1499564833181392637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b77869e3386a78e45a0287d3034b03b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownRigidbody: {fileID: 1499564833181392635}
+  forcedDelay: 0.15
 --- !u!195 &1499564833181392631
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -609,50 +654,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &1499564833181392627
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1499564833181392637}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92941dfb02059e84fa29f4fe75de5cec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveRigidbody: {fileID: 1499564833181392635}
-  moveCollider: {fileID: 1499564833181392632}
-  isGrounded: 1
-  useCalculatedRotation: 0
---- !u!114 &1499564833181392624
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1499564833181392637}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b77869e3386a78e45a0287d3034b03b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ownRigidbody: {fileID: 1499564833181392635}
-  forcedDelay: 0.15
---- !u!114 &1499564833181392625
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1499564833181392637}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3f459f78db4d26418c3ca20e7705d0b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  weaponCollider: {fileID: 1499564831994442286}
-  weaponEnabled: 0
 --- !u!82 &1046522780827345353
 AudioSource:
   m_ObjectHideFlags: 0

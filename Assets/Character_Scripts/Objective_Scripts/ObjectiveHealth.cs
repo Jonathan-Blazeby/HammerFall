@@ -90,9 +90,9 @@ public class ObjectiveHealth : MonoBehaviour, IDamageable
         else { return false; }
     }
 
-    public GameObject GetGameObject()
+    public int GetMaxHealth()
     {
-        return gameObject;
+        return maxHealth;
     }
     #endregion
 }

@@ -6,11 +6,12 @@ public class EnemyHealth : MonoBehaviour, IDamageable
 {
     #region Private Fields
     [SerializeField] private UnityEngine.UI.Scrollbar healthBar;
-    private AudioSource enemyAudioSource;
     [SerializeField] private List<AudioClip> damageAudioClips;
     [SerializeField] private int maxHealth;
     [SerializeField] private int currentHealth;
     [SerializeField] private float damagedDelay = 0.75f;
+
+    private AudioSource enemyAudioSource;
     private bool canBeDamaged;
     private bool dead;
     #endregion
@@ -21,11 +22,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         FindObjectOfType<GameManager>().GetCharactersManager().AddNewDamageable(this);
     }
 
-    private void Start()
-    {
-        ResetHealth();
-        enemyAudioSource = GetComponent<AudioSource>();
-    }
+
 
     private void Update()
     {
@@ -74,14 +71,20 @@ public class EnemyHealth : MonoBehaviour, IDamageable
 
     public bool Living()
     {
-        if(currentHealth > 0) { return true; }
-        else { return false; }
+        return currentHealth > 0;
     }
 
-    public GameObject GetGameObject()
+    public int GetMaxHealth()
     {
-        return gameObject;
+        return maxHealth;
     }
     #endregion
 
+    #region Public Methods
+    public void Initialise()
+    {
+        ResetHealth();
+        enemyAudioSource = GetComponent<AudioSource>();
+    }
+    #endregion
 }

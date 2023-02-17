@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour, ICharacterController
 {
     #region Private Fields
     [SerializeField] private MovementManager moveManager;
+    [SerializeField] private PlayerHealth healthManager;
     [SerializeField] private AttackManager attackManager;
     [SerializeField] private PlayerInputHandler inputHandler;
     [SerializeField] private PlayerCharacterAnimator animator;
@@ -46,6 +47,9 @@ public class PlayerController : MonoBehaviour, ICharacterController
     #region Private Methods
     private void Initialise()
     {
+        InitialiseOwnManagers();
+
+
         moveManager.SetMoveSpeed(movementSpeed);
         moveManager.SetMaxMoveSpeed(maxMoveSpeed);
         moveManager.SetUseCalculatedRotation(true);
@@ -57,6 +61,14 @@ public class PlayerController : MonoBehaviour, ICharacterController
         attackApplicationComponent.SetWeaponForce(attackForce);
 
         canAttack = true;
+    }
+
+    private void InitialiseOwnManagers()
+    {
+        moveManager.Initialise();
+        healthManager.Initialise();
+        attackManager.Initialise();
+        animator.Initialise();
     }
 
     //Looks for horizontal & vertical input to be applied to x z axis, looks for attack input

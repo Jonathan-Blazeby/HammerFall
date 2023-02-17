@@ -17,14 +17,14 @@ public class PunchAttackScript : MonoBehaviour, IDamageDealer
 
     public void AddDamage(IDamageable recipient)
     {
-        if (recipient.GetGameObject().CompareTag("Enemy")) { return; }
+        if (recipient.CompareTag("Enemy")) { return; }
         recipient.ApplyDamage(attackDamage);
     }
 
     public void AddForce(IStrikeable recipient, int directionRelativeToSelf) //0 = No direction, 1 = Left Swing, 2 = Right Swing
     {
-        Vector3 forceVector = forceVector = transform.root.forward;
-        forceVector += Vector3.up;
+        Vector3 forceVector = transform.root.forward;
+        forceVector += Vector3.up * -Physics.gravity.y; //*recipient.GetMass();
         forceVector *= forceMultiplier;
         recipient.ApplyForce(forceVector);
     }

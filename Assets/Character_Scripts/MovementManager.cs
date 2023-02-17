@@ -28,11 +28,6 @@ public class MovementManager : MonoBehaviour, IMovement
         FindObjectOfType<GravityManager>().AddNewMoving(this);
     }
 
-    private void Start()
-    {
-        Initialise();
-    }
-
     private void FixedUpdate()
     {
         MovementUpdate();
@@ -49,12 +44,7 @@ public class MovementManager : MonoBehaviour, IMovement
     #endregion
 
     #region Private Methods
-    private void Initialise()
-    {
-        moveDirection = Vector3.zero;
-        movementVelocity = Vector3.zero;
-        GroundCheck();
-    }
+
 
     private void MovementUpdate()
     {
@@ -109,6 +99,13 @@ public class MovementManager : MonoBehaviour, IMovement
     #endregion
 
     #region Public Methods
+    public void Initialise()
+    {
+        moveDirection = Vector3.zero;
+        movementVelocity = Vector3.zero;
+        GroundCheck();
+    }
+
     public void SetMoveSpeed(float speed) => moveSpeed = speed;
     public void SetMaxMoveSpeed(float maxSpeed) => maxMoveSpeed = maxSpeed;
 

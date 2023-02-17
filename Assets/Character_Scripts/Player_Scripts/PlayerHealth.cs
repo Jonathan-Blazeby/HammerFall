@@ -15,16 +15,6 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     #endregion
 
     #region MonoBehaviour Callbacks
-    private void Awake()
-    {
-        FindObjectOfType<GameManager>().GetCharactersManager().AddPlayerDamageable(this);
-    }
-
-    private void Start()
-    {
-        ResetHealth();
-    }
-
     private void Update()
     {
         DecreaseHitColour();
@@ -86,10 +76,17 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         else { return false; }
     }
 
-    public GameObject GetGameObject()
+    public int GetMaxHealth()
     {
-        return gameObject;
+        return maxHealth;
     }
     #endregion
 
+    #region Public Methods
+    public void Initialise()
+    {
+        FindObjectOfType<GameManager>().GetCharactersManager().AddPlayerDamageable(this);
+        ResetHealth();
+    }
+    #endregion
 }

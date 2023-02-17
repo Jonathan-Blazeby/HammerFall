@@ -20,11 +20,6 @@ public class AttackManager : MonoBehaviour
     #endregion
 
     #region MonoBehaviour Callbacks
-    private void Start()
-    {
-        Initialise();
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         if(!weaponEnabled) { return; }
@@ -49,14 +44,16 @@ public class AttackManager : MonoBehaviour
     #endregion
 
     #region Private Methods
-    private void Initialise()
+
+    #endregion
+
+    #region Public Methods
+    public void Initialise()
     {
         weaponEnabled = false;
         weaponCollider.enabled = false;
     }
-    #endregion
 
-    #region Public Methods
     public bool GetWeaponActive() { return weaponEnabled; }
     public void SetWeaponActive(bool active)
     {

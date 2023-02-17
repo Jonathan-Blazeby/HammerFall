@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 673716210}
   - component: {fileID: 1351009966682836422}
   - component: {fileID: 673716215}
-  - component: {fileID: 8324983112064306790}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -68,9 +67,11 @@ MonoBehaviour:
   waveManager: {fileID: 1351009966682836422}
   gravityManager: {fileID: 721412810441222799}
   charactersManager: {fileID: 673716215}
+  objectiveManager: {fileID: 0}
   playerTransform: {fileID: 0}
   yDeathHeight: -5
   activeEnemyCount: 0
+  gameMode: 0
 --- !u!114 &673716209
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -102,6 +103,7 @@ MonoBehaviour:
   lossText: {fileID: 0}
   waveNumberText: {fileID: 0}
   waveCountdownText: {fileID: 0}
+  defenceTimer: {fileID: 0}
 --- !u!114 &1351009966682836422
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128,16 +130,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6f218e25a2b47c4ab9295efd084ab1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8324983112064306790
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 721412810441222784}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8566d3e798269c9428d6897ba471f2d0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxEnemiesFollowingPlayer: 3

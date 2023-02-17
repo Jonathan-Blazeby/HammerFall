@@ -5,8 +5,9 @@ using UnityEngine;
 public class HammerAttackScript : MonoBehaviour, IDamageDealer
 {
     #region Private Fields
-    private float forceMultiplier;
-    private int attackDamage;
+    [SerializeField] private float forceMultiplier;
+    [SerializeField] float verticalForceMultiplier;
+    [SerializeField] private int attackDamage;
     #endregion
 
     #region IDamageDealer Implementation
@@ -17,7 +18,7 @@ public class HammerAttackScript : MonoBehaviour, IDamageDealer
 
     public void AddDamage(IDamageable recipient)
     {
-        if (recipient.GetGameObject().CompareTag("Objective")) { return; }
+        if (recipient.CompareTag("Objective")) { return; }
         recipient.ApplyDamage(attackDamage);
     }
 
@@ -36,7 +37,9 @@ public class HammerAttackScript : MonoBehaviour, IDamageDealer
                 forceVector = transform.root.right;
                 break;
         }
+        
         forceVector *= forceMultiplier;
+        forceVector += Vector3.up * -Physics.gravity.y * verticalForceMultiplier * recipient.GetMass();
         recipient.ApplyForce(forceVector);
     }
 

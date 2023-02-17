@@ -13,13 +13,6 @@ public class EnemyCharacterAnimator : MonoBehaviour, IAnimation
     private int vertical;
     #endregion
 
-    #region MonoBehaviour Callbacks
-    private void Start()
-    {
-        Initialise();
-    }
-    #endregion
-
     #region IAnimation Implementation
     public bool IsWeaponActive()
     {
@@ -27,16 +20,14 @@ public class EnemyCharacterAnimator : MonoBehaviour, IAnimation
     }
     #endregion
 
-    #region Private Methods
-    private void Initialise()
+    #region Public Methods
+    public void Initialise()
     {
         horizontal = Animator.StringToHash("Horizontal");
         vertical = Animator.StringToHash("Vertical");
         movement = enemyController.GetMovement();
     }
-    #endregion
 
-    #region Public Methods
     public void UpdateAnimatorValues()
     {
         float horizontalMove = movement.GetDirection().x;

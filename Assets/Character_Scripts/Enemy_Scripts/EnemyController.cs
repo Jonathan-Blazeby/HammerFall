@@ -7,15 +7,16 @@ public class EnemyController : MonoBehaviour, ICharacterController
 {
     #region Private Fields
     [SerializeField] private MovementManager moveManager;
+    [SerializeField] private EnemyHealth healthManager;
     [SerializeField] private AttackManager attackManager;
     [SerializeField] private EnemyAIBasic aiInput;
     [SerializeField] private EnemyCharacterAnimator animator;
-    private IDamageDealer attackApplicationComponent;
     [SerializeField] private float corpseRemainTime = 4.0f;
-    //[SerializeField] private float jumpForce = 5;
     [SerializeField] private float attackForce = 1;
     [SerializeField] private float attackDelay = 3f;
     [SerializeField] private int attackDamage = 5;
+
+    private IDamageDealer attackApplicationComponent;
 
     private bool isGrounded;
     private bool canAttack;
@@ -25,6 +26,11 @@ public class EnemyController : MonoBehaviour, ICharacterController
     private void Start()
     {
         Initialise();
+    }
+
+    private void OnEnable()
+    {
+        aiInput.Initialise();
     }
 
     private void Update()
@@ -48,8 +54,8 @@ public class EnemyController : MonoBehaviour, ICharacterController
     #region Private Methods
     private void Initialise()
     {
+        InitialiseOwnManagers();
 
-        //moveManager.SetJumpAmount(jumpForce);
         moveManager.SetUseCalculatedRotation(false);
 
         attackApplicationComponent = GetComponentInChildren<IDamageDealer>();
@@ -61,24 +67,32 @@ public class EnemyController : MonoBehaviour, ICharacterController
         canAttack = true;
     }
 
+    private void InitialiseOwnManagers()
+    {
+        moveManager.Initialise();
+        healthManager.Initialise();
+        attackManager.Initialise();
+        animator.Initialise();
+    }
+
     private void ControllerUpdate()
     {
         aiInput.SetIsGrounded(isGrounded);
 
-        if (aiInput.GetState() != AIStates.Dead) { MoveFunction(); }
+        var state = aiInput.GetState();
+        if (state != AIStates.Dead) { MoveFunction(); }
 
-        if (aiInput.GetState() == AIStates.Attacking) { AttackFunction(); }
+        if (state == AIStates.Attacking) { AttackFunction(); }
 
-        if (aiInput.GetState() == AIStates.Dazed) { animator.Stop(); }
-        else if (aiInput.GetState() == AIStates.Dead) { animator.Die(); }
+        if (state == AIStates.Dazed) { animator.Stop(); }
+        else if (state == AIStates.Dead) { animator.Die(); }
         else { animator.UpdateAnimatorValues(); }
     }
 
-    //Looks for horizontal & vertical input to be applied to x z axis, and looks for jump
+    //Looks for horizontal & vertical input to be applied to x z axis
     private void MoveFunction()
     {
         Vector2 movementDirection;
-        //bool willJump = false;
 
         movementDirection = aiInput.GetDirection();
 
@@ -102,11 +116,10 @@ public class EnemyController : MonoBehaviour, ICharacterController
 
     private void AttackFunction()
     {
-        if (canAttack)
-        {
-            StartCoroutine(AttackTimer());
-            animator.Attack();
-        }
+        if (!canAttack) { return; } 
+        StartCoroutine(AttackTimer());
+        animator.Attack();
+
     }
     #endregion
 

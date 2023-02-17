@@ -21,7 +21,7 @@ public class Impactable : MonoBehaviour
         IDamageable healthComponent = collision.collider.GetComponent<IDamageable>();
         if(healthComponent is null) { return; }
 
-        if(healthComponent.GetGameObject().CompareTag("Player") && !hurtsPlayer) { return; }
+        if(healthComponent.CompareTag("Player") && !hurtsPlayer) { return; }
         
         if (collision.relativeVelocity.magnitude >= hardImpactForceThreshold)
         {
