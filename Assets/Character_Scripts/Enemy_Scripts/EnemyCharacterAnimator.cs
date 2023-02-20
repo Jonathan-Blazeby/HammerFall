@@ -2,6 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum EnemyAnimations
+{
+    Punch, IdleEnemy, Standby, Death
+}
+
 public class EnemyCharacterAnimator : MonoBehaviour, IAnimation
 {
     #region Private Fields
@@ -9,8 +14,6 @@ public class EnemyCharacterAnimator : MonoBehaviour, IAnimation
     [SerializeField] private EnemyController enemyController;
     [SerializeField] private Animator moveAnimator;
     [SerializeField] private Animator punchAnimator;
-    private int horizontal;
-    private int vertical;
     #endregion
 
     #region IAnimation Implementation
@@ -21,11 +24,9 @@ public class EnemyCharacterAnimator : MonoBehaviour, IAnimation
     #endregion
 
     #region Public Methods
-    public void Initialise()
+    public void Initialise(MovementManager moveManager)
     {
-        horizontal = Animator.StringToHash("Horizontal");
-        vertical = Animator.StringToHash("Vertical");
-        movement = enemyController.GetMovement();
+        movement = moveManager;
     }
 
     public void UpdateAnimatorValues()
@@ -67,24 +68,24 @@ public class EnemyCharacterAnimator : MonoBehaviour, IAnimation
         }
         #endregion
 
-        moveAnimator.SetFloat(horizontal, h, 0.1f, Time.deltaTime);
-        moveAnimator.SetFloat(vertical, v, 0.1f, Time.deltaTime);
+        moveAnimator.SetFloat(AnimationProperties.Horizontal.ToString(), h, 0.1f, Time.deltaTime);
+        moveAnimator.SetFloat(AnimationProperties.Vertical.ToString(), v, 0.1f, Time.deltaTime);
     }
 
     public void Attack()
     {
-        punchAnimator.Play("Punch");
+        punchAnimator.Play(EnemyAnimations.Punch.ToString());
     }
 
     public void Stop()
     {
-        moveAnimator.Play("IdleEnemy");
-        punchAnimator.Play("Standby");
+        moveAnimator.Play(EnemyAnimations.IdleEnemy.ToString());
+        punchAnimator.Play(EnemyAnimations.Standby.ToString());
     }
 
     public void Die()
     {
-        moveAnimator.Play("Death");
+        moveAnimator.Play(EnemyAnimations.Death.ToString());
     }
 
     #endregion

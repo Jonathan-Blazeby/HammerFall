@@ -9,16 +9,12 @@ public class PlayerCharacterAnimator : MonoBehaviour, IAnimation
     [SerializeField] private PlayerController playerController;
     [SerializeField] private Animator moveAnimator;
     [SerializeField] private Animator hammerAnimator;
-    private int horizontal;
-    private int vertical;
     #endregion
 
     #region Public Methods
-    public void Initialise()
+    public void Initialise(MovementManager moveManager)
     {
-        horizontal = Animator.StringToHash("Horizontal");
-        vertical = Animator.StringToHash("Vertical");
-        movement = playerController.GetMovement();
+        movement = moveManager;
     }
 
     public void UpdateAnimatorValues()
@@ -60,8 +56,8 @@ public class PlayerCharacterAnimator : MonoBehaviour, IAnimation
         }
         #endregion
 
-        moveAnimator.SetFloat(horizontal, h, 0.1f, Time.deltaTime);
-        moveAnimator.SetFloat(vertical, v, 0.1f, Time.deltaTime);
+        moveAnimator.SetFloat(AnimationProperties.Horizontal.ToString(), h, 0.1f, Time.deltaTime);
+        moveAnimator.SetFloat(AnimationProperties.Vertical.ToString(), v, 0.1f, Time.deltaTime);
     }
 
     public bool IsWeaponActive()

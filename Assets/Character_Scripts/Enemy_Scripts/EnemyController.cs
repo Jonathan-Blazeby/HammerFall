@@ -9,7 +9,7 @@ public class EnemyController : MonoBehaviour, ICharacterController
     [SerializeField] private MovementManager moveManager;
     [SerializeField] private EnemyHealth healthManager;
     [SerializeField] private AttackManager attackManager;
-    [SerializeField] private EnemyAIBasic aiInput;
+    [SerializeField] private EnemyAIStandard aiInput;
     [SerializeField] private EnemyCharacterAnimator animator;
     [SerializeField] private float corpseRemainTime = 4.0f;
     [SerializeField] private float attackForce = 1;
@@ -47,7 +47,7 @@ public class EnemyController : MonoBehaviour, ICharacterController
     #region ICharacterController Implementation
     public void Daze()
     {
-        aiInput.SetDazed();
+        aiInput.SetCurrentState(aiInput.GetDazedState());
     }
     #endregion
 
@@ -72,20 +72,20 @@ public class EnemyController : MonoBehaviour, ICharacterController
         moveManager.Initialise();
         healthManager.Initialise();
         attackManager.Initialise();
-        animator.Initialise();
+        animator.Initialise(moveManager);
     }
 
     private void ControllerUpdate()
     {
         aiInput.SetIsGrounded(isGrounded);
 
-        var state = aiInput.GetState();
-        if (state != AIStates.Dead) { MoveFunction(); }
+        var state = aiInput.GetCurrentState();
+        if (state is not DeadState) { MoveFunction(); }
 
-        if (state == AIStates.Attacking) { AttackFunction(); }
+        if (state is AttackState) { AttackFunction(); }
 
-        if (state == AIStates.Dazed) { animator.Stop(); }
-        else if (state == AIStates.Dead) { animator.Die(); }
+        if (state is DazedState) { animator.Stop(); }
+        else if (state is DeadState) { animator.Die(); }
         else { animator.UpdateAnimatorValues(); }
     }
 
@@ -128,7 +128,7 @@ public class EnemyController : MonoBehaviour, ICharacterController
 
     public void Death()
     {
-        aiInput.SetDead();
+        aiInput.SetCurrentState(aiInput.GetDeadState());
         StartCoroutine(CorpseDisappearTimer());
     }
     #endregion

@@ -68,7 +68,7 @@ public class PlayerController : MonoBehaviour, ICharacterController
         moveManager.Initialise();
         healthManager.Initialise();
         attackManager.Initialise();
-        animator.Initialise();
+        animator.Initialise(moveManager);
     }
 
     //Looks for horizontal & vertical input to be applied to x z axis, looks for attack input

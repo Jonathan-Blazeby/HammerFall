@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyBlackboard
 {
     #region Private Fields
-    private static List<EnemyAIBasic> enemiesFollowingPlayer = new List<EnemyAIBasic>();
+    private static List<EnemyAIStandard> enemiesFollowingPlayer = new List<EnemyAIStandard>();
     [SerializeField] private static int maxEnemiesFollowingPlayer = 3;
     #endregion
 
@@ -20,7 +20,7 @@ public class EnemyBlackboard
     /// </summary>
     /// <param name="enemy"></param>
     /// <returns></returns>
-    public static bool WantToFollowPlayer(EnemyAIBasic enemy)
+    public static bool WantToFollowPlayer(EnemyAIStandard enemy)
     {
         if(enemiesFollowingPlayer.Contains(enemy)) { return true; }
 
@@ -36,7 +36,7 @@ public class EnemyBlackboard
     /// Removes enemy AI from list of those following the player
     /// </summary>
     /// <param name="enemy"></param>
-    public static void StopFollowPlayer(EnemyAIBasic enemy)
+    public static void StopFollowPlayer(EnemyAIStandard enemy)
     {
         enemiesFollowingPlayer.Remove(enemy);
     }

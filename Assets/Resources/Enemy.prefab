@@ -455,7 +455,7 @@ GameObject:
   - component: {fileID: 1499564833181392627}
   - component: {fileID: 1499564833181392630}
   - component: {fileID: 1499564833181392625}
-  - component: {fileID: 1499564833181392629}
+  - component: {fileID: 1175673901240020203}
   - component: {fileID: 1499564833181392626}
   - component: {fileID: 1499564833181392624}
   - component: {fileID: 1499564833181392631}
@@ -529,7 +529,7 @@ MonoBehaviour:
   moveManager: {fileID: 1499564833181392627}
   healthManager: {fileID: 1499564833181392630}
   attackManager: {fileID: 1499564833181392625}
-  aiInput: {fileID: 1499564833181392629}
+  aiInput: {fileID: 1175673901240020203}
   animator: {fileID: 1499564833181392626}
   corpseRemainTime: 4
   attackForce: 1
@@ -584,7 +584,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponCollider: {fileID: 1499564831994442286}
   weaponEnabled: 0
---- !u!114 &1499564833181392629
+--- !u!114 &1175673901240020203
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -593,15 +593,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1499564833181392637}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 865630d2ee09a4147bcd97a03123fa84, type: 3}
+  m_Script: {fileID: 11500000, guid: 3f71ff471191a6a45ad9357f9a72dbaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   navMeshAgent: {fileID: 1499564833181392631}
-  enemyRigidbody: {fileID: 1499564833181392635}
+  ownRigidbody: {fileID: 1499564833181392635}
   targetTransform: {fileID: 0}
   attackDistance: 2
   dazedDelay: 1.2
-  currentState: 0
   followingPlayer: 0
 --- !u!114 &1499564833181392626
 MonoBehaviour:
