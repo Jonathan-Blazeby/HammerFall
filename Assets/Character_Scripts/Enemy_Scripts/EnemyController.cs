@@ -80,13 +80,26 @@ public class EnemyController : MonoBehaviour, ICharacterController
         aiInput.SetIsGrounded(isGrounded);
 
         var state = aiInput.GetCurrentState();
-        if (state is not DeadState) { MoveFunction(); }
+        string stateString = state.GetType().ToString();
+        switch(stateString)
+        {
+            case "IdleState":
+                return;
+            case "MoveState":
+                break;
+            case "AttackState":
+                AttackFunction();
+                break;
+            case "DazedState":  
+                animator.Stop();
+                return;
+            case "DeadState":
+                animator.Die();
+                return;
+        }
 
-        if (state is AttackState) { AttackFunction(); }
-
-        if (state is DazedState) { animator.Stop(); }
-        else if (state is DeadState) { animator.Die(); }
-        else { animator.UpdateAnimatorValues(); }
+        MoveFunction();
+        animator.UpdateAnimatorValues();
     }
 
     //Looks for horizontal & vertical input to be applied to x z axis

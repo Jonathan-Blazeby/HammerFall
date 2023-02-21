@@ -340,6 +340,66 @@ PrefabInstance:
       propertyPath: waveList.Array.data[5]
       value: 35
       objectReference: {fileID: 0}
+    - target: {fileID: 1351009966682836422, guid: 5e237586e0a69b94fa97d94a62730c91, type: 3}
+      propertyPath: easyWaveList.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1351009966682836422, guid: 5e237586e0a69b94fa97d94a62730c91, type: 3}
+      propertyPath: hardWaveList.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1351009966682836422, guid: 5e237586e0a69b94fa97d94a62730c91, type: 3}
+      propertyPath: mediumWaveList.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1351009966682836422, guid: 5e237586e0a69b94fa97d94a62730c91, type: 3}
+      propertyPath: easyWaveList.Array.data[0]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1351009966682836422, guid: 5e237586e0a69b94fa97d94a62730c91, type: 3}
+      propertyPath: easyWaveList.Array.data[1]
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1351009966682836422, guid: 5e237586e0a69b94fa97d94a62730c91, type: 3}
+      propertyPath: easyWaveList.Array.data[2]
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1351009966682836422, guid: 5e237586e0a69b94fa97d94a62730c91, type: 3}
+      propertyPath: hardWaveList.Array.data[0]
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1351009966682836422, guid: 5e237586e0a69b94fa97d94a62730c91, type: 3}
+      propertyPath: hardWaveList.Array.data[1]
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1351009966682836422, guid: 5e237586e0a69b94fa97d94a62730c91, type: 3}
+      propertyPath: hardWaveList.Array.data[2]
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1351009966682836422, guid: 5e237586e0a69b94fa97d94a62730c91, type: 3}
+      propertyPath: hardWaveList.Array.data[3]
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1351009966682836422, guid: 5e237586e0a69b94fa97d94a62730c91, type: 3}
+      propertyPath: hardWaveList.Array.data[4]
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1351009966682836422, guid: 5e237586e0a69b94fa97d94a62730c91, type: 3}
+      propertyPath: mediumWaveList.Array.data[0]
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1351009966682836422, guid: 5e237586e0a69b94fa97d94a62730c91, type: 3}
+      propertyPath: mediumWaveList.Array.data[1]
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1351009966682836422, guid: 5e237586e0a69b94fa97d94a62730c91, type: 3}
+      propertyPath: mediumWaveList.Array.data[2]
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1351009966682836422, guid: 5e237586e0a69b94fa97d94a62730c91, type: 3}
+      propertyPath: mediumWaveList.Array.data[3]
+      value: 16
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e237586e0a69b94fa97d94a62730c91, type: 3}
 --- !u!1 &755582737

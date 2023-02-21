@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour
 {
@@ -66,6 +67,18 @@ public class MenuManager : MonoBehaviour
     public void Windowed()
     {
         Screen.fullScreenMode = FullScreenMode.Windowed;
+    }
+
+    public void ArenaDifficultyChange(Slider slider)
+    {
+        int diff = (int)slider.value;
+        DataManager.Instance.SetArenaDifficulty(diff);
+    }
+
+    public void CastleDifficultyChange(Slider slider)
+    {
+        int diff = (int)slider.value;
+        DataManager.Instance.SetCastleDifficulty(diff);
     }
     #endregion
 }

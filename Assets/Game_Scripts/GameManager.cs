@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private int activeEnemyCount;
     [SerializeField] private GameModes gameMode;
+    [SerializeField] private int castleDifficultyInitialEnemyMultiplier = 4;
 
     private bool playerLoss = false;
 
@@ -85,12 +86,16 @@ public class GameManager : MonoBehaviour
 
         if (gameMode == GameModes.Waves)
         {
+            int arenaDifficulty = DataManager.Instance.GetArenaDifficulty();
+            waveManager.SetWaveDifficulty(arenaDifficulty);
             waveManager.FirstWave();
         }
         else if(gameMode == GameModes.Objectives)
         {
             objectiveManager.SetupGameMode();
-            spawnManager.SpawnWave(6);
+            int castleDifficulty = DataManager.Instance.GetCastleDifficulty();
+            castleDifficulty *= castleDifficultyInitialEnemyMultiplier;
+            spawnManager.SpawnWave(castleDifficulty);
         }        
     }
 

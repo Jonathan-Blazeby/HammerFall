@@ -12,6 +12,9 @@ public class DataManager : MonoBehaviour
     private float defenceBestTimeFloat;
     private string defenceBestTimeString;
 
+    private int arenaDifficulty = 1;
+    private int castleDifficulty = 1;
+
     //Gets & Sets
     public string GetWaveScoreString() => waveBestScoreString;
 
@@ -34,6 +37,11 @@ public class DataManager : MonoBehaviour
             defenceBestTimeString = GameTimerToString(gameTime);
         }
     }
+
+    public int GetArenaDifficulty() => arenaDifficulty;
+    public void SetArenaDifficulty(int diff) => arenaDifficulty = diff;
+    public int GetCastleDifficulty() => castleDifficulty;
+    public void SetCastleDifficulty(int diff) => castleDifficulty = diff;
     #endregion
 
     #region Public Fields
@@ -127,5 +135,6 @@ public class DataManager : MonoBehaviour
         defenceBestTimeFloat = int.Parse(sArray[0]);
         waveBestMaxInt = int.Parse(sArray[1]);
     }
+
     #endregion
 }

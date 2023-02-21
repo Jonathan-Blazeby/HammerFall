@@ -6,6 +6,11 @@ public class WaveManager : MonoBehaviour
 {
     #region Private Fields
     [SerializeField] private List<int> waveList;
+
+    [SerializeField] private List<int> easyWaveList;
+    [SerializeField] private List<int> mediumWaveList;
+    [SerializeField] private List<int> hardWaveList;
+
     [SerializeField] private int secondsBetweenWaves = 10;
     private int currentWave;
     private int maxWaves;
@@ -59,6 +64,22 @@ public class WaveManager : MonoBehaviour
     {
         if (currentWave == waveList.Count - 1) { return true; }
         else { return false; }
+    }
+
+    public void SetWaveDifficulty(int diff)
+    {
+        switch(diff)
+        {
+            case 1:
+                waveList = easyWaveList;
+                break;
+            case 2:
+                waveList = mediumWaveList;
+                break;
+            case 3:
+                waveList = hardWaveList;
+                break;
+        }
     }
     #endregion
 

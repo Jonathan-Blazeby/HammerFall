@@ -601,7 +601,7 @@ PrefabInstance:
     - target: {fileID: 721412810441222796, guid: 5e237586e0a69b94fa97d94a62730c91, type: 3}
       propertyPath: playerTransform
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1419986219}
     - target: {fileID: 721412810441222796, guid: 5e237586e0a69b94fa97d94a62730c91, type: 3}
       propertyPath: objectiveManager
       value: 
@@ -614,6 +614,10 @@ PrefabInstance:
       propertyPath: allObjectiveTransforms.Array.data[0]
       value: 
       objectReference: {fileID: 1689425883}
+    - target: {fileID: 721412810441222796, guid: 5e237586e0a69b94fa97d94a62730c91, type: 3}
+      propertyPath: castleDifficultyInitialEnemyMultiplier
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 721412810441222798, guid: 5e237586e0a69b94fa97d94a62730c91, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -1202,6 +1206,14 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -1.49
       objectReference: {fileID: 0}
+    - target: {fileID: 4978084968182190935, guid: c6f85a85dbaeed0438a18a073f92bd15, type: 3}
+      propertyPath: healthBar
+      value: 
+      objectReference: {fileID: 1564224644}
+    - target: {fileID: 4978084968182190935, guid: c6f85a85dbaeed0438a18a073f92bd15, type: 3}
+      propertyPath: redHitScreen
+      value: 
+      objectReference: {fileID: 374675671}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c6f85a85dbaeed0438a18a073f92bd15, type: 3}
 --- !u!850595691 &850709178
@@ -1460,6 +1472,11 @@ Transform:
 Canvas:
   m_CorrespondingSourceObject: {fileID: 4794912883238719765, guid: 185ec192327fa3849a4048ee99d74286, type: 3}
   m_PrefabInstance: {fileID: 151104105}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1419986219 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4978084968182190928, guid: c6f85a85dbaeed0438a18a073f92bd15, type: 3}
+  m_PrefabInstance: {fileID: 757594551}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1426972387
 PrefabInstance:
@@ -1808,34 +1825,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 565209758157972930, guid: 3bc4409e054a24242a71d522bcf87270, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.35
-      objectReference: {fileID: 0}
-    - target: {fileID: 565209758157972930, guid: 3bc4409e054a24242a71d522bcf87270, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.92387956
-      objectReference: {fileID: 0}
-    - target: {fileID: 565209758157972930, guid: 3bc4409e054a24242a71d522bcf87270, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 565209758157972930, guid: 3bc4409e054a24242a71d522bcf87270, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.38268343
-      objectReference: {fileID: 0}
-    - target: {fileID: 565209758157972930, guid: 3bc4409e054a24242a71d522bcf87270, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 565209758157972930, guid: 3bc4409e054a24242a71d522bcf87270, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 45
-      objectReference: {fileID: 0}
-    - target: {fileID: 565209758157972930, guid: 3bc4409e054a24242a71d522bcf87270, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 565209758762078136, guid: 3bc4409e054a24242a71d522bcf87270, type: 3}
       propertyPath: m_Name
       value: Castle
@@ -1882,10 +1871,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 565209758762078143, guid: 3bc4409e054a24242a71d522bcf87270, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1319099106115324672, guid: 3bc4409e054a24242a71d522bcf87270, type: 3}
-      propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
