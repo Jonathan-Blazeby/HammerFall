@@ -34,6 +34,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7444bf9b6f4048d4c89bf3d841633167, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  swingAudioClip: {fileID: 8300000, guid: a00b89fb99612bd46bbe091b512ec9c0, type: 3}
 --- !u!1102 &-3547110219169818315
 AnimatorState:
   serializedVersion: 6
@@ -242,6 +243,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7444bf9b6f4048d4c89bf3d841633167, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  swingAudioClip: {fileID: 8300000, guid: a00b89fb99612bd46bbe091b512ec9c0, type: 3}
 --- !u!1101 &8697786571873182111
 AnimatorStateTransition:
   m_ObjectHideFlags: 1

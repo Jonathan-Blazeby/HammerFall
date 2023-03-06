@@ -13,10 +13,12 @@ public class AttackManager : MonoBehaviour
 {
     #region Private Fields
     [SerializeField] private Collider weaponCollider;
+    //[SerializeField] private AudioClip attackAudioClip;
     [SerializeField] private bool weaponEnabled;
     private IDamageDealer attackApplicationComponent;
     private List<Collider> collidersHitThisAttack;
     private int attackDirection; //0 = No direction, 1 = Left Swing, 2 = Right Swing
+    //private AudioSource weaponAudioSource;
     #endregion
 
     #region MonoBehaviour Callbacks
@@ -52,6 +54,9 @@ public class AttackManager : MonoBehaviour
     {
         weaponEnabled = false;
         weaponCollider.enabled = false;
+
+        //weaponAudioSource = weaponCollider.gameObject.GetComponent<AudioSource>();
+        //weaponAudioSource.clip = attackAudioClip;
     }
 
     public bool GetWeaponActive() { return weaponEnabled; }
@@ -59,6 +64,7 @@ public class AttackManager : MonoBehaviour
     {
         if (weaponEnabled != active)
         {
+            //weaponAudioSource.Play();
             weaponEnabled = active;
             weaponCollider.enabled = active;
             collidersHitThisAttack = new List<Collider>();

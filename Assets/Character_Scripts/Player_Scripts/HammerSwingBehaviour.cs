@@ -4,10 +4,15 @@ using UnityEngine;
 
 public class HammerSwingBehaviour : StateMachineBehaviour
 {
+    [SerializeField] private AudioClip swingAudioClip;
+
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         animator.SetBool("WeaponActive", true);
+        AudioSource source = animator.GetComponentInChildren<AudioSource>();
+        if(source.clip is null) { source.clip = swingAudioClip; }
+        source.Play();
         
     }
 
