@@ -6,7 +6,7 @@ public class EnemyBlackboard
 {
     #region Private Fields
     private static List<EnemyAIStandard> enemiesFollowingPlayer = new List<EnemyAIStandard>();
-    [SerializeField] private static int maxEnemiesFollowingPlayer = 3;
+    private static int maxEnemiesFollowingPlayer = 3;
     #endregion
 
     #region Private Methods

@@ -308,8 +308,27 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerUICanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 5950801735613408166, guid: 185ec192327fa3849a4048ee99d74286, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5950801735613408166, guid: 185ec192327fa3849a4048ee99d74286, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 185ec192327fa3849a4048ee99d74286, type: 3}
+--- !u!114 &151104106 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5950801735505385013, guid: 185ec192327fa3849a4048ee99d74286, type: 3}
+  m_PrefabInstance: {fileID: 151104105}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &186202076
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -862,6 +881,14 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7940746714761330529, guid: 2c9b168e76138c145b6eefabb8970121, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7940746714761330529, guid: 2c9b168e76138c145b6eefabb8970121, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2c9b168e76138c145b6eefabb8970121, type: 3}
 --- !u!1001 &549805925
@@ -1181,7 +1208,7 @@ PrefabInstance:
     - target: {fileID: 4978084968182190935, guid: c6f85a85dbaeed0438a18a073f92bd15, type: 3}
       propertyPath: healthBar
       value: 
-      objectReference: {fileID: 1564224644}
+      objectReference: {fileID: 151104106}
     - target: {fileID: 4978084968182190935, guid: c6f85a85dbaeed0438a18a073f92bd15, type: 3}
       propertyPath: redHitScreen
       value: 
@@ -1575,17 +1602,6 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 3f44e62bc8b22df4c82a9537ccd0a6b4, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 55dfe9d4c608ee24a9906ad2f0f95a5d, type: 3}
---- !u!114 &1564224644 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4794912883778516732, guid: 185ec192327fa3849a4048ee99d74286, type: 3}
-  m_PrefabInstance: {fileID: 151104105}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a4db7a114972834c8e4117be1d82ba3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1689425883 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4342866273572702994, guid: 2c9b168e76138c145b6eefabb8970121, type: 3}
@@ -1858,10 +1874,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2352565632727849299, guid: 2c9b168e76138c145b6eefabb8970121, type: 3}
-      propertyPath: maxHealth
-      value: 120
-      objectReference: {fileID: 0}
     - target: {fileID: 4342866273572702993, guid: 2c9b168e76138c145b6eefabb8970121, type: 3}
       propertyPath: m_Name
       value: Objective
@@ -1915,6 +1927,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5860989851001755342, guid: 2c9b168e76138c145b6eefabb8970121, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7940746714761330529, guid: 2c9b168e76138c145b6eefabb8970121, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7940746714761330529, guid: 2c9b168e76138c145b6eefabb8970121, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}

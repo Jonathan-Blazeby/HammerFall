@@ -5,7 +5,7 @@ using UnityEngine;
 public class ObjectiveHealth : MonoBehaviour, IDamageable
 {
     #region Private Fields
-    [SerializeField] private UnityEngine.UI.Scrollbar healthBar;
+    [SerializeField] private UnityEngine.UI.Slider healthBar;
     private AudioSource objectiveAudioSource;
     [SerializeField] private List<AudioClip> objectiveHitAudioClips;
     [SerializeField] private AudioClip objectiveDestroyedAudioClip;
@@ -53,7 +53,7 @@ public class ObjectiveHealth : MonoBehaviour, IDamageable
 
         StartCoroutine(DamageTimer());
         currentHealth -= damage;
-        healthBar.size = (float)currentHealth / (float)maxHealth;
+        healthBar.value = (float)currentHealth / (float)maxHealth;
 
 
         if (currentHealth <= 0)
@@ -77,7 +77,7 @@ public class ObjectiveHealth : MonoBehaviour, IDamageable
     {
         currentHealth = maxHealth;
         healthBar.gameObject.SetActive(true);
-        healthBar.size = 1;
+        healthBar.value = 1;
         constantParticles.Play();
         objectiveCoreRenderer.enabled = true;
         canBeDamaged = true;

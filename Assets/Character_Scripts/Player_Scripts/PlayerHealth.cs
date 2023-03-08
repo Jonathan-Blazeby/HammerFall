@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerHealth : MonoBehaviour, IDamageable
 {
     #region Private Fields
-    [SerializeField] private UnityEngine.UI.Scrollbar healthBar;
+    [SerializeField] private UnityEngine.UI.Slider healthBar;
     [SerializeField] private UnityEngine.UI.Image redHitScreen;
     [SerializeField] private int maxHealth;
     [SerializeField] private int currentHealth;
@@ -47,7 +47,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
         StartCoroutine(DamageTimer());
         currentHealth -= damage;
-        healthBar.size = (float)currentHealth / (float)maxHealth;
+        healthBar.value = (float)currentHealth / (float)maxHealth;
 
         var hitColour = redHitScreen.color;
         hitColour.a = 0.8f;
@@ -66,7 +66,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     public void ResetHealth()
     {
         currentHealth = maxHealth;
-        healthBar.size = 1;
+        healthBar.value = 1;
         canBeDamaged = true;
     }
 
