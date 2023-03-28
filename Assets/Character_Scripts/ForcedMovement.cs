@@ -60,6 +60,11 @@ public class ForcedMovement : MonoBehaviour, IStrikeable
     {
         return ownRigidbody.mass;
     }
+
+    public void setCanForce(bool canForce)
+    {
+        canBeForced = false;
+    }
     #endregion
 
 }

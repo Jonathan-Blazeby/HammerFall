@@ -11,6 +11,7 @@ public class EnemyController : MonoBehaviour, ICharacterController
     [SerializeField] private AttackManager attackManager;
     [SerializeField] private EnemyAIStandard aiInput;
     [SerializeField] private EnemyCharacterAnimator animator;
+    [SerializeField] private ForcedMovement forcedMovement;
     [SerializeField] private float corpseRemainTime = 4.0f;
     [SerializeField] private float attackForce = 1;
     [SerializeField] private float attackDelay = 3f;
@@ -47,6 +48,7 @@ public class EnemyController : MonoBehaviour, ICharacterController
     #region ICharacterController Implementation
     public void Daze()
     {
+        if(aiInput.GetCurrentState() == aiInput.GetDeadState()) { return; }
         aiInput.SetCurrentState(aiInput.GetDazedState());
     }
     #endregion

@@ -494,6 +494,7 @@ MonoBehaviour:
   attackManager: {fileID: 1499564833181392625}
   aiInput: {fileID: 1175673901240020203}
   animator: {fileID: 1499564833181392626}
+  forcedMovement: {fileID: 1499564833181392624}
   corpseRemainTime: 4
   attackForce: 1
   attackDelay: 2.5
