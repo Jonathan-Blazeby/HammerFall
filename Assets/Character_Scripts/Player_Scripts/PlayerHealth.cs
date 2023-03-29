@@ -7,6 +7,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     #region Private Fields
     [SerializeField] private UnityEngine.UI.Slider healthBar;
     [SerializeField] private UnityEngine.UI.Image redHitScreen;
+    [SerializeField] private AudioSource playerAudioSource;
     [SerializeField] private int maxHealth;
     [SerializeField] private int currentHealth;
     [SerializeField] private float damagedDelay = 0.75f;
@@ -49,6 +50,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         currentHealth -= damage;
         healthBar.value = (float)currentHealth / (float)maxHealth;
 
+        playerAudioSource.Play();
         var hitColour = redHitScreen.color;
         hitColour.a = 0.8f;
         redHitScreen.color = hitColour;
