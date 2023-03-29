@@ -581,6 +581,7 @@ MonoBehaviour:
   enemyController: {fileID: 1499564833181392628}
   moveAnimator: {fileID: 1499564832958692306}
   punchAnimator: {fileID: 1499564833209902244}
+  smokeBurstObject: {fileID: 6347325780601108670, guid: f52e422043d455b4dbac4283a9a0fc50, type: 3}
 --- !u!114 &1499564833181392624
 MonoBehaviour:
   m_ObjectHideFlags: 0

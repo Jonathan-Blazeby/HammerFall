@@ -32,6 +32,7 @@ public class EnemyController : MonoBehaviour, ICharacterController
     private void OnEnable()
     {
         aiInput.Initialise();
+        animator.SmokeBurst();
     }
 
     private void Update()
@@ -119,6 +120,7 @@ public class EnemyController : MonoBehaviour, ICharacterController
     private IEnumerator CorpseDisappearTimer()
     {
         yield return new WaitForSeconds(corpseRemainTime);
+        animator.SmokeBurst();
         gameObject.SetActive(false);
     }
 

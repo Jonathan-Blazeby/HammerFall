@@ -14,6 +14,7 @@ public class EnemyCharacterAnimator : MonoBehaviour, IAnimation
     [SerializeField] private EnemyController enemyController;
     [SerializeField] private Animator moveAnimator;
     [SerializeField] private Animator punchAnimator;
+    [SerializeField] private GameObject smokeBurstObject;
     #endregion
 
     #region IAnimation Implementation
@@ -86,6 +87,11 @@ public class EnemyCharacterAnimator : MonoBehaviour, IAnimation
     public void Die()
     {
         moveAnimator.Play(EnemyAnimations.Death.ToString());
+    }
+
+    public void SmokeBurst()
+    {
+        Instantiate(smokeBurstObject, moveAnimator.rootPosition, Quaternion.identity);
     }
 
     #endregion
