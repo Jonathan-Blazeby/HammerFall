@@ -96,18 +96,18 @@ public class DataManager : MonoBehaviour
         writer.Close();
     }
 
-    //Convert wave score to string, formatted to 'Wave: Wave-Reached/Max Waves'
+    //Convert wave score to string, formatted to 'Wave-Reached/Max Waves'
     public string WaveScoreToString(int waveReached, int maxWaves)
     {
-        string formattedScore = "Wave: " + waveReached + "/" + maxWaves;
+        string formattedScore = waveReached + "/" + maxWaves;
         return formattedScore;
     }
 
     //Convert wave score string to individual ints
     public void WaveScoreFromString(string waveScoreString)
     {
-        string scoreOnly = waveScoreString.Split(' ')[1]; //Remove 'Wave: '
-        string[] sArray = scoreOnly.Split('/');
+        //string scoreOnly = waveScoreString.Split(' ')[1]; //Remove 'Wave: '
+        string[] sArray = waveScoreString.Split('/');
         waveBestScoreInt = int.Parse(sArray[0]);
         waveBestMaxInt = int.Parse(sArray[1]);
     }
