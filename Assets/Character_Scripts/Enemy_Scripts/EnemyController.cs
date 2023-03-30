@@ -80,6 +80,7 @@ public class EnemyController : MonoBehaviour, ICharacterController
 
     private void ControllerUpdate()
     {
+        isGrounded = moveManager.GetIsGrounded();
         aiInput.SetIsGrounded(isGrounded);
 
         var state = aiInput.GetCurrentState();

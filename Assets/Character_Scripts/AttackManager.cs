@@ -13,12 +13,10 @@ public class AttackManager : MonoBehaviour
 {
     #region Private Fields
     [SerializeField] private Collider weaponCollider;
-    //[SerializeField] private AudioClip attackAudioClip;
     [SerializeField] private bool weaponEnabled;
     private IDamageDealer attackApplicationComponent;
     private List<Collider> collidersHitThisAttack;
     private int attackDirection; //0 = No direction, 1 = Left Swing, 2 = Right Swing
-    //private AudioSource weaponAudioSource;
     #endregion
 
     #region MonoBehaviour Callbacks
