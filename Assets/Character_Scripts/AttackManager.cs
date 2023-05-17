@@ -33,7 +33,7 @@ public class AttackManager : MonoBehaviour
         }
         else if (other.CompareTag("Player"))
         {
-            attackApplicationComponent.AddDamage(other.GetComponent<IDamageable>());
+            attackApplicationComponent.AddDamage(other.GetComponentInParent<IDamageable>());
         }
         else if (other.CompareTag("Objective"))
         {

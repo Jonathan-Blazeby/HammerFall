@@ -19,9 +19,13 @@ public class Impactable : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         IDamageable healthComponent = collision.collider.GetComponent<IDamageable>();
-        if(healthComponent is null) { return; }
+        if (healthComponent is null)
+        {
+            healthComponent = collision.collider.GetComponentInParent<IDamageable>();
+            if (healthComponent is null) { return; }
+        }
 
-        if(healthComponent.CompareTag("Player") && !hurtsPlayer) { return; }
+        if (healthComponent.CompareTag("Player") && !hurtsPlayer) { return; }
         
         if (collision.relativeVelocity.magnitude >= hardImpactForceThreshold)
         {

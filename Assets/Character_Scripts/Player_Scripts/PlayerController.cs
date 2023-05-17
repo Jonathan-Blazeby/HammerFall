@@ -82,11 +82,17 @@ public class PlayerController : MonoBehaviour, ICharacterController
 
     private void Move()
     {
-        if (dead) { return; }
-
-        moveManager.Move(movementDirection);
-        RotateCalc();
-        movementDirection = Vector2.zero;
+        if (dead) 
+        { 
+            movementDirection = Vector2.zero;
+            moveManager.Move(movementDirection);
+        }
+        else
+        {
+            moveManager.Move(movementDirection);
+            RotateCalc();
+            movementDirection = Vector2.zero;
+        }
     }
 
     private IEnumerator AttackTimer()

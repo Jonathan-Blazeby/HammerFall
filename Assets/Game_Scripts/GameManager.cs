@@ -128,8 +128,6 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region Public Methods
-
-
     public void DecrementActiveEnemyCount()
     {
         activeEnemyCount--;
@@ -153,8 +151,6 @@ public class GameManager : MonoBehaviour
         playerTransform.rotation = playerStartRotation;
         playerTransform.GetComponent<Rigidbody>().velocity = Vector3.zero;
     }
-
-
 
     public void WaveComplete()
     {
@@ -193,7 +189,5 @@ public class GameManager : MonoBehaviour
         }
         SaveScores();
     }
-
     #endregion
-
 }

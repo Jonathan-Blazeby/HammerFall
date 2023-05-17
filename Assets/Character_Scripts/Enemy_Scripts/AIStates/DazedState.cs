@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DazedState : State
 {
-    #region Private Methods
+    #region Private Fields
     private EnemyAIStandard aiInfo;
     private float dazedDelay;
 

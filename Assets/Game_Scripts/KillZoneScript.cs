@@ -8,7 +8,12 @@ public class KillZoneScript : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         IDamageable damageable = other.GetComponent<IDamageable>();
-        if (damageable is null) { return; }
+        if (damageable is null)
+        {
+            damageable = other.GetComponentInParent<IDamageable>();
+            if (damageable is null) { return; }
+        }
+
         damageable.ApplyDamage(damageable.GetMaxHealth());
     }
     #endregion

@@ -32,6 +32,11 @@ public class SpawnManager : MonoBehaviour
     #endregion
 
     #region Private Methods
+    /// <summary>
+    /// Coroutine that spawns, or resets existing (but dead) enemies, while decrementing the numberToSpawn value toward zero.
+    /// Will break if fewer enemies than exist are needed. Will yield to allow timeslicing to instantiate larger numbers over multiple frames.
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator SpawnObject()
     {
         if (liveObjects.Count > 0)
@@ -69,16 +74,9 @@ public class SpawnManager : MonoBehaviour
                         yield break;
                     }
                 }
-
             }
-
-            //if(gameMode == GameModes.Waves)
-            //{
-            //    //Reset all dead enemies health at end of wave
-            //    GameManager.Instance.GetCharactersManager().ResetEnemyHealth();
-            //}
         }
-
+        //If more to spawn after health resets
         while (numberToSpawn > 0)
         {
             for (int i = 0; i < maxNumberToSpawnPerFrame; i++)
@@ -102,6 +100,10 @@ public class SpawnManager : MonoBehaviour
     #endregion
 
     #region Public Methods
+    /// <summary>
+    /// Sets number of enemies to appear in wave, then begins spawning coroutine. Finally, updates GameManager with ActiveEnemyCount
+    /// </summary>
+    /// <param name="numInWave"></param>
     public void SpawnWave(int numInWave)
     {
         numberToSpawn = numInWave;
